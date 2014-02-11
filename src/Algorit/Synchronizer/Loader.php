@@ -1,9 +1,9 @@
-<?php namespace Synchronizer;
+<?php namespace Algorit\Synchronizer;
 
 use App, Log;
 use Closure;
 use Exception;
-use Synchronizer\Systems\Config;
+use Algorit\Synchronizer\Systems\Config;
 use Monolog\Handler\HandlerInterface;
 use Logentries\Handler\LogentriesHandler;
 use Application\Storage\Entities\Company as CompanyEntity;

@@ -1,4 +1,4 @@
-<?php namespace Synchronizer;
+<?php namespace Algorit\Synchronizer;
 
 use Log;
 use Closure;
@@ -6,12 +6,8 @@ use Exception;
 use Carbon\Carbon;
 
 use Application\Storage\Contracts\SyncInterface;
-use Synchronizer\Contracts\RequestInterface;
-use Synchronizer\Contracts\SystemRequestInterface;
-
-use Application\Storage\Entities\Erp as ErpEntity;
-use Application\Storage\Entities\Company as CompanyEntity;
-use Application\Storage\Entities\Representative as RepresentativeEntity;
+use Algorit\Synchronizer\Contracts\RequestInterface;
+use Algorit\Synchronizer\Contracts\SystemRequestInterface;
 
 /**
  * Sync builder.

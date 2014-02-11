@@ -1,0 +1,23 @@
+{
+    "name": "algorit/synchronizer",
+    "description": "",
+    "authors": [
+        {
+            "name": "Gabriel Koerich",
+            "email": "gabrielmk@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-4": {
+            "Algorit\\Synchronizer\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

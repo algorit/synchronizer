@@ -1,17 +1,14 @@
-<?php namespace Synchronizer;
+<?php namespace Algorit\Synchronizer;
 
 use Log;
+use Config;
 use Closure;
 use Exception;
 use Carbon\Carbon;
 
 use Application\Storage\Contracts\SyncInterface;
-use Synchronizer\Contracts\RequestInterface;
-use Synchronizer\Contracts\SystemRequestInterface;
-
-use Application\Storage\Entities\Erp as ErpEntity;
-use Application\Storage\Entities\Company as CompanyEntity;
-use Application\Storage\Entities\Representative as RepresentativeEntity;
+use Algorit\Synchronizer\Contracts\RequestInterface;
+use Algorit\Synchronizer\Contracts\SystemRequestInterface;
 
 /**
  * Sync builder.
@@ -94,38 +91,19 @@ class Builder {
 	 */
 	private function createCurrentSync($entity, $type)
 	{	
-		$company_id = null;
-		$representative_id = null;
 
-		$class = explode('\\', get_class($this->resource));
+		$create = Config::get('synchronizer::create');
 
-		switch(end($class))
+		$sync = array(
+			
+		);
+
+		if($create instanceof Closure)
 		{
-			case 'Erp':
-				$erp_id = $this->resource->id;
-			break;
-			case 'Company':
-				$company_id = $this->resource->id;
-				$erp_id     = $this->resource->erp->id;
-			break;
-			case 'Representative':
-				$representative_id = $this->resource->id;
-				$company_id 	   = $this->resource->company->id;
-				$erp_id 		   = $this->resource->company->erp->id;
-			break;
+			$sync = $create($this->system, $this->resource, $entity, $type);
 		}
 
-		$sync = $this->repository->create(array(
-			'erp_id'			=> $erp_id,
-			'company_id' 		=> $company_id,
-			'representative_id' => $representative_id,
-			'entity' 			=> $entity,
-			'type'	 			=> $type,
-			'class'  			=> get_class($this->system),
-			'status' 			=> 'processing',
-		));
-
-		return $this->repository->setCurrentSync($sync);
+		return $this->repository->setCurrentSync($this->repository->create($sync));
 	}
 
 	/**

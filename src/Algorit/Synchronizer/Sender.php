@@ -1,7 +1,7 @@
-<?php namespace Synchronizer;
+<?php namespace Algorit\Synchronizer;
 
 use Str, Closure;
-use Synchronizer\Contracts\SystemRequestInterface;
+use Algorit\Synchronizer\Contracts\SystemRequestInterface;
 
 class Sender {
 

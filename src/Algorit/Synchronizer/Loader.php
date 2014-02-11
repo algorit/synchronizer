@@ -1,0 +1,207 @@
+<?php namespace Synchronizer;
+
+use App, Log;
+use Closure;
+use Exception;
+use Synchronizer\Systems\Config;
+use Monolog\Handler\HandlerInterface;
+use Logentries\Handler\LogentriesHandler;
+use Application\Storage\Entities\Company as CompanyEntity;
+
+class Loader {
+
+	/**
+	 * The Company instance.
+	 *
+	 * @var object
+	 */
+	protected $company;
+
+	/**
+	 * The ERP Request instance.
+	 *
+	 * @var object
+	 */
+	protected $system;
+
+	/**
+	 * The Builder instance.
+	 *
+	 * @var object
+	 */
+	protected $builder;
+
+	/**
+	 * Create a new Loader.
+	 *
+	 * @param  Builder $builder
+	 * @param  Config  $config
+	 * @return instance
+	 */
+	public function __construct(Builder $builder, Config $config)
+	{
+		$this->builder = $builder;
+		$this->config  = $config;
+
+		// Set Log Handler
+		$this->setLogHandler(new LogentriesHandler('75729640-0f71-4f5f-b359-b2d85ab1731e'));
+	}
+
+	/**
+	 * Load the ERP Request.
+	 *
+	 * @param  Application\Entities\Company $company
+	 * @param  mixed  					    $callback
+	 * @return instance
+	 */
+	public function loadSystem(CompanyEntity $company, $callback = false)
+	{
+
+		if($company->erp == false)
+		{
+			// No ERP!
+			return false;
+		}
+
+		Log::info('Loading "' . $company->erp->name . '" request system...');
+
+		// Load system
+		$this->system = App::make('Synchronizer\Systems\\' . ucfirst(strtolower($company->erp->name)) . '\\Request');
+
+		// Set configurations
+		try
+		{
+			$this->system->setConfig($this->config->setup($company));
+		}
+		catch(Exception $e)
+		{
+			Log::error($e->getMessage());
+
+			return false;	
+		}
+
+		$this->setCompany($company);
+
+		if($callback instanceof Closure)
+		{
+			return $this->set($callback);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Set system and resource
+	 *
+	 * @param  callback
+	 * @return instance
+	 */
+	public function set($callback = false)
+	{	
+		$config = $this->system->getConfig();
+
+		Log::info('Setting resource...');
+
+		switch($config->resourceInstance)
+		{
+			case 'representative':
+				$this->loadForRepresentatives($callback);
+			break;
+			case 'company':
+				$this->loadForCompany($callback);
+			break;
+		}
+
+		return $this;
+	}
+
+	private function setCompany($company)
+	{
+		$this->company = $company;
+	}
+
+	/**
+	 * Set the monolog handler.
+	 *
+	 * @param  void
+	 * @return void
+	 */
+	public function setLogHandler(HandlerInterface $handler)
+	{
+		Log::getMonolog()->pushHandler($handler);
+	}
+
+	/**
+	 * Get the Builder instance
+	 *
+	 * @param  void
+	 * @return Builder
+	 */
+	public function getBuilder()
+	{
+		return $this->builder;
+	}
+
+	/**
+	 * Get the System instance
+	 *
+	 * @param  void
+	 * @return System
+	 */
+	public function getSystem()
+	{
+		return $this->system;
+	}
+
+	/**
+	 * Load representatives as resource
+	 *
+	 * @param  callback
+	 * @return void
+	 */
+	private function loadForRepresentatives($callback = false)
+	{
+		foreach($this->company->representatives as $representative)
+		{	
+			Log::notice('Loading representative ' . $representative->name);
+
+			$this->start($representative, $callback);
+		}
+	}
+
+	/**
+	 * Load company as resource
+	 *
+	 * @param  callback
+	 * @return void
+	 */
+	private function loadForCompany($callback = false)
+	{
+		Log::notice('Loading company ' . $this->company->name);
+
+		return $this->start($this->company, $callback);
+	}
+
+	/**
+	 * Set the resource and start the builder.
+	 *
+	 * @param  callback
+	 * @return void
+	 */
+	public function start($resource, $callback = false)
+	{
+		// Set system resource
+		$this->system->setResource($resource);
+
+		// Start the builder
+		$this->builder->start($this->system, $resource);
+
+		if($callback instanceof Closure)
+		{
+			return $callback($this); // return?
+		}
+
+		return $this;
+	}
+
+}

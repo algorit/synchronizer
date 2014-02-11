@@ -28,7 +28,17 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		// Using Requests as RequestMethod (https://github.com/rmccue/Requests)
+		$this->app->bind('Synchronizer\Contracts\RequestMethodInterface', 'Synchronizer\Methods\Requests');
+
+		$this->app['synchronizer'] = $this->app->share(function($app)
+        {
+        	$sync = $app->make('Application\Storage\Contracts\SyncInterface');
+
+            $builder = new Builder(new Sender, new Receiver, $sync);
+
+			return new Loader($builder, new Config($app['files']));
+        });
 	}
 
 	/**

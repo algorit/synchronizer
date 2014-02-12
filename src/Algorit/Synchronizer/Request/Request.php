@@ -4,11 +4,16 @@ use Log;
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
+use Algorit\Synchronizer\Traits\ConfigTrait;
+use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
-use Algorit\Synchronizer\Methods\MethodInterface as RequestMethod;
+use Algorit\Synchronizer\Request\Methods\MethodInterface as RequestMethod;
 
 abstract class Request implements RequestInterface {
+
+	use ConfigTrait;
+	use ResourceTrait;
 
 	/**
 	 * The config array.
@@ -115,24 +120,6 @@ abstract class Request implements RequestInterface {
 		$this->parser->setConfig($config);
 
 		$this->config = $config;
-
-		return $this;
-	}
-
-	/**
-	 * Get config
-	 *
-	 * @param  void
-	 * @return Synchronizer\Systems\Config
-	 */
-	public function getConfig()
-	{
-		return $this->config;
-	}
-	
-	public function setResource($resource)
-	{
-		$this->resource = $resource;
 
 		return $this;
 	}

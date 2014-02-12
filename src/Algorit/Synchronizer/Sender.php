@@ -38,7 +38,7 @@ class Sender {
 			return $response;
 		}
 
-		return $system->getRepository()->call($entity)->set($data); // Change function name later...
+		return $system->getRepository()->call($entity)->set($data); // Change function name.
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Sender {
 	 */
 	public function toApi(Array $data, $parse = false)
 	{
-		// Since it's an API we will just return it. (It could've been parsed!)
+		// Since it's an API we will just return it. (It could've been parsed...)
 
 		if($parse instanceof Closure)
 		{

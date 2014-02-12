@@ -91,11 +91,13 @@ class Builder {
 	 */
 	private function createCurrentSync($entity, $type)
 	{	
-
-		$create = Config::get('synchronizer::create');
+		$create = Config::get('synchronizer::repository.create');
 
 		$sync = array(
-			
+			'entity'  => $entity,
+            'type'    => $type,
+            'class'   => get_class($this->system),
+            'status'  => 'processing',
 		);
 
 		if($create instanceof Closure)
@@ -158,14 +160,12 @@ class Builder {
 			// Update sync
 			$this->repository->updateFailedSync($e);
 
-			$message = get_class($e) . ': ' . $e->getMessage();
+			$message = get_class($e) 	  . ': ' 
+					   . $e->getMessage() . ' in ' 
+					   . $e->getFile() 	  . ' on line '
+					   . $e->getLine();
 
-			// if($details)
-			// {
-				$message .= ' in ' . $e->getFile();
-			// }
-
-			Log::error($message . ' on line ' . $e->getLine());
+			Log::error($message);
 		}
 	}
 

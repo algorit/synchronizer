@@ -1,10 +1,10 @@
 <?php namespace Algorit\Synchronizer;
 
-use App, Log;
+use App;
+use Log;
 use Closure;
 use Exception;
 use Algorit\Synchronizer\Systems\Config;
-use Monolog\Handler\HandlerInterface;
 use Logentries\Handler\LogentriesHandler;
 use Application\Storage\Entities\Company as CompanyEntity;
 
@@ -42,9 +42,6 @@ class Loader {
 	{
 		$this->builder = $builder;
 		$this->config  = $config;
-
-		// Set Log Handler
-		$this->setLogHandler(new LogentriesHandler('75729640-0f71-4f5f-b359-b2d85ab1731e'));
 	}
 
 	/**
@@ -66,7 +63,7 @@ class Loader {
 		Log::info('Loading "' . $company->erp->name . '" request system...');
 
 		// Load system
-		$this->system = App::make('Synchronizer\Systems\\' . ucfirst(strtolower($company->erp->name)) . '\\Request');
+		$this->system = App::make(Config::get('synchronizer::system_namespace') . ucfirst(strtolower($company->erp->name)) . '\\Request');
 
 		// Set configurations
 		try
@@ -118,17 +115,6 @@ class Loader {
 	private function setCompany($company)
 	{
 		$this->company = $company;
-	}
-
-	/**
-	 * Set the monolog handler.
-	 *
-	 * @param  void
-	 * @return void
-	 */
-	public function setLogHandler(HandlerInterface $handler)
-	{
-		Log::getMonolog()->pushHandler($handler);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 {
     "name": "algorit/synchronizer",
-    "description": "",
+    "description": "PHP api/database synchronizer",
     "authors": [
         {
             "name": "Gabriel Koerich",
@@ -9,17 +9,28 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "nesbot/carbon": "1.*",
         "illuminate/support": "4.1.*",
         "rmccue/requests": ">=1.0",
         "nategood/httpful": "*",
         "stil/curl-easy": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "mockery/mockery": "dev-master"
+    },
     "autoload": {
         "classmap": [
             "src/migrations"
         ],
+        "psr-0": {"Requests": "library/"},
         "psr-4": {
-            "Algorit\\Synchronizer\\": "src/"
+            "Algorit\\Synchronizer\\": "src/Algorit/Synchronizer"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
         }
     },
     "minimum-stability": "stable"

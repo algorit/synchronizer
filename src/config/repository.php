@@ -2,16 +2,12 @@
 
 return array(
 
-    'prefix'  => '',
-
-    'storage' => function()
+	'instance' => function()
     {
         return App::make('Application\Storage\Contracts\SyncInterface');
     },
 
-    'system'  => 'Synchronizer\\Systems',
-
-    'create'  => function($system, $resource, $entity, $type)
+    'create'   => function($system, $resource, $entity, $type)
     {
         $company_id = null;
         $representative_id = null;
@@ -44,5 +40,4 @@ return array(
             'status'            => 'processing',
         );
     },
-
 );

@@ -34,7 +34,7 @@ class Receiver {
 	public function fromApi($data)
 	{
 		// No use for this... Yet. 
-		// Update: Receive orders!
+		// Update: Receive orders
 	}
 
 }

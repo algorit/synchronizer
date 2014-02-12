@@ -33,7 +33,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 		$this->app['synchronizer'] = $this->app->share(function($app)
         {
-        	$sync = $app->make('Application\Storage\Contracts\SyncInterface');
+        	$sync = $app['config']->get('synchronizer::repository.instance');
 
             $builder = new Builder(new Sender, new Receiver, $sync);
 

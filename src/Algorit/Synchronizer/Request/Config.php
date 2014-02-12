@@ -71,7 +71,7 @@ class Config {
 			throw new Exception('Config files not found.');
 		}
 
-		$this->date 	= array_get($this->config, 'date');
+		$this->date = array_get($this->config, 'date');
 		$this->entities = array_get($this->config, 'entities');
 		$this->resourceInstance = array_get($this->config, 'resourceInstance');
 

@@ -1,8 +1,5 @@
 <?php namespace Algorit\Synchronizer\Tests;
 
-// use Synchronizer\Builder;
-// use Synchronizer\Systems\Deltacon\Request as DeltaconRequest;
-
 class RequestBuilderTest extends SynchronizerTest {
 
 	/**

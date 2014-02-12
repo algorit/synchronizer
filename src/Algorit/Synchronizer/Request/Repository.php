@@ -1,8 +1,6 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use App;
-use Str;
-use Log;
+use App, Str, Log;
 use Synchronizer\Exceptions\RepositoryException;
 
 class Repository {

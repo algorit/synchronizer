@@ -1,10 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use App;
-use Str;
-use Log;
-use Event;
-use Closure;
+use App, Str, Log;
+use Event, Closure;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Traits\ConfigTrait;

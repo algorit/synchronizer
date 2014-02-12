@@ -3,18 +3,43 @@
 use Log;
 use Closure;
 use Carbon\Carbon;
-use Synchronizer\Exceptions\RequestException;
-use Synchronizer\Contracts\SystemRequestInterface;
+use Synchronizer\Request\Exceptions\RequestException;
+use Synchronizer\Request\Contracts\SystemRequestInterface;
 
 abstract class Request implements SystemRequestInterface {
 
 	protected $config;
 
+	/**
+	 * Setup the company config.
+	 *
+	 * @param  $path
+	 * @return void
+	 */
+	public function setConfig(Config $config)
+	{
+		// Setup Configuration.	
+		$this->parser->setConfig($config);
+
+		$this->config = $config;
+
+		return $this;
+	}
+
+	/**
+	 * Get config
+	 *
+	 * @param  void
+	 * @return Synchronizer\Systems\Config
+	 */
+	public function getConfig()
+	{
+		return $this->config;
+	}
+	
 	public abstract function setResource($resource);
 
 	public abstract function authenticate();
-
-	// public abstract function setRequestOptions($entityName, $lastSync = false, $type = 'receive');
 
 	/**
 	 * Set the request options. 
@@ -63,34 +88,6 @@ abstract class Request implements SystemRequestInterface {
 	public abstract function receive($entityName, $lastSync);
 
 	public abstract function send(Array $data, $entityName, $requestDate);
-
-
-	/**
-	 * Setup the company config.
-	 *
-	 * @param  $path
-	 * @return void
-	 */
-	public function setConfig(Config $config)
-	{
-		// Setup Configuration.	
-		$this->parser->setConfig($config);
-
-		$this->config = $config;
-
-		return $this;
-	}
-
-	/**
-	 * Get config
-	 *
-	 * @param  void
-	 * @return Synchronizer\Systems\Config
-	 */
-	public function getConfig()
-	{
-		return $this->config;
-	}
 
 	/**
 	 * Create a multipart request. (Used for file uploads)

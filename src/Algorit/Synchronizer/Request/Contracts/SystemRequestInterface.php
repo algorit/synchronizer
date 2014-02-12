@@ -2,6 +2,10 @@
 
 Interface SystemRequestInterface {
 
+	public function setConfig(Config $config);
+
+	public function getConfig();
+
 	public function setResource($resource);
 
 	public function authenticate();

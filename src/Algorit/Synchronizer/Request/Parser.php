@@ -5,7 +5,9 @@ use Str;
 use Log;
 use Event;
 use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Config;
+use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Request\Exceptions\ParserException;
 use Algorit\Synchronizer\Request\Contracts\SystemParserInterface;
 
@@ -45,17 +47,6 @@ class Parser {
 	{
 		$this->namespace = $namespace;
 		$this->files = $files;
-	}
-
-	/**
-	 * Set parser config
-	 *
-	 * @param  Config  $config
-	 * @return void
-	 */
-	public function setConfig(Config $config)
-	{
-		$this->config = $config;
 	}
 
 	/**

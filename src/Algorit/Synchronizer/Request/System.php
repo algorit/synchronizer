@@ -1,6 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request;
 
 // Set configuration place
+use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Methods\Requests as RequestMethod;
@@ -23,21 +24,21 @@ abstract class System implements SystemInterface{
 	 *
 	 * @var string
 	 */
-	protected $namespace;
+	public $namespace;
 
 	/**
 	 * The system resource (Company, device, representative...)
 	 *
 	 * @var object
 	 */
-	protected $resource;
+	public $resource;
 
 	/**
 	 * The resource config path
 	 *
 	 * @var string
 	 */
-	protected $path;
+	public $path;
 
 	public function __construct($data = array())
 	{

@@ -59,12 +59,12 @@ class Config {
 	 * @param  void
 	 * @return void
 	 */
-	public function setup(SystemInterface $sytem)
+	public function setup(SystemInterface $system)
 	{
-		$directory = $system->path . '/' . $system->resource->name;
+		$directory = $system->path . '/' . $system->name;
 
-		$this->config  = $this->files->getRequire($directory . '/config.php');
-		$this->aliases = $this->files->getRequire($directory . '/aliases.php');
+		$this->config  = $this->files->getRequire($directory . '/Config/config.php');
+		$this->aliases = $this->files->getRequire($directory . '/Config/aliases.php');
 
 		if( ! is_array($this->config))
 		{

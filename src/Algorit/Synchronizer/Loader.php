@@ -60,7 +60,7 @@ class Loader {
 		$this->request = $system->loadRequest();
 
 		// Set configurations
-		$this->request->setConfig($this->config->setup($company));
+		$this->request->setConfig($this->config->setup($system));
 
 		if($callback instanceof Closure)
 		{

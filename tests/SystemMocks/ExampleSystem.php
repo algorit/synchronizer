@@ -5,9 +5,9 @@ use Algorit\Synchronizer\Request\System;
 
 class ExampleSystem extends System {
 
-	protected $namespace = 'Algorit\Synchronizer\Tests';
+	public $namespace = 'Algorit\Synchronizer\Tests';
 
-	protected $path = __DIR__;
+	public $path = __DIR__;
 
 	public function __construct()
 	{

@@ -1,8 +1,6 @@
-<?php namespace Synchronizer\Methods;
+<?php namespace Algorit\Synchronizer\Methods;
 
-use Synchronizer\Contracts\Request\RequestMethodInterface;
-
-class Curl implements RequestMethodInterface {
+class Curl implements MethodInterface {
 
 	private static $instance;
 

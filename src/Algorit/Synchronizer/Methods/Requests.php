@@ -1,10 +1,9 @@
-<?php namespace Synchronizer\Methods;
+<?php namespace Algorit\Synchronizer\Methods;
 
 // https://github.com/rmccue/Requests
 use Requests as Method;
-use Synchronizer\Contracts\Request\RequestMethodInterface;
 
-class Requests implements RequestMethodInterface {
+class Requests implements MethodInterface {
 
 	public function head($url, $headers = array(), $options = array())
 	{

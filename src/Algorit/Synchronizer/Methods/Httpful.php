@@ -1,9 +1,8 @@
-<?php namespace Synchronizer\Methods;
+<?php namespace Algorit\Synchronizer\Methods;
 
 use Httpfull\Request as Method;
-use Synchronizer\Contracts\Request\RequestMethodInterface;
 
-class Httpful implements RequestMethodInterface {
+class Httpful implements MethodInterface {
 	
 	public function head($url, $headers = array(), $options = array())
 	{

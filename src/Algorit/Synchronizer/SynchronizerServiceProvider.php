@@ -35,7 +35,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 		// Using Requests as RequestMethod (https://github.com/rmccue/Requests)
 		$this->app->bind('Algorit\Synchronizer\Request\Contracts\RequestMethodInterface', 'Algorit\Synchronizer\Methods\Requests');
 
-		$this->app->bind('Algorit\Synchronizer\Storage\SyncInterface', 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
+		// $this->app->bind('Algorit\Synchronizer\Storage\SyncInterface', 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
 
 		// $repository = new SyncRepository(new SyncEntity);
 		// $builder    = new Builder(new Sender, new Receiver, $repository);
@@ -44,7 +44,16 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 		$this->app['synchronizer'] = $this->app->share(function($app)
 		{
-			$sync = $app->make($app['config']->get('synchronizer::repository.instance'));
+			$repository = $app['config']->get('synchronizer::repository.instance');
+
+			if($repository == false)
+			{
+				$sync = new SyncRepository(new SyncEntity);
+			}
+			else
+			{
+				$sync = $app->make($repository);
+			}
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 

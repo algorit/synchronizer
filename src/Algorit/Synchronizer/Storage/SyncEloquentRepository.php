@@ -1,4 +1,4 @@
-<?php namespace Application\Storage\Repositories\Eloquent;
+<?php namespace Algorit\Synchronizer\Storage;
 
 use Exception;
 use Algorit\Veloquent\Repository\Model;
@@ -82,7 +82,7 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	 * Update the current sync
 	 *
 	 * @param  array  $data
-	 * @return \Application\Storage\Entities\Sync
+	 * @return SyncEntity
 	 */
 	public function updateCurrentSync(Array $data)
 	{
@@ -93,7 +93,7 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	 * Update the current sync using an exception
 	 *
 	 * @param  \Exception  $exception
-	 * @return \Application\Storage\Entities\Sync
+	 * @return SyncEntity
 	 */
 	public function updateFailedSync(Exception $exception)
 	{	
@@ -110,6 +110,12 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 		));
 	}
 
+	/**
+	 * Touch the current sync timestamps.
+	 *
+	 * @param  void
+	 * @return SyncEntity
+	 */
 	public function touchCurrentSync()
 	{
 		return $this->current->touch();

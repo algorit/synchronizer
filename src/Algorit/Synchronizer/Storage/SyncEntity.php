@@ -16,6 +16,6 @@ class SyncEntity extends Veloquent {
 	 *
 	 * @var array
 	 */
-	protected $rules = array();
+	protected $rules = [];
 
 }

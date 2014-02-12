@@ -4,7 +4,7 @@ return array(
 
     'table'    => '',
 
-    'instance' => 'Algorit\Synchronizer\Storage\SyncInterface',
+    'instance' => '',
 
     'create'   => function($system, $resource, $entity, $type)
     {

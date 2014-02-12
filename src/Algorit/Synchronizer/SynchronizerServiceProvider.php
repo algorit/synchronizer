@@ -1,6 +1,10 @@
 <?php namespace Algorit\Synchronizer;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use Algorit\Synchronizer\Request\Config;
+use Algorit\Synchronizer\Storage\SyncEntity;
+use Algorit\Synchronizer\Storage\SyncEloquentRepository as SyncRepository;
 
 class SynchronizerServiceProvider extends ServiceProvider {
 
@@ -29,15 +33,18 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		// Using Requests as RequestMethod (https://github.com/rmccue/Requests)
-		$this->app->bind('Algorit\Synchronizer\Request\Contracts\RequestMethodInterface',
-						 'Algorit\Synchronizer\Methods\Requests');
+		$this->app->bind('Algorit\Synchronizer\Request\Contracts\RequestMethodInterface', 'Algorit\Synchronizer\Methods\Requests');
 
-		$this->app->bind('Algorit\Synchronizer\Storage\SyncInterface',
-						 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
+		$this->app->bind('Algorit\Synchronizer\Storage\SyncInterface', 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
+
+		// $repository = new SyncRepository(new SyncEntity);
+		// $builder    = new Builder(new Sender, new Receiver, $repository);
+		// $config     = new Config(new Filesystem);
+		// $loader     = new Loader($builder, $config);
 
 		$this->app['synchronizer'] = $this->app->share(function($app)
 		{
-			$sync = $app['config']->get('synchronizer::repository.instance');
+			$sync = $app->make($app['config']->get('synchronizer::repository.instance'));
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 

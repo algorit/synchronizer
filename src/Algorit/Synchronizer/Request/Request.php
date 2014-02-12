@@ -3,10 +3,10 @@
 use Log;
 use Closure;
 use Carbon\Carbon;
-use Synchronizer\Request\Exceptions\RequestException;
-use Synchronizer\Request\Contracts\SystemRequestInterface;
+use Algorit\Synchronizer\Request\Contracts\RequestInterface;
+use Algorit\Synchronizer\Request\Exceptions\RequestException;
 
-abstract class Request implements SystemRequestInterface {
+abstract class Request implements RequestInterface {
 
 	protected $config;
 
@@ -37,7 +37,12 @@ abstract class Request implements SystemRequestInterface {
 		return $this->config;
 	}
 	
-	public abstract function setResource($resource);
+	public function setResource($resource)
+	{
+		$this->resource = $resource;
+
+		return $this;
+	}
 
 	public abstract function authenticate();
 

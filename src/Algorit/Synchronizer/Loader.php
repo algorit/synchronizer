@@ -5,8 +5,7 @@ use Log;
 use Closure;
 use Exception;
 use Algorit\Synchronizer\Request\Config;
-use Logentries\Handler\LogentriesHandler;
-use Application\Storage\Entities\Company as CompanyEntity;
+use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 
 class Loader {
 
@@ -51,33 +50,17 @@ class Loader {
 	 * @param  mixed  					    $callback
 	 * @return instance
 	 */
-	public function loadSystem(CompanyEntity $company, $callback = false)
+	public function loadSystem(SystemInterface $system, $callback = false)
 	{
 
-		if($company->erp == false)
-		{
-			// No ERP!
-			return false;
-		}
-
-		Log::info('Loading "' . $company->erp->name . '" request system...');
+		Log::info('Loading "' . $system->name . '" request system...');
 
 		// Load system
-		$this->system = App::make(Config::get('synchronizer::system_namespace') . ucfirst(strtolower($company->erp->name)) . '\\Request');
+		$this->system  = $system;
+		$this->request = $system->loadRequest();
 
 		// Set configurations
-		try
-		{
-			$this->system->setConfig($this->config->setup($company));
-		}
-		catch(Exception $e)
-		{
-			Log::error($e->getMessage());
-
-			return false;	
-		}
-
-		$this->setCompany($company);
+		$this->request->setConfig($this->config->setup($company));
 
 		if($callback instanceof Closure)
 		{
@@ -95,7 +78,7 @@ class Loader {
 	 */
 	public function set($callback = false)
 	{	
-		$config = $this->system->getConfig();
+		$config = $this->request->getConfig();
 
 		Log::info('Setting resource...');
 
@@ -110,11 +93,6 @@ class Loader {
 		}
 
 		return $this;
-	}
-
-	private function setCompany($company)
-	{
-		$this->company = $company;
 	}
 
 	/**
@@ -134,9 +112,9 @@ class Loader {
 	 * @param  void
 	 * @return System
 	 */
-	public function getSystem()
+	public function getRequest()
 	{
-		return $this->system;
+		return $this->request;
 	}
 
 	/**
@@ -145,28 +123,28 @@ class Loader {
 	 * @param  callback
 	 * @return void
 	 */
-	private function loadForRepresentatives($callback = false)
-	{
-		foreach($this->company->representatives as $representative)
-		{	
-			Log::notice('Loading representative ' . $representative->name);
+	// private function loadForRepresentatives($callback = false)
+	// {
+	// 	foreach($this->company->representatives as $representative)
+	// 	{	
+	// 		Log::notice('Loading representative ' . $representative->name);
 
-			$this->start($representative, $callback);
-		}
-	}
+	// 		$this->start($representative, $callback);
+	// 	}
+	// }
 
-	/**
-	 * Load company as resource
-	 *
-	 * @param  callback
-	 * @return void
-	 */
-	private function loadForCompany($callback = false)
-	{
-		Log::notice('Loading company ' . $this->company->name);
+	// /**
+	//  * Load company as resource
+	//  *
+	//  * @param  callback
+	//  * @return void
+	//  */
+	// private function loadForCompany($callback = false)
+	// {
+	// 	Log::notice('Loading company ' . $this->company->name);
 
-		return $this->start($this->company, $callback);
-	}
+	// 	return $this->start($this->company, $callback);
+	// }
 
 	/**
 	 * Set the resource and start the builder.
@@ -177,10 +155,10 @@ class Loader {
 	public function start($resource, $callback = false)
 	{
 		// Set system resource
-		$this->system->setResource($resource);
+		$this->request->setResource($resource);
 
 		// Start the builder
-		$this->builder->start($this->system, $resource);
+		$this->builder->start($this->request, $resource);
 
 		if($callback instanceof Closure)
 		{

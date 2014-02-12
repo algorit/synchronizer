@@ -1,5 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request\Contracts;
 
+use Algorit\Synchronizer\Request\Config;
+
 Interface RequestInterface {
 
 	public function setConfig(Config $config);

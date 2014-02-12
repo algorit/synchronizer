@@ -1,16 +1,8 @@
-<?php namespace Algorit\Synchronizer;
+<?php namespace Algorit\Synchronizer\Tests;
 
-// use Synchronizer\Loader;
-// use Synchronizer\Builder;
+use Algorit\Synchronizer\Tests\SystemMocks\ExampleSystem;
 
 class RequestLoaderTest extends SynchronizerTest {
-
-	// public function setUp()
-	// {
-	// 	parent::setUp();
-		
-	// 	$this->loader = $this->app->make('Synchronizer\Loader');
-	// }
 
 	/**
 	 * Test if Laravel is correctly instantianting the class.
@@ -32,6 +24,13 @@ class RequestLoaderTest extends SynchronizerTest {
 	public function testBuilderInstance()
 	{
 		$this->assertInstanceOf('Algorit\Synchronizer\Builder', $this->synchronizer->getBuilder());
+	}
+
+	public function testLoadSystem()
+	{
+
+		$this->synchronizer->loadSystem(new ExampleSystem);
+
 	}
 
 }

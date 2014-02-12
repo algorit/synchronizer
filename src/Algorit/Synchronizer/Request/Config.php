@@ -3,7 +3,7 @@
 use Str;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
-use Application\Storage\Entities\Company as CompanyEntity;
+use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 
 class Config {
 
@@ -59,20 +59,20 @@ class Config {
 	 * @param  void
 	 * @return void
 	 */
-	public function setup(CompanyEntity $company)
+	public function setup(SystemInterface $sytem)
 	{
-		$directory = __DIR__ . '/' . ucfirst(strtolower($company->erp->name));
+		$directory = $system->path . '/' . $system->resource->name;
 
-		$this->config  = $this->files->getRequire($directory . '/Config/' . $company->slug . '/config.php');
-		$this->aliases = $this->files->getRequire($directory . '/Config/' . $company->slug . '/aliases.php');
+		$this->config  = $this->files->getRequire($directory . '/config.php');
+		$this->aliases = $this->files->getRequire($directory . '/aliases.php');
 
 		if( ! is_array($this->config))
 		{
-			throw new Exception('Config file not found.');
+			throw new Exception('Config files not found.');
 		}
 
-		$this->entities = array_get($this->config, 'entities');
 		$this->date 	= array_get($this->config, 'date');
+		$this->entities = array_get($this->config, 'entities');
 		$this->resourceInstance = array_get($this->config, 'resourceInstance');
 
 		if($this->aliases == null or $this->entities == null or $this->date == null)

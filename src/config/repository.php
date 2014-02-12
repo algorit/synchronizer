@@ -4,10 +4,7 @@ return array(
 
     'table'    => '',
 
-    'instance' => function()
-    {
-        return App::make('Algorit\Synchronizer\Storage\SyncInterface');
-    },
+    'instance' => 'Algorit\Synchronizer\Storage\SyncInterface',
 
     'create'   => function($system, $resource, $entity, $type)
     {

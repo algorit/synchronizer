@@ -9,11 +9,6 @@ class SynchronizerTest extends TestCase {
 		return ['Algorit\Synchronizer\SynchronizerServiceProvider'];
 	}
 
-	protected function getPackageAliases()
-	{
-		return ['Sync' => 'Algorit\Synchronizer\Facades\Synchronizer'];
-	}
-
 	public function setUp()
 	{
 		parent::setUp();

@@ -7,7 +7,7 @@ use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Methods\Requests as RequestMethod;
 
-abstract class System implements SystemInterface{
+abstract class System implements SystemInterface {
 
 	use ConfigTrait;
 	use ResourceTrait;
@@ -57,9 +57,7 @@ abstract class System implements SystemInterface{
 
 	public function loadRequest()
 	{
-		return new $this->request(new RequestMethod, 
-								  new Repository($this->namespace),
-								  new Parser(new Filesystem, $this->namespace));
+		return new $this->request(new RequestMethod, new Repository($this->namespace), new Parser(new Filesystem, $this->namespace));
 	}
 
 }

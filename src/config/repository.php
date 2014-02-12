@@ -2,9 +2,9 @@
 
 return array(
 
-	'table'    => '',
+    'table'    => '',
 
-	'instance' => function()
+    'instance' => function()
     {
         return App::make('Algorit\Synchronizer\Storage\SyncInterface');
     },

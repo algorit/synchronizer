@@ -29,7 +29,11 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		// Using Requests as RequestMethod (https://github.com/rmccue/Requests)
-		$this->app->bind('Algorit\Synchronizer\Contracts\RequestMethodInterface', 'Algorit\Synchronizer\Methods\Requests');
+		$this->app->bind('Algorit\Synchronizer\Request\Contracts\RequestMethodInterface',
+						 'Algorit\Synchronizer\Methods\Requests');
+
+		$this->app->bind('Algorit\Synchronizer\Storage\SyncInterface',
+						 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
 
 		$this->app['synchronizer'] = $this->app->share(function($app)
         {

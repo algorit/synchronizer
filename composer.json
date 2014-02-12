@@ -1,6 +1,7 @@
 {
     "name": "algorit/synchronizer",
     "description": "PHP api/database synchronizer",
+    "license": "MIT",
     "authors": [
         {
             "name": "Gabriel Koerich",

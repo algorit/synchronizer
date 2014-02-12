@@ -1,4 +1,4 @@
-<?php namespace Synchronizer\Contracts;
+<?php namespace Synchronizer\Request\Contracts;
 
 Interface SystemRepositoryInterface {
 

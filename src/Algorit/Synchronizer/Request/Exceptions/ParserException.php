@@ -1,4 +1,4 @@
-<?php namespace Synchronizer\Exceptions;
+<?php namespace Synchronizer\Request\Exceptions;
 
 use Exception;
 

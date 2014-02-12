@@ -1,6 +1,7 @@
-<?php namespace Synchronizer\Systems;
+<?php namespace Synchronizer\Request\Systems;
 
-use Log, Closure;
+use Log;
+use Closure;
 use Carbon\Carbon;
 use Synchronizer\Exceptions\RequestException;
 use Synchronizer\Contracts\SystemRequestInterface;

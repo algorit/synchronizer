@@ -1,6 +1,7 @@
-<?php namespace Synchronizer\Systems;
+<?php namespace Synchronizer\Request\Systems;
 
-use Str, Exception;
+use Str;
+use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Application\Storage\Entities\Company as CompanyEntity;
 

@@ -36,13 +36,13 @@ class SynchronizerServiceProvider extends ServiceProvider {
 						 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
 
 		$this->app['synchronizer'] = $this->app->share(function($app)
-        {
-        	$sync = $app['config']->get('synchronizer::repository.instance');
+		{
+			$sync = $app['config']->get('synchronizer::repository.instance');
 
-            $builder = new Builder(new Sender, new Receiver, $sync);
+			$builder = new Builder(new Sender, new Receiver, $sync);
 
 			return new Loader($builder, new Config($app['files']));
-        });
+		});
 	}
 
 	/**

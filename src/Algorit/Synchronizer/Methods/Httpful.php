@@ -1,7 +1,7 @@
 <?php namespace Synchronizer\Methods;
 
 use Httpfull\Request as Method;
-use Synchronizer\Contracts\RequestMethodInterface;
+use Synchronizer\Contracts\Request\RequestMethodInterface;
 
 class Httpful implements RequestMethodInterface {
 	

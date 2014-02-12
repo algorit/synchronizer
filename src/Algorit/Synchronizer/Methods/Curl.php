@@ -1,7 +1,6 @@
 <?php namespace Synchronizer\Methods;
 
-use CurlMethod as Method;
-use Synchronizer\Contracts\RequestMethodInterface;
+use Synchronizer\Contracts\Request\RequestMethodInterface;
 
 class Curl implements RequestMethodInterface {
 

@@ -2,7 +2,7 @@
 
 // https://github.com/rmccue/Requests
 use Requests as Method;
-use Synchronizer\Contracts\RequestMethodInterface;
+use Synchronizer\Contracts\Request\RequestMethodInterface;
 
 class Requests implements RequestMethodInterface {
 

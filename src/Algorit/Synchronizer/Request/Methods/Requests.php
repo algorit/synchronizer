@@ -1,4 +1,4 @@
-<?php namespace Algorit\Synchronizer\Methods;
+<?php namespace Algorit\Synchronizer\Request\Methods;
 
 // https://github.com/rmccue/Requests
 use Requests as Method;

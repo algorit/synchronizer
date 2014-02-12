@@ -1,4 +1,4 @@
-<?php namespace Algorit\Synchronizer\Methods;
+<?php namespace Algorit\Synchronizer\Request\Methods;
 
 interface MethodInterface {
 

@@ -4,8 +4,8 @@
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
-use Algorit\Synchronizer\Methods\Requests as RequestMethod;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
+use Algorit\Synchronizer\Request\Methods\Requests as RequestMethod;
 
 abstract class System implements SystemInterface{
 

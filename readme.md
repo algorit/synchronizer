@@ -8,3 +8,7 @@ A Laravel Package to sync APIs and Databases.
 * Receive from a Database and send as an API
 
 ## Getting Started
+
+Soon.
+
+Ps: This package is under development and may contain critical bugs.

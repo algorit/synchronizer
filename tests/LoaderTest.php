@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer\Tests;
 
-use Algorit\Synchronizer\Tests\SystemMocks\ExampleSystem;
+use Algorit\Synchronizer\Tests\Stubs\ExampleSystem;
 
 class RequestLoaderTest extends SynchronizerTest {
 

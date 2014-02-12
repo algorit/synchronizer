@@ -4,7 +4,7 @@ use App;
 use Log;
 use Closure;
 use Exception;
-use Algorit\Synchronizer\Systems\Config;
+use Algorit\Synchronizer\Request\Config;
 use Logentries\Handler\LogentriesHandler;
 use Application\Storage\Entities\Company as CompanyEntity;
 

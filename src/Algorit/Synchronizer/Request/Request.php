@@ -1,4 +1,4 @@
-<?php namespace Synchronizer\Request\Systems;
+<?php namespace Algorit\Synchronizer\Request;
 
 use Log;
 use Closure;

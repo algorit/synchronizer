@@ -6,7 +6,7 @@ use Closure;
 use Exception;
 use Carbon\Carbon;
 
-use Application\Storage\Contracts\SyncInterface;
+use Algorit\Synchronizer\Storage\SyncInterface;
 use Algorit\Synchronizer\Contracts\RequestInterface;
 use Algorit\Synchronizer\Contracts\SystemRequestInterface;
 

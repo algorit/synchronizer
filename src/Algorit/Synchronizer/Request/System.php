@@ -1,6 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request;
 
 // Set configuration place
+use ReflectionClass;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
@@ -40,23 +41,34 @@ abstract class System implements SystemInterface {
 	 */
 	public $path;
 
-	public function __construct($data = array())
+	public function __construct()
 	{
-		if($this->name == false)
-		{
-			$this->setName();
-		}
+		$this->setup();
 	}
 
-	private function setName()
+	private function setup()
 	{
-		$name = explode('\\', get_class($this));
+		$reflector = new ReflectionClass(get_class($this));
+        
+        $this->path = dirname($reflector->getFileName());
 
-		$this->name = end($name);
+        $this->name = $reflector->getName();
+
+        $this->namespace = $reflector->getNamespaceName();
+	}
+
+	public function setRequest($name)
+	{
+		$this->request = $this->namespace . '\\' . $name;
 	}
 
 	public function loadRequest()
 	{
+		if( ! isset($this->request))
+		{
+			$this->setRequest('Request');
+		}
+
 		return new $this->request(new RequestMethod, new Repository($this->namespace), new Parser(new Filesystem, $this->namespace));
 	}
 

@@ -31,8 +31,6 @@ class Sender {
 	{
 		$data = array_get($response, 'data');
 
-		// debug($data);
-
 		if( ! is_array($data) OR count($data) == 0)
 		{
 			return $response;
@@ -48,7 +46,7 @@ class Sender {
 	 */
 	public function toApi(Array $data, $parse = false)
 	{
-		// Since it's an API we will just return it. (It could've been parsed...)
+		// Since it's an API we will just return it.
 
 		if($parse instanceof Closure)
 		{

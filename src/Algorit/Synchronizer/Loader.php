@@ -52,11 +52,11 @@ class Loader {
 	 */
 	public function loadSystem(SystemInterface $system, $callback = false)
 	{
+		$this->system = $system;
 
 		Log::info('Loading "' . $system->name . '" request system...');
 
 		// Load system
-		$this->system  = $system;
 		$this->request = $system->loadRequest();
 
 		// Set configurations
@@ -82,6 +82,7 @@ class Loader {
 
 		Log::info('Setting resource...');
 
+		// Wat?
 		switch($config->resourceInstance)
 		{
 			case 'representative':

@@ -7,8 +7,8 @@ use Exception;
 use Carbon\Carbon;
 
 use Algorit\Synchronizer\Storage\SyncInterface;
-use Algorit\Synchronizer\Contracts\RequestInterface;
-use Algorit\Synchronizer\Contracts\SystemRequestInterface;
+use Algorit\Synchronizer\Request\Contracts\RequestInterface;
+use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 
 /**
  * Sync builder.
@@ -76,7 +76,7 @@ class Builder {
 	 * @param  \Synchronizer\Contracts\SystemRequestInterface $system
 	 * @return void
 	 */
-	public function start(SystemRequestInterface $system, $resource)
+	public function start(SystemInterface $system, $resource)
 	{
 		$this->resource = $resource;
 		$this->system   = $system;

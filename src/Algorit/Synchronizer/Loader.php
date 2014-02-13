@@ -113,6 +113,17 @@ class Loader {
 	 * @param  void
 	 * @return System
 	 */
+	public function getSystem()
+	{
+		return $this->system;
+	}
+
+	/**
+	 * Get the System instance
+	 *
+	 * @param  void
+	 * @return System
+	 */
 	public function getRequest()
 	{
 		return $this->request;

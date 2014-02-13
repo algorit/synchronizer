@@ -1,6 +1,27 @@
 <?php namespace Algorit\Synchronizer\Tests;
 
+use Mockery;
+use Algorit\Synchronizer\Builder;
+
 class RequestBuilderTest extends SynchronizerTest {
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+		$sender     = Mockery::mock('Algorit\Synchronizer\Sender');
+		$receiver   = Mockery::mock('Algorit\Synchronizer\Receiver');
+
+		$this->builder  = new Builder($sender, $receiver, $repository);
+	}
+
+	public function testStartSystem()
+	{
+		$system = Mockery::mock('Algorit\Synchronizer\Request\Contracts\SystemInterface');
+
+		$this->builder->start($system, 'company');
+	}
 
 	/**
 	 * Test if Laravel is correctly instantianting the class.

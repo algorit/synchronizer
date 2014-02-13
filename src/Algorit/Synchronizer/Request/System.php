@@ -61,23 +61,23 @@ abstract class System implements SystemInterface {
 	private function setup()
 	{
 		$reflector = new ReflectionClass(get_class($this));
-        
-        if( ! $this->path)
-        {
-        	$this->path = dirname($reflector->getFileName());
-        }
 
-        if( ! $this->name)
-        {
-        	$this->name = $reflector->getName();
-        }
+		if( ! $this->path)
+		{
+			$this->path = dirname($reflector->getFileName());
+		}
 
-        if( ! $this->namespace)
-        {
-        	$this->namespace = $reflector->getNamespaceName();
-        }
+		if( ! $this->name)
+		{
+			$this->name = $reflector->getName();
+		}
 
-        return $this;
+		if( ! $this->namespace)
+		{
+			$this->namespace = $reflector->getNamespaceName();
+		}
+
+		return $this;
 	}
 
 	/**

@@ -106,6 +106,7 @@ abstract class System implements SystemInterface {
 			$this->setRequest();
 		}
 
+		// How to test?
 		return new $this->request(
 			new RequestMethod,
 			new Repository($this->namespace),

@@ -41,35 +41,76 @@ abstract class System implements SystemInterface {
 	 */
 	public $path;
 
+	/**
+	 * Create a new instance.
+	 *
+	 * @param  void
+	 * @return void
+	 */
 	public function __construct()
 	{
 		$this->setup();
 	}
 
+	/**
+	 * Setup the names.
+	 *
+	 * @param  void
+	 * @return \Algorit\Synchronizer\Request\Contracts\SystemInterface
+	 */
 	private function setup()
 	{
 		$reflector = new ReflectionClass(get_class($this));
         
-        $this->path = dirname($reflector->getFileName());
+        if( ! $this->path)
+        {
+        	$this->path = dirname($reflector->getFileName());
+        }
 
-        $this->name = $reflector->getName();
+        if( ! $this->name)
+        {
+        	$this->name = $reflector->getName();
+        }
 
-        $this->namespace = $reflector->getNamespaceName();
+        if( ! $this->namespace)
+        {
+        	$this->namespace = $reflector->getNamespaceName();
+        }
+
+        return $this;
 	}
 
-	public function setRequest($name)
+	/**
+	 * Set the request Class.
+	 *
+	 * @param  string $name
+	 * @return \Algorit\Synchronizer\Request\Contracts\SystemInterface
+	 */
+	public function setRequest($name = 'Request')
 	{
 		$this->request = $this->namespace . '\\' . $name;
+
+		return $this;
 	}
 
+	/**
+	 * Load the request Class
+	 *
+	 * @param  void
+	 * @return \Algorit\Synchronizer\Request\Contracts\RequestInterface
+	 */
 	public function loadRequest()
 	{
 		if( ! isset($this->request))
 		{
-			$this->setRequest('Request');
+			$this->setRequest();
 		}
 
-		return new $this->request(new RequestMethod, new Repository($this->namespace), new Parser(new Filesystem, $this->namespace));
+		return new $this->request(
+			new RequestMethod,
+			new Repository($this->namespace),
+			new Parser(new Filesystem, $this->namespace)
+		);
 	}
 
 }

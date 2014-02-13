@@ -6,47 +6,54 @@ use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 
 class Config {
-
-	/**
-	 * The files instance.
-	 *
-	 * @var \Application\Services\Sync\Erps\Filesystem
-	 */
-	protected $files;
 	
 	/**
 	 * The config array.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $config;
 
 	/**
-	 * The ERP name.
-	 *
-	 * @var string
-	 */
-	public $name;
-
-	/**
 	 * The aliases array.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $aliases;
 
 	/**
-	 * The url.
+	 * The date config.
 	 *
-	 * @var string
+	 * @var array
 	 */
-	public $url;
+	public $date;
+
+	/**
+	 * The resource instance name.
+	 *
+	 * @var array
+	 */
+	public $resourceInstance;
+
+	/**
+	 * The entities config.
+	 *
+	 * @var array
+	 */
+	protected $entities;
+
+	/**
+	 * The filesystem instance.
+	 *
+	 * @var \Illuminate\Filesystem\Filesystem
+	 */
+	protected $files;
 
 	/**
 	 * Create a new instance.
 	 *
 	 * @param  \Illuminate\Filesystem\Filesystem  $files
-	 * @return instance
+	 * @return void
 	 */
 	public function __construct(Filesystem $files)
 	{
@@ -56,8 +63,8 @@ class Config {
 	/**
 	 * Setup the configuration.
 	 *
-	 * @param  void
-	 * @return void
+	 * @param  \Algorit\Synchronizer\Request\Contracts\SystemInterface $system
+	 * @return \Algorit\Synchronizer\Request\Config
 	 */
 	public function setup(SystemInterface $system)
 	{
@@ -81,6 +88,12 @@ class Config {
 		return $this;
 	}
 
+	/**
+	 * Get the entities.
+	 *
+	 * @param  void
+	 * @return array
+	 */	
 	public function getEntities()
 	{
 		return $this->entities;

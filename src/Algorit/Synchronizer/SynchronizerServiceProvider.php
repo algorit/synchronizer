@@ -34,7 +34,6 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	{
 		// Using Requests as RequestMethod (https://github.com/rmccue/Requests)
 		// $this->app->bind('Algorit\Synchronizer\Methods\MethodInterface', 'Algorit\Synchronizer\Methods\Requests');
-
 		// $this->app->bind('Algorit\Synchronizer\Storage\SyncInterface', 'Algorit\Synchronizer\Storage\SyncEloquentRepository');
 
 		// $repository = new SyncRepository(new SyncEntity);

@@ -55,7 +55,7 @@ class Parser {
 	 */
 	public function call($name)
 	{
-		$class = 'Synchronizer\Systems\Jjw\Parsers\\' . $this->getFromEntityName($name);
+		$class = $this->namespace . '\\' . $this->getFromEntityName($name);
 
 		Log::notice('Loading parser ' . $class);
 

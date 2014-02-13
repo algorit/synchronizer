@@ -1,7 +1,6 @@
 <?php namespace Algorit\Synchronizer\Tests\Stubs;
 
-use Mockery;
-use Algorit\Synchronizer\Request\System;
+use Algorit\Synchronizer\Request\System as System;
 
 class ExampleSystem extends System {
 

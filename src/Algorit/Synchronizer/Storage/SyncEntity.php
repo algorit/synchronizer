@@ -9,7 +9,7 @@ class SyncEntity extends Veloquent {
 	*
 	* @var array
 	*/			
-	protected $fillable = ['erp_id', 'company_id', 'representative_id', 'entity', 'type', 'class', 'status', 'response'];
+	protected $fillable = ['morph_id', 'entity', 'type', 'class', 'status', 'response'];
 
 	/**
 	* The validation rules.

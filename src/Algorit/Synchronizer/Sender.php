@@ -1,7 +1,7 @@
 <?php namespace Algorit\Synchronizer;
 
 use Str, Closure;
-use Algorit\Synchronizer\Contracts\SystemRequestInterface;
+use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 
 class Sender {
 
@@ -10,7 +10,7 @@ class Sender {
 	 *
 	 * @return void
 	 */
-	public function toErp(SystemRequestInterface $system, $entity, Array $response)
+	public function toErp(RequestInterface $request, $entity, Array $response)
 	{
 		$data = array_get($response, 'data');
 
@@ -19,7 +19,7 @@ class Sender {
 			return $response;
 		}
 
-		return $system->send($entity, $data);
+		return $request->send($entity, $data);
 	}
 
 	/**
@@ -27,7 +27,7 @@ class Sender {
 	 *
 	 * @return void
 	 */
-	public function toDatabase(SystemRequestInterface $system, $entity, Array $response)
+	public function toDatabase(RequestInterface $request, $entity, Array $response)
 	{
 		$data = array_get($response, 'data');
 
@@ -36,7 +36,7 @@ class Sender {
 			return $response;
 		}
 
-		return $system->getRepository()->call($entity)->set($data); // Change function name.
+		return $request->getRepository()->call($entity)->set($data); // Change function name.
 	}
 
 	/**

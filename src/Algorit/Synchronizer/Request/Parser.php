@@ -33,6 +33,11 @@ class Parser {
 		$this->namespace = $namespace;
 	}
 
+	public function getFilesystem()
+	{
+		return $this->files;
+	}
+
 	/**
 	 * Call a parser instance and set the aliases.
 	 *

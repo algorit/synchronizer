@@ -2,7 +2,7 @@
 
 use Str;
 use Carbon\Carbon;
-use Algorit\Synchronizer\Contracts\SystemRequestInterface;
+use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 
 class Receiver {
 
@@ -11,9 +11,9 @@ class Receiver {
 	 *
 	 * @return void
 	 */
-	public function fromErp(SystemRequestInterface $system, $entity, $lastSync)
+	public function fromErp(RequestInterface $request, $entity, $lastSync)
 	{
-		return $system->receive($entity, $lastSync);
+		return $request->receive($entity, $lastSync);
 	}
 
 	/**
@@ -21,9 +21,9 @@ class Receiver {
 	 *
 	 * @return void
 	 */
-	public function fromDatabase(SystemRequestInterface $system, $entity, $lastSync)
+	public function fromDatabase(RequestInterface $request, $entity, $lastSync)
 	{
-		return $system->repository->call($entity)->get($lastSync);
+		return $request->getRepository()->call($entity)->get($lastSync);
 	}
 
 	/**

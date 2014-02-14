@@ -9,7 +9,7 @@ A Laravel Package to sync APIs and Databases.
 * Receive from a Database and send to an ERP
 * Receive from a Database and send as an API
 
-## Getting Started
+## What?
 
 Soon.
 

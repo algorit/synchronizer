@@ -117,7 +117,9 @@ abstract class Request implements RequestInterface {
 			throw new RequestException('Wrong request type');
 		}
 
-		if( ! isset($this->config->entities[$type][$entityName]))
+		$entities = $this->config->getEntities();
+
+		if( ! isset($entities[$type][$entityName]))
 		{
 			throw new RequestException('Entity not found in system config file.');
 		}
@@ -130,7 +132,7 @@ abstract class Request implements RequestInterface {
 		// Set them all!
 		$this->type 	= $type;
 		$this->lastSync = $lastSync;
-		$this->entity 	= $this->config->entities[$type][$entityName];
+		$this->entity 	= $entities[$type][$entityName];
 	}
 	
 	/**

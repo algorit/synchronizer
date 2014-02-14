@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
+use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Methods\Requests as RequestMethod;
 
 abstract class System implements SystemInterface {
@@ -40,8 +41,13 @@ abstract class System implements SystemInterface {
 	 * @param  void
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct($resource = false)
 	{
+		if($resource)
+		{
+			$this->resource = $resource;
+		}
+
 		$this->setup();
 	}
 

@@ -12,4 +12,9 @@ Interface SystemInterface {
 	public function setConfig(Config $config);
 
 	public function getConfig();
+
+	public function setRequest($name = 'Request');
+
+	public function loadRequest();
+
 }

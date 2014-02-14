@@ -78,8 +78,8 @@ class Builder {
 	 */
 	public function start(RequestInterface $request, ResourceInterface $resource)
 	{
-		$this->resource = $resource;
 		$this->request  = $request;
+		$this->resource = $resource;
 	}
 
 	/**

@@ -21,10 +21,10 @@ class RequestBuilderTest extends SynchronizerTest {
 
 		$repository->shouldReceive('getLastSync')->andReturn($lastSync);
 
-		$sender     = Mockery::mock('Algorit\Synchronizer\Sender');
-		$receiver   = Mockery::mock('Algorit\Synchronizer\Receiver');
+		$sender   = Mockery::mock('Algorit\Synchronizer\Sender');
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
-		$this->builder  = new Builder($sender, $receiver, $repository);
+		$this->builder = new Builder($sender, $receiver, $repository);
 	}
 
 	public function testStart()

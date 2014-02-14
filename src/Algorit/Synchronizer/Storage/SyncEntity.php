@@ -5,6 +5,13 @@ use Algorit\Veloquent\Veloquent;
 class SyncEntity extends Veloquent {
 
 	/**
+	* The table name.
+	*
+	* @var string
+	*/	
+	protected $table = 'syncs';
+
+	/**
 	* The attributes that are mass assignable.
 	*
 	* @var array

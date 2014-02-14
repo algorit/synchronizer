@@ -1,6 +1,7 @@
 <?php namespace Algorit\Synchronizer\Tests;
 
 use Algorit\Synchronizer\Tests\Stubs\ExampleSystem;
+use Algorit\Synchronizer\Tests\Stubs\ResourceExample;
 
 class SyncStubTest extends SynchronizerTest {
 
@@ -8,7 +9,7 @@ class SyncStubTest extends SynchronizerTest {
 	{
 		parent::setUp();
 
-		$this->loader = $this->synchronizer->loadSystem(new ExampleSystem);
+		$this->loader = $this->synchronizer->loadSystem(new ExampleSystem(new ResourceExample));
 	}
 
 	public function testInstance()

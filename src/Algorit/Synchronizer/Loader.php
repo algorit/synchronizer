@@ -5,6 +5,7 @@ use Log;
 use Closure;
 use Exception;
 use Algorit\Synchronizer\Request\Config;
+use Illuminate\Database\Eloquent\Collection;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
@@ -58,17 +59,29 @@ class Loader {
 	 * @param  mixed  					    $callback
 	 * @return instance
 	 */
-	public function loadSystem(SystemInterface $system)
+	public function loadSystem(SystemInterface $system, $callback = false)
 	{
 		$this->system = $system;
 
 		Log::info('Loading "' . $system->name . '" request system...');
 
 		// Load system
-		$this->request = $system->loadRequest();
+		$this->request = $this->system->loadRequest();
 
 		// Set configurations
 		$this->setupConfig($this->config->setup($system));
+
+		$resource = $this->system->getResource();
+
+		if($resource instanceof Collection)
+		{
+			return $this->startCollection($resource, $callback);
+		}
+
+		if($resource instanceof ResourceInterface)
+		{
+			return $this->start($resource, $callback);
+		}
 
 		return $this;
 	}
@@ -116,6 +129,20 @@ class Loader {
 	public function getRequest()
 	{
 		return $this->request;
+	}
+
+	/**
+	 * Start the loader usign a Collection as resource.
+	 *
+	 * @param  callback
+	 * @return void
+	 */
+	public function startCollection(Collection $collection, $callback = false)
+	{
+		foreach($collection as $resource)
+		{
+			$this->start($resource, $callback);
+		}
 	}
 
 	/**

@@ -12,7 +12,7 @@ return array(
         $representative_id = null;
 
         // Not the best code in the world.
-        $class = explode('\\', get_class($this->resource));
+        $class = explode('\\', get_class($resource));
 
         switch(end($class))
         {   

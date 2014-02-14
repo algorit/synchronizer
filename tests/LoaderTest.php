@@ -3,8 +3,9 @@
 use Mockery;
 use Algorit\Synchronizer\Loader;
 use Algorit\Synchronizer\Tests\Stubs\ExampleSystem;
+use Algorit\Synchronizer\Tests\Stubs\ResourceExample;
 
-class RequestLoaderTest extends SynchronizerTest {
+class LoaderTest extends SynchronizerTest {
 
 	public function setUp()
 	{
@@ -22,8 +23,7 @@ class RequestLoaderTest extends SynchronizerTest {
 		$this->request->shouldReceive('setConfig')->andReturn(array());
 		$this->request->shouldReceive('setResource')->andReturn(array());
 
-		$this->system = Mockery::mock('Algorit\Synchronizer\Tests\Stubs\ExampleSystem');
-		$this->system->shouldReceive('loadRequest')->andReturn($this->request);
+		$this->system = new ExampleSystem(new ResourceExample);
 	}
 
 	/**

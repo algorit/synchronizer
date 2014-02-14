@@ -5,6 +5,7 @@ use Closure;
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
+use Algorit\Synchronizer\Traits\EntityTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
@@ -13,6 +14,7 @@ use Algorit\Synchronizer\Request\Methods\MethodInterface as RequestMethod;
 abstract class Request implements RequestInterface {
 
 	use ConfigTrait;
+	use EntityTrait;
 	use ResourceTrait;
 
 	/**
@@ -49,13 +51,6 @@ abstract class Request implements RequestInterface {
 	 * @var array
 	 */
 	protected $headers;
-
-	/**
-	 * The current entity.
-	 *
-	 * @var array
-	 */
-	protected $entity;
 
 	/**
 	 * The current last sync date.
@@ -108,12 +103,12 @@ abstract class Request implements RequestInterface {
 	 */
 	public function setRequestOptions($entityName, $lastSync = false, $type = 'receive')
 	{
+		$entities = $this->config->getEntities();
+
 		if( ! in_array($type, array('receive', 'send')))
 		{
 			throw new RequestException('Wrong request type');
 		}
-
-		$entities = $this->config->getEntities();
 
 		if( ! isset($entities[$type][$entityName]))
 		{
@@ -128,7 +123,8 @@ abstract class Request implements RequestInterface {
 		// Set them all!
 		$this->type 	= $type;
 		$this->lastSync = $lastSync;
-		$this->entity 	= $entities[$type][$entityName];
+
+		$this->setEntity($entities[$type][$entityName]);
 	}
 	
 	/**
@@ -143,11 +139,38 @@ abstract class Request implements RequestInterface {
 		return $callback(json_decode($request->body, true));
 	}
 
+	/**
+	 * Execute a request.
+	 *
+	 * Needs to be implemented by subclasses.
+	 * 
+	 * @param  boolean $auth
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
+	 */
 	public abstract function executeRequest($auth = true);
 
+	/**
+	 * Create a request to receive data.
+	 *
+	 * Needs to be implemented by subclasses.
+	 * 
+	 * @param  string $entityName
+	 * @param  mixed  $lastSync
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface 
+	 */
 	public abstract function receive($entityName, $lastSync);
 
-	public abstract function send(Array $data, $entityName, $requestDate);
+	/**
+	 * Create a request to send data.
+	 *
+	 * Needs to be implemented by subclasses.
+	 * 
+	 * @param  array $data
+	 * @param  string $entityName
+	 * @param  mixed  $lastSync
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface 
+	 */
+	public abstract function send(Array $data, $entityName, $lastSync);
 
 	/**
 	 * Create a multipart request. (Used for file uploads)
@@ -185,7 +208,7 @@ abstract class Request implements RequestInterface {
 	 *
 	 * @param  string  $requestMethod,
 	 * @param  string  $url
-	 * @return \Synchronizer\Methods\MethodInterface
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
 	protected function executeSendRequest($requestMethod, $url, $data, $options = array())
 	{

@@ -35,6 +35,11 @@ abstract class System implements SystemInterface {
 	 */
 	public $path;
 
+	/**
+	 * The filesystem
+	 *
+	 * @var \Illuminate\Filesystem\Filesystem
+	 */
 	protected $filesystem;
 
 	/**
@@ -81,6 +86,12 @@ abstract class System implements SystemInterface {
 		return $this;
 	}
 
+	/**
+	 * Set the filesystem
+	 *
+	 * @param  \Illuminate\Filesystem\Filesystem $filesystem
+	 * @return void
+	 */
 	public function setFilesystem(Filesystem $filesystem)
 	{
 		$this->filesystem = $filesystem;

@@ -1,7 +1,5 @@
 <?php namespace Algorit\Synchronizer;
 
-use Str;
-use Carbon\Carbon;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 
 class Receiver {

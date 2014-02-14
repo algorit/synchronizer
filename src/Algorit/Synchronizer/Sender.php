@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer;
 
-use Str, Closure;
+use Closure;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 
 class Sender {

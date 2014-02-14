@@ -23,7 +23,7 @@ Interface RequestInterface {
 
 	public function receive($entityName, $lastSync);
 
-	public function send(Array $data, $entityName, $requestDate);
+	public function send(Array $data, $entityName, $lastSync);
 	
 }
 

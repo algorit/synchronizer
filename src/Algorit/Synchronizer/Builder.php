@@ -71,9 +71,10 @@ class Builder {
 	}
 
 	/**
-	 * Set the request
+	 * Set the Request and Resource
 	 *
-	 * @param  \Synchronizer\Contracts\SystemRequestInterface $system
+	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestInterface  $request
+	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
 	 * @return void
 	 */
 	public function start(RequestInterface $request, ResourceInterface $resource)
@@ -95,9 +96,9 @@ class Builder {
 
 		$sync = array(
 			'entity'  => $entity,
-            'type'    => $type,
-            'class'   => get_class($this->request),
-            'status'  => 'processing',
+			'type'    => $type,
+			'class'   => get_class($this->request),
+			'status'  => 'processing',
 		);
 
 		if($create instanceof Closure)
@@ -194,7 +195,7 @@ class Builder {
 			// Receive from ERP
 			$data = $this->receive->fromErp($this->request, (string) $entity, $lastSync);
 				
-			// Touch current sync to set a new update_at date.
+			// Touch current sync to set a new updated_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to database
@@ -218,7 +219,7 @@ class Builder {
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
 			
-			// Touch current sync to set a new update_at date.
+			// Touch current sync to set a new updated_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to ERP
@@ -242,7 +243,7 @@ class Builder {
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
 
-			// Touch current sync to set a new update_at date.
+			// Touch current sync to set a new updated_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to Api

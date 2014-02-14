@@ -35,6 +35,8 @@ abstract class System implements SystemInterface {
 	 */
 	public $path;
 
+	protected $filesystem;
+
 	/**
 	 * Create a new instance.
 	 *
@@ -79,6 +81,11 @@ abstract class System implements SystemInterface {
 		return $this;
 	}
 
+	public function setFilesystem(Filesystem $filesystem)
+	{
+		$this->filesystem = $filesystem;
+	}
+
 	/**
 	 * Set the request Class.
 	 *
@@ -105,6 +112,11 @@ abstract class System implements SystemInterface {
 	 */
 	public function loadRequest()
 	{
+		if( ! $this->filesystem)
+		{
+			$this->setFilesystem(new Filesystem);
+		}
+		
 		if( ! isset($this->request))
 		{
 			$this->setRequest();
@@ -114,7 +126,7 @@ abstract class System implements SystemInterface {
 		return new $this->request(
 			new RequestMethod,
 			new Repository($this->namespace),
-			new Parser(new Filesystem, $this->namespace)
+			new Parser($this->filesystem, $this->namespace)
 		);
 	}
 

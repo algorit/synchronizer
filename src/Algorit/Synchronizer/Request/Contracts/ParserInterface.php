@@ -1,5 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request\Contracts;
 
+use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
+
 Interface ParserInterface {
 
 	/**
@@ -13,28 +15,28 @@ Interface ParserInterface {
 	/**
 	 * Parse received data.
 	 *
-	 * @param  ?	   $resource
-	 * @param  Array   $data
+	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
+	 * @param  Array  $data
 	 * @return instance
 	 */
-	public function receive($resource, Array $data);
+	public function receive(ResourceInterface $resource, Array $data);
 
 	/**
 	 * Parse sent data.
 	 *
-	 * @param  ?	   $resource
-	 * @param  Array   $data
+	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
+	 * @param  Array  $data
 	 * @return instance
 	 */
-	public function send($resource, Array $data);
+	public function send(ResourceInterface $resource, Array $data);
 
 	/**
 	 * Parse sent returned data.
 	 *
-	 * @param  ?	   $resource
-	 * @param  Array   $data
+	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
+	 * @param  Array  $data
 	 * @return instance
 	 */
-	public function returned($resource, Array $data);
+	public function returned(ResourceInterface $resource, Array $data);
 }
 

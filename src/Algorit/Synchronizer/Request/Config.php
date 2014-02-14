@@ -88,6 +88,11 @@ class Config {
 		return $this;
 	}
 
+	public function getAlias($name)
+	{
+		return $this->aliases[$name];
+	}
+
 	/**
 	 * Get the entities.
 	 *

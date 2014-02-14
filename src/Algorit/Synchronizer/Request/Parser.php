@@ -12,6 +12,7 @@ use Algorit\Synchronizer\Request\Contracts\SystemParserInterface;
 class Parser {
 
 	use EntityTrait;
+	use ConfigTrait;
 	
 	/**
 	 * The filesystem instance
@@ -25,12 +26,17 @@ class Parser {
 	 *
 	 * @param  \Repositories\   $repository
 	 * @param  \Repositories\   $files
-	 * @return instance
+	 * @return 
 	 */
 	public function __construct(Filesystem $files, $namespace)
 	{
 		$this->files = $files;
 		$this->namespace = $namespace;
+	}
+
+	public function setFilesystem(Filesystem $files)
+	{
+		$this->files = $files;
 	}
 
 	public function getFilesystem()
@@ -47,11 +53,12 @@ class Parser {
 	 */
 	public function call($name, Array $alias)
 	{
-		$class = $this->namespace . '\\' . $this->getFromEntityName($name);
+		$class = $this->namespace . '\\Parsers\\' . $this->getFromEntityName($name);
 
 		Log::notice('Loading parser ' . $class);
 
-		$parser = App::make($class)->setAliases($aliases);
+		$parser = App::make($class);
+		$parser->setAliases($alias);
 
 		return $parser;
 	}

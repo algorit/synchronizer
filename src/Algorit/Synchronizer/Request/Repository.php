@@ -21,7 +21,7 @@ class Repository {
 	 */
 	public function call($entity)
 	{
-		$class = $this->namespace . '\\' . $this->getFromEntityName($entity);
+		$class = $this->namespace . '\\Repositories\\' . $this->getFromEntityName($entity);
 
 		Log::notice('Loading repository ' . $class);
 

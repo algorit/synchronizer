@@ -25,7 +25,7 @@ class Builder {
 	 *
 	 * @var object
 	 */
-	public $system;
+	public $request;
 
 	/**
 	 * The current resource
@@ -71,15 +71,15 @@ class Builder {
 	}
 
 	/**
-	 * Set the system (ERP)
+	 * Set the request
 	 *
 	 * @param  \Synchronizer\Contracts\SystemRequestInterface $system
 	 * @return void
 	 */
-	public function start(SystemInterface $system, $resource)
+	public function start(RequestInterface $request, $resource)
 	{
 		$this->resource = $resource;
-		$this->system   = $system;
+		$this->request  = $request;
 	}
 
 	/**
@@ -96,13 +96,13 @@ class Builder {
 		$sync = array(
 			'entity'  => $entity,
             'type'    => $type,
-            'class'   => get_class($this->system),
+            'class'   => get_class($this->request),
             'status'  => 'processing',
 		);
 
 		if($create instanceof Closure)
 		{
-			$sync = $create($this->system, $this->resource, $entity, $type);
+			$sync = $create($this->request, $this->resource, $entity, $type);
 		}
 
 		return $this->repository->setCurrentSync($this->repository->create($sync));
@@ -190,13 +190,13 @@ class Builder {
 		return $this->process(function() use ($entity, $lastSync)
 		{
 			// Receive from ERP
-			$data = $this->receive->fromErp($this->system, (string) $entity, $lastSync);
+			$data = $this->receive->fromErp($this->request, (string) $entity, $lastSync);
 				
 			// Touch current sync to set a new update_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to database
-			return $this->send->toDatabase($this->system, (string) $entity, $data);
+			return $this->send->toDatabase($this->request, (string) $entity, $data);
 		});
 	}
 
@@ -221,13 +221,13 @@ class Builder {
 		return $this->process(function() use ($entity, $lastSync)
 		{
 			// Receive from Database
-			$data = $this->receive->fromDatabase($this->system, (string) $entity, $lastSync);
+			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
 			
 			// Touch current sync to set a new update_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to ERP
-			return $this->send->toErp($this->system, (string) $entity, $data);
+			return $this->send->toErp($this->request, (string) $entity, $data);
 		});
 	}
 
@@ -252,13 +252,13 @@ class Builder {
 		return $this->process(function() use ($entity, $lastSync)
 		{
 			// Receive from Database
-			$data = $this->receive->fromDatabase($this->system, (string) $entity, $lastSync);
+			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
 
 			// Touch current sync to set a new update_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to Api
-			return $this->send->toApi($this->system, (string) $entity, $data);
+			return $this->send->toApi($this->request, (string) $entity, $data);
 		});
 	}
 
@@ -284,7 +284,7 @@ class Builder {
 		return $this->process(function() use ($entity, $lastSync)
 		{
 			// Send to database
-			return $this->send->toDatabase($this->system, $data, (string) $entity, $lastSync);
+			return $this->send->toDatabase($this->request, $data, (string) $entity, $lastSync);
 		});
 
 	}

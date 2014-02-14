@@ -1,6 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request\Contracts;
 
 use Algorit\Synchronizer\Request\Config;
+use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
 Interface RequestInterface {
 
@@ -8,7 +9,7 @@ Interface RequestInterface {
 
 	public function getConfig();
 
-	public function setResource($resource);
+	public function setResource(ResourceInterface $resource);
 
 	public function authenticate();
 

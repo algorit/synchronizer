@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
+use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
 class Loader {
 
@@ -17,7 +18,14 @@ class Loader {
 	protected $company;
 
 	/**
-	 * The ERP Request instance.
+	 * The Request instance.
+	 *
+	 * @var object
+	 */
+	protected $request;
+
+	/**
+	 * The System instance.
 	 *
 	 * @var object
 	 */
@@ -50,7 +58,7 @@ class Loader {
 	 * @param  mixed  					    $callback
 	 * @return instance
 	 */
-	public function loadSystem(SystemInterface $system, $callback = false)
+	public function loadSystem(SystemInterface $system)
 	{
 		$this->system = $system;
 
@@ -61,37 +69,6 @@ class Loader {
 
 		// Set configurations
 		$this->request->setConfig($this->config->setup($system));
-
-		if($callback instanceof Closure)
-		{
-			return $this->set($callback);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Set system and resource
-	 *
-	 * @param  callback
-	 * @return instance
-	 */
-	public function set($callback = false)
-	{	
-		$config = $this->request->getConfig();
-
-		Log::info('Setting resource...');
-
-		// Wat?
-		switch($config->resourceInstance)
-		{
-			case 'representative':
-				$this->loadForRepresentatives($callback);
-			break;
-			case 'company':
-				$this->loadForCompany($callback);
-			break;
-		}
 
 		return $this;
 	}
@@ -130,46 +107,17 @@ class Loader {
 	}
 
 	/**
-	 * Load representatives as resource
-	 *
-	 * @param  callback
-	 * @return void
-	 */
-	// private function loadForRepresentatives($callback = false)
-	// {
-	// 	foreach($this->company->representatives as $representative)
-	// 	{	
-	// 		Log::notice('Loading representative ' . $representative->name);
-
-	// 		$this->start($representative, $callback);
-	// 	}
-	// }
-
-	// /**
-	//  * Load company as resource
-	//  *
-	//  * @param  callback
-	//  * @return void
-	//  */
-	// private function loadForCompany($callback = false)
-	// {
-	// 	Log::notice('Loading company ' . $this->company->name);
-
-	// 	return $this->start($this->company, $callback);
-	// }
-
-	/**
 	 * Set the resource and start the builder.
 	 *
 	 * @param  callback
 	 * @return void
 	 */
-	public function start($resource, $callback = false)
+	public function start(ResourceInterface $resource, $callback = false)
 	{
 		// Set system resource
 		$this->request->setResource($resource);
 
-		// Start the builder
+		// Start the Builder
 		$this->builder->start($this->request, $resource);
 
 		if($callback instanceof Closure)

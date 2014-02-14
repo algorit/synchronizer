@@ -155,7 +155,7 @@ class Builder {
 		try
 		{	
 			// Do it!
-			$do = $try();
+			$do = $try($entity, $lastSync);
 
 			$this->repository->updateCurrentSync(array(
 				'status'   => 'success',
@@ -189,7 +189,7 @@ class Builder {
 	 */
 	public function fromErpToDatabase($entity, $lastSync = null)
 	{
-		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
 			// Receive from ERP
 			$data = $this->receive->fromErp($this->request, (string) $entity, $lastSync);
@@ -213,7 +213,7 @@ class Builder {
 	 */
 	public function fromDatabaseToErp($entity, $lastSync = null)
 	{	
-		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
@@ -237,7 +237,7 @@ class Builder {
 	 */
 	public function fromDatabaseToApi($entity, $lastSync = null)
 	{
-		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
@@ -262,7 +262,7 @@ class Builder {
 	 */
 	public function fromApiToDatabase(Array $data, $entity, $lastSync = null)
 	{
-		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
 			// Send to database
 			return $this->send->toDatabase($this->request, $data, (string) $entity, $lastSync);

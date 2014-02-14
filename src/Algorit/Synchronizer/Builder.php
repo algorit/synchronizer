@@ -113,18 +113,23 @@ class Builder {
 	 *
 	 * @param  string|bool  $lastSync
 	 * @param  string  		$entity
-	 * @param  string  		$type
+	 * @param  string  		$function
 	 * @return \Carbon\Carbon 
 	 */
-	private function getLastSync($lastSync, $entity, $type, $format = 'Y-m-d H:i:s')
+	private function getLastSync($lastSync, $entity, $function, $format = 'Y-m-d H:i:s')
 	{
+		if($lastSync instanceof Carbon)
+		{
+			return $lastSync;
+		}
+
 		// Use 'default' last sync to use the default date on system config.
 		if($lastSync === 'default' or $lastSync === 'all')
 		{
 			return false;
 		}
 
-		$lastSync = $this->repository->getLastSync($this->resource, $entity, $type);
+		$lastSync = $this->repository->getLastSync($this->resource, $entity, $function);
 
 		if($lastSync == false)
 		{
@@ -141,8 +146,12 @@ class Builder {
 	 * @param  bool 	$details
 	 * @return void
 	 */
-	private function process(Closure $try, $details = false)
+	private function process($entity, $lastSync, $function, Closure $try, $details = false)
 	{
+		$this->createCurrentSync($entity, $function);
+
+		$lastSync = $this->getLastSync($lastSync, $entity, $function);
+
 		try
 		{	
 			// Do it!
@@ -180,14 +189,7 @@ class Builder {
 	 */
 	public function fromErpToDatabase($entity, $lastSync = null)
 	{
-		$this->createCurrentSync($entity, __FUNCTION__);
-
-		if( ! $lastSync instanceof Carbon)
-		{
-			$lastSync = $this->getLastSync($lastSync, $entity, __FUNCTION__);
-		}
-
-		return $this->process(function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
 		{
 			// Receive from ERP
 			$data = $this->receive->fromErp($this->request, (string) $entity, $lastSync);
@@ -211,14 +213,7 @@ class Builder {
 	 */
 	public function fromDatabaseToErp($entity, $lastSync = null)
 	{	
-		$this->createCurrentSync($entity, __FUNCTION__);
-
-		if( ! $lastSync instanceof Carbon)
-		{
-			$lastSync = $this->getLastSync($lastSync, $entity, __FUNCTION__);
-		}
-
-		return $this->process(function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
 		{
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
@@ -242,14 +237,7 @@ class Builder {
 	 */
 	public function fromDatabaseToApi($entity, $lastSync = null)
 	{
-		$this->createCurrentSync($entity, __FUNCTION__);
-
-		if( ! $lastSync instanceof Carbon)
-		{
-			$lastSync = $this->getLastSync($lastSync, $entity, __FUNCTION__);
-		}
-
-		return $this->process(function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
 		{
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
@@ -274,14 +262,7 @@ class Builder {
 	 */
 	public function fromApiToDatabase(Array $data, $entity, $lastSync = null)
 	{
-		$this->createCurrentSync($entity, __FUNCTION__);
-
-		if( ! $lastSync instanceof Carbon)
-		{
-			$lastSync = $this->getLastSync($lastSync, $entity, __FUNCTION__);
-		}
-
-		return $this->process(function() use ($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function() use ($entity, $lastSync)
 		{
 			// Send to database
 			return $this->send->toDatabase($this->request, $data, (string) $entity, $lastSync);

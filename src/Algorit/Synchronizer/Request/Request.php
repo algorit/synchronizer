@@ -48,11 +48,7 @@ abstract class Request implements RequestInterface {
 	 *
 	 * @var array
 	 */
-	protected $headers = array(
-		'Accept' 			=>  '*/*',
-		// 'Content-Length' 	=> 69,
-		'Content-Type' 		=> 'application/x-www-form-urlencoded'
-	);
+	protected $headers;
 
 	/**
 	 * The current entity.

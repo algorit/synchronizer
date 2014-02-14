@@ -25,6 +25,9 @@
         "mockery/mockery": "dev-master",
         "orchestra/testbench": "2.1.*"
     },
+    "replace": {
+        "phpseclib/phpseclib": "0.3.*"
+    },
     "autoload": {
         "classmap": [
             "src/migrations",

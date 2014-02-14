@@ -1,4 +1,4 @@
-<?php namespace Synchronizer\Facades;
+<?php namespace Algorit\Synchronizer\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

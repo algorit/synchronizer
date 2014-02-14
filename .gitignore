@@ -2,3 +2,5 @@
 composer.phar
 composer.lock
 .DS_Store
+src/Algorit/Synchronizer/Commands
+src/Algorit/Synchronizer/Request/Systems

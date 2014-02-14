@@ -29,6 +29,8 @@ class SynchronizerTest extends TestCase {
 
 		Config::set('database.default', 'sqlite');
 
-		Artisan::call('migrate', array('--package' => 'Algorit/Synchronizer'));
+		$this->app->make('artisan')->call('migrate:refresh');
+
+		// Artisan::call('migrate', array('--package' => 'Algorit/Synchronizer'));
 	}
 }

@@ -31,7 +31,9 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register()
-	{
+	{	
+		// $command = $this->app->make('Algorit\Synchronizer\Commands\SynchronizerCommand');
+		// $this->app->make('artisan')->add($command);
 		// Using Requests as RequestMethod (https://github.com/rmccue/Requests)
 		// $this->app->bind('Algorit\Synchronizer\Methods\MethodInterface', 'Algorit\Synchronizer\Methods\Requests');
 		// $this->app->bind('Algorit\Synchronizer\Storage\SyncInterface', 'Algorit\Synchronizer\Storage\SyncEloquentRepository');

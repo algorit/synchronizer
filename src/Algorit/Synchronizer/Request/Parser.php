@@ -4,25 +4,19 @@ use App, Str, Log;
 use Event, Closure;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Config;
+use Algorit\Synchronizer\Traits\EntityTrait;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Request\Exceptions\ParserException;
 use Algorit\Synchronizer\Request\Contracts\SystemParserInterface;
 
 class Parser {
 
-	use ConfigTrait;
-
-	/**
-	 * The repository instance
-	 *
-	 * @var \Services\Sync\Erps\
-	 */
-	protected $repository;
-
+	use EntityTrait;
+	
 	/**
 	 * The filesystem instance
 	 *
-	 * @var \Services\Sync\Erps\Filesystem
+	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $files;
 
@@ -35,8 +29,8 @@ class Parser {
 	 */
 	public function __construct(Filesystem $files, $namespace)
 	{
-		$this->namespace = $namespace;
 		$this->files = $files;
+		$this->namespace = $namespace;
 	}
 
 	/**
@@ -46,35 +40,15 @@ class Parser {
 	 * @param  \Closure 				  $callback
 	 * @return instance
 	 */
-	public function call($name)
+	public function call($name, Array $alias)
 	{
 		$class = $this->namespace . '\\' . $this->getFromEntityName($name);
 
 		Log::notice('Loading parser ' . $class);
 
-		$parser = App::make($class);
-
-		$aliases = array_get($this->config->aliases, $name);
-
-		$parser->setAliases($aliases);
+		$parser = App::make($class)->setAliases($aliases);
 
 		return $parser;
-	}
-
-	/**
-	 * Get the repository name from the plural entity name.
-	 *
-	 * @param  $entityName
-	 * @return string
-	 */
-	private function getFromEntityName($name)
-	{
-		if( ! is_string($name))
-		{
-			throw new ParserException('Wrong name format');
-		}
-		
-		return ucfirst(strtolower(Str::singular($name)));
 	}
 
 }

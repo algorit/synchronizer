@@ -68,9 +68,21 @@ class Loader {
 		$this->request = $system->loadRequest();
 
 		// Set configurations
-		$this->request->setConfig($this->config->setup($system));
+		$this->setupConfig($this->config->setup($system));
 
 		return $this;
+	}
+
+	/**
+	 * Setup config.
+	 *
+	 * @param  void
+	 * @return Builder
+	 */
+	private function setupConfig(Config $config)
+	{
+		$this->request->setConfig($config);
+		// $this->request->getParser()->setConfig($config);
 	}
 
 	/**

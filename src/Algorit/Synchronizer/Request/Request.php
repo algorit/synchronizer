@@ -18,28 +18,21 @@ abstract class Request implements RequestInterface {
 	/**
 	 * The method instance.
 	 *
-	 * @var \Synchronizer\Methods\RequestMethodInterface
+	 * @var \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
 	protected $method;
 
 	/**
 	 * The parser instance.
 	 *
-	 * @var \Synchronizer\Systems\Jjw\Parser
+	 * @var \Algorit\Synchronizer\Request\Parser
 	 */
 	protected $parser;
 
 	/**
-	 * The filesystem
-	 *
-	 * @var \Synchronizer\Systems\Filesystem
-	 */
-	protected $files;
-
-	/**
 	 * The repository instance.
 	 *
-	 * @var object
+	 * @var \Algorit\Synchronizer\Request\Repository
 	 */
 	protected $repository;
 
@@ -83,13 +76,6 @@ abstract class Request implements RequestInterface {
 	protected $type;
 
 	/**
-	 * Setup the company config.
-	 *
-	 * @param  $path
-	 * @return void
-	 */
-
-	/**
 	 * Create a new instance.
 	 *
 	 * @param  \Synchronizer\Contracts\RequestMethodInterface  $method
@@ -105,14 +91,14 @@ abstract class Request implements RequestInterface {
 		$this->repository = $repository;
 	}
 
-	public function setConfig(Config $config)
+	public function getParser()
 	{
-		// Setup Configuration.	
-		$this->parser->setConfig($config);
+		return $this->parser;
+	}
 
-		$this->config = $config;
-
-		return $this;
+	public function getRepository()
+	{
+		return $this->repository;
 	}
 
 	public abstract function authenticate();
@@ -228,7 +214,7 @@ abstract class Request implements RequestInterface {
 	 *
 	 * @param  string  $requestMethod,
 	 * @param  string  $url
-	 * @return \Synchronizer\Methods\MethodInterface
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
 	protected function executeReceiveRequest($requestMethod, $url, $options = array())
 	{

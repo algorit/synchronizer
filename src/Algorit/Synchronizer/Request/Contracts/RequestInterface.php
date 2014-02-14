@@ -9,6 +9,10 @@ Interface RequestInterface {
 
 	public function getConfig();
 
+	public function getParser();
+
+	public function getRepository();
+
 	public function setResource(ResourceInterface $resource);
 
 	public function authenticate();

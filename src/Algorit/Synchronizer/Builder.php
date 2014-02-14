@@ -5,10 +5,10 @@ use Config;
 use Closure;
 use Exception;
 use Carbon\Carbon;
-
 use Algorit\Synchronizer\Storage\SyncInterface;
-use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
+use Algorit\Synchronizer\Request\Contracts\RequestInterface;
+use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
 /**
  * Sync builder.
@@ -21,7 +21,7 @@ use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 class Builder {
 
 	/**
-	 * The ERP System instance.
+	 * The system request instance.
 	 *
 	 * @var object
 	 */
@@ -76,7 +76,7 @@ class Builder {
 	 * @param  \Synchronizer\Contracts\SystemRequestInterface $system
 	 * @return void
 	 */
-	public function start(RequestInterface $request, $resource)
+	public function start(RequestInterface $request, ResourceInterface $resource)
 	{
 		$this->resource = $resource;
 		$this->request  = $request;

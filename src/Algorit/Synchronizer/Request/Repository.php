@@ -1,10 +1,12 @@
 <?php namespace Algorit\Synchronizer\Request;
 
 use App, Str, Log;
-use Synchronizer\Exceptions\RepositoryException;
+use Algorit\Synchronizer\Traits\EntityTrait;
 
 class Repository {
 
+	use EntityTrait;
+	
 	public function __construct($namespace)
 	{
 		$this->namespace = $namespace;
@@ -24,22 +26,6 @@ class Repository {
 		Log::notice('Loading repository ' . $class);
 
 		return App::make($class);
-	}
-
-	/**
-	 * Get the repository name from the plural entity name.
-	 *
-	 * @param  $name
-	 * @return string
-	 */
-	private function getFromEntityName($name)
-	{
-		if( ! is_string($name))
-		{
-			throw new RepositoryException('Wrong name format');
-		}
-
-		return ucfirst(strtolower(Str::singular($name)));
 	}
 
 }

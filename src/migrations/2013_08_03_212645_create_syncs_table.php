@@ -12,6 +12,7 @@ class CreateSyncsTable extends Migration
 	 */
 	public function up()
 	{
+		echo 'Migrating!';
 		Schema::create('syncs', function($table)
 		{
 

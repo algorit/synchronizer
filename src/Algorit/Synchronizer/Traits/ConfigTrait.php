@@ -4,6 +4,8 @@ use Algorit\Synchronizer\Request\Config;
 
 trait ConfigTrait {
 
+	protected $config;
+
 	public function setConfig(Config $config)
 	{
 		$this->config = $config;

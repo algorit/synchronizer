@@ -16,13 +16,6 @@ abstract class Request implements RequestInterface {
 	use ResourceTrait;
 
 	/**
-	 * The config array.
-	 *
-	 * @var \Synchronizer\Systems\Config
-	 */
-	protected $config;
-
-	/**
 	 * The method instance.
 	 *
 	 * @var \Synchronizer\Methods\RequestMethodInterface
@@ -67,8 +60,6 @@ abstract class Request implements RequestInterface {
 		// 'Content-Length' 	=> 69,
 		'Content-Type' 		=> 'application/x-www-form-urlencoded'
 	);
-
-	protected $resource;
 
 	/**
 	 * The current entity.

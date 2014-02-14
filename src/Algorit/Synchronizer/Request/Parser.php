@@ -27,13 +27,6 @@ class Parser {
 	protected $files;
 
 	/**
-	 * The config instance
-	 *
-	 * @var \Services\Sync\Config
-	 */
-	protected $config;
-
-	/**
 	 * Create a new instance.
 	 *
 	 * @param  \Repositories\   $repository

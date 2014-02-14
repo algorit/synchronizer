@@ -28,13 +28,6 @@ abstract class System implements SystemInterface {
 	public $namespace;
 
 	/**
-	 * The system resource (Company, device, representative...)
-	 *
-	 * @var object
-	 */
-	public $resource;
-
-	/**
 	 * The resource config path
 	 *
 	 * @var string
@@ -58,7 +51,7 @@ abstract class System implements SystemInterface {
 	 * @param  void
 	 * @return \Algorit\Synchronizer\Request\Contracts\SystemInterface
 	 */
-	private function setup()
+	protected function setup()
 	{
 		$reflector = new ReflectionClass(get_class($this));
 

@@ -29,9 +29,9 @@ class RequestBuilderTest extends SynchronizerTest {
 
 	public function testStart()
 	{
-		$system = Mockery::mock('Algorit\Synchronizer\Request\Contracts\SystemInterface');
+		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 
-		$this->builder->start($system, 'company');
+		$this->builder->start($request, 'company');
 	}
 
 	/**

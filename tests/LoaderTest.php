@@ -11,11 +11,19 @@ class RequestLoaderTest extends SynchronizerTest {
 		parent::setUp();
 
 		$builder = Mockery::mock('Algorit\Synchronizer\Builder');
+		$builder->shouldReceive('start');
 
 		$config  = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('setup')->andReturn($config);
 
 		$this->loader = new Loader($builder, $config);
+
+		$this->request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$this->request->shouldReceive('setConfig')->andReturn(array());
+		$this->request->shouldReceive('setResource')->andReturn(array());
+
+		$this->system = Mockery::mock('Algorit\Synchronizer\Tests\Stubs\ExampleSystem');
+		$this->system->shouldReceive('loadRequest')->andReturn($this->request);
 	}
 
 	/**
@@ -42,22 +50,12 @@ class RequestLoaderTest extends SynchronizerTest {
 
 	public function testLoadSystemInstance()
 	{
-		$request = Mockery::mock('Algorit\Synchronizer\Tests\Stubs\Request');
-		$request->shouldReceive('setConfig')->andReturn(array());
+		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$system = Mockery::mock('Algorit\Synchronizer\Tests\Stubs\ExampleSystem');
-		$system->shouldReceive('loadRequest')->andReturn($request);
-
-		$this->loader->loadSystem($system);
+		$this->loader->loadSystem($this->system)->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());
-	}
-
-	public function testLoaderMock()
-	{
-		// $loader = Mockery::mock('Algorit\Synchronizer\Loader');
-		// $loader->shouldReceive('loadSystem')->andReturn($loader);
 	}
 
 }

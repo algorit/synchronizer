@@ -88,7 +88,12 @@ abstract class System implements SystemInterface {
 	 */
 	public function setRequest($name = 'Request')
 	{
-		$this->request = $this->namespace . '\\' . $name;
+		if(strpos($name, '\\') === false)
+		{
+			$name = $this->namespace . '\\' . $name;
+		}
+
+		$this->request = $name;
 
 		return $this;
 	}

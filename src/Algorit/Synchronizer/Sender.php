@@ -47,7 +47,6 @@ class Sender {
 	public function toApi(Array $data, $parse = false)
 	{
 		// Since it's an API we will just return it.
-
 		if($parse instanceof Closure)
 		{
 			return $parse($data);

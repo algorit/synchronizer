@@ -94,16 +94,18 @@ class Builder {
 	{	
 		$create = Config::get('synchronizer::repository.create');
 
-		$sync = array(
-			'entity'  => $entity,
-			'type'    => $type,
-			'class'   => get_class($this->request),
-			'status'  => 'processing',
-		);
-
 		if($create instanceof Closure)
 		{
 			$sync = $create($this->request, $this->resource, $entity, $type);
+		}
+		else
+		{
+			$sync = array(
+				'entity'  => $entity,
+				'type'    => $type,
+				'class'   => get_class($this->request),
+				'status'  => 'processing',
+			);
 		}
 
 		return $this->repository->setCurrentSync($this->repository->create($sync));

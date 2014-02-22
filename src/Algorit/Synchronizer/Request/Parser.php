@@ -28,10 +28,17 @@ class Parser {
 	 * @param  \Repositories\   $files
 	 * @return 
 	 */
-	public function __construct(Filesystem $files, $namespace)
+	public function __construct(Filesystem $files)
 	{
 		$this->files = $files;
 		$this->namespace = $namespace;
+	}
+
+	public function setNamespace($namespace)
+	{
+		$this->namespace = $namespace;
+
+		return $this;
 	}
 
 	public function setFilesystem(Filesystem $files)

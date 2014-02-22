@@ -1,7 +1,6 @@
 <?php namespace Algorit\Synchronizer;
 
 use Log;
-use Config;
 use Closure;
 use Exception;
 use Carbon\Carbon;

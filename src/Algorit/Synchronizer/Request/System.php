@@ -134,12 +134,17 @@ abstract class System implements SystemInterface {
 			$this->setRequest();
 		}
 
+		// Bind the filesystem to container
+		// $container->bind('Illuminate\Filesystem\Filesystem', $this->filesystem);
+		// $container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', 'Algorit\Synchronizer\Request\Methods\Requests');
+
+		// return $container->make($this->request);
 		// return $container->make($this->request);
 		// How to test?
 		return new $this->request(
 			new RequestMethod,
-			new Repository($this->namespace),
-			new Parser($this->filesystem, $this->namespace)
+			(new Repository)->setNamespace($this->namespace),
+			(new Parser($this->filesystem))->setNamespace($this->namespace)
 		);
 	}
 

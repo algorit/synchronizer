@@ -14,7 +14,6 @@ class SyncStubTest extends SynchronizerTest {
 
 	public function testInstance()
 	{
-
 		$this->assertInstanceOf('Algorit\Synchronizer\Builder', $this->loader->getBuilder());
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());

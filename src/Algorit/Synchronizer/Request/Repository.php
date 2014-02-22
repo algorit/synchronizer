@@ -7,9 +7,16 @@ class Repository {
 
 	use EntityTrait;
 	
-	public function __construct($namespace)
+	// public function __construct($namespace)
+	// {
+	// 	$this->namespace = $namespace;
+	// }
+
+	public function setNamespace($namespace)
 	{
 		$this->namespace = $namespace;
+
+		return $this;
 	}
 
 	/**

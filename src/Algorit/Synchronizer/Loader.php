@@ -1,9 +1,6 @@
 <?php namespace Algorit\Synchronizer;
 
-use App;
-use Log;
-use Closure;
-use Exception;
+use Log, Closure, Exception;
 use Algorit\Synchronizer\Request\Config;
 use Illuminate\Database\Eloquent\Collection;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
@@ -76,22 +73,10 @@ class Loader {
 		// Load system
 		$this->request = $this->system->loadRequest($this->container);
 
-		// Set configurations
+		// Set config
 		$this->request->setConfig($this->config->setup($system));
 
-		$resource = $this->system->getResource();
-
-		if($resource instanceof Collection)
-		{
-			return $this->startCollection($resource, $callback);
-		}
-
-		if($resource instanceof ResourceInterface)
-		{
-			return $this->start($resource, $callback);
-		}
-
-		return $this;
+		return $this->select($this->system->getResource());
 	}
 
 	/**
@@ -125,6 +110,32 @@ class Loader {
 	public function getRequest()
 	{
 		return $this->request;
+	}
+
+	/**
+	 * See if the variable is a collection or a resource.
+	 *
+	 * @param  object
+	 * @return mixed
+	 */
+	private function select($resource)
+	{
+		if($resource == false)
+		{
+			throw new Exception('Resource is not defined.');
+		}
+
+		if($resource instanceof Collection)
+		{
+			return $this->startCollection($resource, $callback);
+		}
+
+		if($resource instanceof ResourceInterface)
+		{
+			return $this->start($resource, $callback);
+		}
+
+		return $this;
 	}
 
 	/**

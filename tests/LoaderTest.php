@@ -2,6 +2,7 @@
 
 use Mockery;
 use Algorit\Synchronizer\Loader;
+use Algorit\Synchronizer\Container;
 use Algorit\Synchronizer\Tests\Stubs\ExampleSystem;
 use Algorit\Synchronizer\Tests\Stubs\ResourceExample;
 
@@ -17,7 +18,7 @@ class LoaderTest extends SynchronizerTest {
 		$config  = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('setup')->andReturn($config);
 
-		$this->loader = new Loader($builder, $config);
+		$this->loader = new Loader(new Container, $builder, $config);
 
 		$this->request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 		$this->request->shouldReceive('setConfig')->andReturn(array());

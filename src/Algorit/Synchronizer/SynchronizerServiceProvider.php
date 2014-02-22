@@ -47,7 +47,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 
-			return new Loader($builder, new Config($app['files']));
+			return new Loader(new Container, $builder, new Config($app['files']));
 		});
 	}
 

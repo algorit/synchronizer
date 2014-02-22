@@ -35,9 +35,16 @@ class Loader {
 	/**
 	 * The Builder instance.
 	 *
-	 * @var object
+	 * @var \Algorit\Synchronizer\Builder
 	 */
 	protected $builder;
+
+	/**
+	 * The Container instance.
+	 *
+	 * @var \Algorit\Synchronizer\Container
+	 */
+	protected $container;
 
 	/**
 	 * Create a new Loader.
@@ -46,10 +53,11 @@ class Loader {
 	 * @param  Config  $config
 	 * @return instance
 	 */
-	public function __construct(Builder $builder, Config $config)
+	public function __construct(Container $container, Builder $builder, Config $config)
 	{
-		$this->builder = $builder;
-		$this->config  = $config;
+		$this->config    = $config;
+		$this->builder   = $builder;
+		$this->container = $container;
 	}
 
 	/**
@@ -66,7 +74,7 @@ class Loader {
 		Log::info('Loading "' . $system->name . '" request system...');
 
 		// Load system
-		$this->request = $this->system->loadRequest();
+		$this->request = $this->system->loadRequest($this->container);
 
 		// Set configurations
 		$this->request->setConfig($this->config->setup($system));
@@ -131,6 +139,8 @@ class Loader {
 		{
 			$this->start($resource, $callback);
 		}
+
+		return $this;
 	}
 
 	/**

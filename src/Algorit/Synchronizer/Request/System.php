@@ -2,6 +2,7 @@
 
 // Set configuration place
 use ReflectionClass;
+use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
@@ -121,7 +122,7 @@ abstract class System implements SystemInterface {
 	 * @param  void
 	 * @return \Algorit\Synchronizer\Request\Contracts\RequestInterface
 	 */
-	public function loadRequest()
+	public function loadRequest(Container $container)
 	{
 		if( ! $this->filesystem)
 		{
@@ -133,6 +134,7 @@ abstract class System implements SystemInterface {
 			$this->setRequest();
 		}
 
+		// return $container->make($this->request);
 		// How to test?
 		return new $this->request(
 			new RequestMethod,

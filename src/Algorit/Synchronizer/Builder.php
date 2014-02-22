@@ -265,7 +265,7 @@ class Builder {
 	 */
 	public function fromApiToDatabase(Array $data, $entity, $lastSync = null)
 	{
-		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
+		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync) use ($data)
 		{
 			// Send to database
 			return $this->send->toDatabase($this->request, $data, (string) $entity, $lastSync);

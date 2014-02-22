@@ -31,7 +31,7 @@ class Parser {
 	public function __construct(Filesystem $files)
 	{
 		$this->files = $files;
-		$this->namespace = $namespace;
+		// $this->namespace = $namespace;
 	}
 
 	public function setNamespace($namespace)

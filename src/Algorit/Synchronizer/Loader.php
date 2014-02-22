@@ -76,7 +76,7 @@ class Loader {
 		// Set config
 		$this->request->setConfig($this->config->setup($system));
 
-		return $this->select($this->system->getResource());
+		return $this->select($this->system->getResource(), $callback);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Loader {
 	 * @param  object
 	 * @return mixed
 	 */
-	private function select($resource)
+	private function select($resource, $callback)
 	{
 		if($resource == false)
 		{

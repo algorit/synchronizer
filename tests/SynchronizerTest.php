@@ -1,36 +1,13 @@
 <?php namespace Algorit\Synchronizer\Tests;
 
-use Config, Artisan;
-use Orchestra\Testbench\TestCase;
+use PHPUnit_Framework_TestCase;
 
-class SynchronizerTest extends TestCase {
-
-	protected function getPackageProviders()
-	{
-		return ['Algorit\Synchronizer\SynchronizerServiceProvider'];
-	}
+class SynchronizerTest extends PHPUnit_Framework_TestCase {
 
 	public function setUp()
 	{
+		date_default_timezone_set('America/Sao_Paulo');
+
 		parent::setUp();
-
-		$this->synchronizer = $this->app['synchronizer'];
-	}
-
-	protected function prepare()
-	{
-		Config::set('database.connections', array(
-			'sqlite' => array(
-	            'driver'   => 'sqlite',
-	            'database' => ':memory:',
-	            'prefix'   => ''
-	        )
-        ));
-
-		Config::set('database.default', 'sqlite');
-
-		$this->app->make('artisan')->call('migrate:refresh');
-
-		// Artisan::call('migrate', array('--package' => 'Algorit/Synchronizer'));
 	}
 }

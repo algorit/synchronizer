@@ -58,25 +58,49 @@ class Loader {
 	}
 
 	/**
-	 * Load the ERP Request.
+	 * Set the logger instance
 	 *
-	 * @param  Application\Entities\Company $company
-	 * @param  mixed  					    $callback
-	 * @return instance
+	 * @param  $logger
+	 * @return void
 	 */
-	public function loadSystem(SystemInterface $system, $callback = false)
+	public function setLogger($logger)
+	{
+		$this->logger = $logger;
+	}
+
+	/**
+	 * Get the logger instance
+	 *
+	 * @param  void
+	 * @return logger
+	 */
+	public function getLogger()
+	{
+		return $this->logger;
+	}
+
+	/**
+	 * Set the System instance
+	 *
+	 * @param  \Algorit\Synchronizer\Request\Contracts\SystemInterface $system
+	 * @return  System
+	 */
+	public function setSystem(SystemInterface $system)
 	{
 		$this->system = $system;
 
-		Log::info('Loading "' . $system->name . '" request system...');
+		return $this;
+	}
 
-		// Load system
-		$this->request = $this->system->loadRequest($this->container);
-
-		// Set config
-		$this->request->setConfig($this->config->setup($system));
-
-		return $this->select($this->system->getResource(), $callback);
+	/**
+	 * Get the System instance
+	 *
+	 * @param  void
+	 * @return System
+	 */
+	public function getSystem()
+	{
+		return $this->system;
 	}
 
 	/**
@@ -96,24 +120,35 @@ class Loader {
 	 * @param  void
 	 * @return System
 	 */
-	public function getSystem()
-	{
-		return $this->system;
-	}
-
-	/**
-	 * Get the System instance
-	 *
-	 * @param  void
-	 * @return System
-	 */
 	public function getRequest()
 	{
 		return $this->request;
 	}
 
 	/**
-	 * See if the variable is a collection or a resource.
+	 * Load the ERP Request.
+	 *
+	 * @param  \Algorit\Synchronizer\Request\Contracts\SystemInterface $system
+	 * @param  mixed  $callback
+	 * @return instance
+	 */
+	public function loadSystem(SystemInterface $system, $callback = false)
+	{
+		$this->setSystem($system);
+
+		// Log::info('Loading "' . $system->name . '" request system...');
+
+		// Load system
+		$this->request = $this->system->loadRequest($this->container);
+
+		// Set config
+		$this->request->setConfig($this->config->setup($system));
+
+		return $this->select($system->getResource(), $callback);
+	}
+
+	/**
+	 * Test if the variable is a collection or a resource.
 	 *
 	 * @param  object
 	 * @return mixed

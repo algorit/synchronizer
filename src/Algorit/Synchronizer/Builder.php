@@ -187,9 +187,10 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			// Log::error($message); $this->getLogger()
+			// Log::error($message);
+			// $this->logger->error($message);
 
-			echo $message;
+			echo $message; // fuck.
 		}
 	}
 
@@ -280,7 +281,7 @@ class Builder {
 		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync) use ($data)
 		{
 			// Send to database
-			return $this->send->toDatabase($this->request, $data, (string) $entity, $lastSync);
+			return $this->send->toDatabase($this->request, (string) $entity, $data);
 		});
 
 	}

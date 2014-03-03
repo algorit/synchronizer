@@ -66,4 +66,11 @@ class RequestBuilderTest extends SynchronizerTest {
 		$this->assertTrue($try);
 	}
 
+	public function testToApiToDatabase()
+	{
+		$try = $this->builder->fromApiToDatabase(array(), 'company');
+
+		$this->assertTrue($try);
+	}
+
 }

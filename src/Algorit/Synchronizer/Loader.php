@@ -138,6 +138,7 @@ class Loader {
 		$this->setSystem($system);
 
 		// Log::info('Loading "' . $system->name . '" request system...');
+		// $this->logger->info('Loading "' . $system->name . '" request system...');
 
 		// Load system
 		$this->request = $this->system->loadRequest($this->container);

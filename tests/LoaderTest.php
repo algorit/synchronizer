@@ -3,8 +3,8 @@
 use Mockery;
 use Algorit\Synchronizer\Loader;
 use Algorit\Synchronizer\Container;
-use Algorit\Synchronizer\Tests\Stubs\ExampleSystem;
-use Algorit\Synchronizer\Tests\Stubs\ResourceExample;
+use Algorit\Synchronizer\Tests\Stubs\ExampleSystem as SystemStub;
+use Algorit\Synchronizer\Tests\Stubs\ResourceExample as ResourceStub;
 
 class LoaderTest extends SynchronizerTest {
 
@@ -24,7 +24,7 @@ class LoaderTest extends SynchronizerTest {
 		$this->request->shouldReceive('setConfig')->andReturn(array());
 		$this->request->shouldReceive('setResource')->andReturn(array());
 
-		$this->system = new ExampleSystem(new ResourceExample);
+		$this->system = new SystemStub(new ResourceStub);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class LoaderTest extends SynchronizerTest {
 		$this->assertInstanceOf('Algorit\Synchronizer\Builder', $this->loader->getBuilder());
 	}
 
-	public function testLoadSystemInstance()
+	public function testSystemInstance()
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
@@ -57,7 +57,26 @@ class LoaderTest extends SynchronizerTest {
 					 ->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
+	}
+
+	public function testRequestInstance()
+	{
+		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
+
+		$this->loader->loadSystem($this->system)
+					 ->start($resource);
+
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());
+	}
+
+	/**
+	 * @expectedException Exception
+	 */
+	public function testLoadSystemThrowsExceptionWhenResourceIsFalse()
+	{
+		$system = new SystemStub(false);
+
+		$this->loader->loadSystem($system);
 	}
 
 }

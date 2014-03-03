@@ -2,9 +2,10 @@
 
 use Mockery;
 use Algorit\Synchronizer\Loader;
+use Illuminate\Support\Collection;
 use Algorit\Synchronizer\Container;
-use Algorit\Synchronizer\Tests\Stubs\ExampleSystem as SystemStub;
-use Algorit\Synchronizer\Tests\Stubs\ResourceExample as ResourceStub;
+use Algorit\Synchronizer\Tests\Stubs\System as SystemStub;
+use Algorit\Synchronizer\Tests\Stubs\Resource as ResourceStub;
 
 class LoaderTest extends SynchronizerTest {
 
@@ -15,7 +16,7 @@ class LoaderTest extends SynchronizerTest {
 		$builder = Mockery::mock('Algorit\Synchronizer\Builder');
 		$builder->shouldReceive('start');
 
-		$config  = Mockery::mock('Algorit\Synchronizer\Request\Config');
+		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('setup')->andReturn($config);
 
 		$this->loader = new Loader(new Container, $builder, $config);
@@ -23,27 +24,13 @@ class LoaderTest extends SynchronizerTest {
 		$this->request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 		$this->request->shouldReceive('setConfig')->andReturn(array());
 		$this->request->shouldReceive('setResource')->andReturn(array());
-
-		$this->system = new SystemStub(new ResourceStub);
 	}
 
-	/**
-	 * Test if Laravel is correctly instantianting the class.
-	 *
-	 * @param  null
-	 * @return assert
-	 */
 	public function testInstance()
 	{
 		$this->assertInstanceOf('Algorit\Synchronizer\Loader', $this->loader);
 	}
 
-	/**
-	 * Test if Laravel is injecting the class dependencies
-	 *
-	 * @param  null
-	 * @return assert
-	 */
 	public function testBuilderInstance()
 	{
 		$this->assertInstanceOf('Algorit\Synchronizer\Builder', $this->loader->getBuilder());
@@ -53,7 +40,7 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->loadSystem($this->system)
+		$this->loader->loadSystem(new SystemStub(new ResourceStub))
 					 ->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
@@ -63,20 +50,25 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->loadSystem($this->system)
+		$this->loader->loadSystem(new SystemStub(new ResourceStub))
 					 ->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());
 	}
 
+	public function testCollectionAsResource()
+	{
+		$this->loader->loadSystem(new SystemStub(new Collection));
+
+		$this->assertInstanceOf('Illuminate\Support\Collection', $this->loader->getSystem()->getResource());
+	}
+
 	/**
 	 * @expectedException Exception
 	 */
-	public function testLoadSystemThrowsExceptionWhenResourceIsFalse()
+	public function testExceptionWithFalseResource()
 	{
-		$system = new SystemStub(false);
-
-		$this->loader->loadSystem($system);
+		$this->loader->loadSystem(new SystemStub(false));
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer;
 
-use Log;
+// use Log;
 use Closure;
 use Exception;
 use Carbon\Carbon;
@@ -82,6 +82,16 @@ class Builder {
 		$this->resource = $resource;
 	}
 
+	public function getRequest()
+	{
+		return $this->request;
+	}
+
+	public function getResource()
+	{
+		return $this->resource;
+	}
+
 	/**
 	 * Create a current sync repository instance. 
 	 *
@@ -91,7 +101,8 @@ class Builder {
 	 */
 	private function createCurrentSync($entity, $type)
 	{	
-		$create = Config::get('synchronizer::repository.create');
+		// $create = Config::get('synchronizer::repository.create');
+		$create = false; // Get config class later.
 
 		if($create instanceof Closure)
 		{
@@ -150,12 +161,12 @@ class Builder {
 	 */
 	private function process($entity, $lastSync, $function, Closure $try, $details = false)
 	{
-		$this->createCurrentSync($entity, $function);
-
-		$lastSync = $this->getLastSync($lastSync, $entity, $function);
-
 		try
 		{	
+			$this->createCurrentSync($entity, $function);
+
+			$lastSync = $this->getLastSync($lastSync, $entity, $function);
+
 			// Do it!
 			$do = $try($entity, $lastSync);
 
@@ -176,7 +187,9 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			Log::error($message);
+			// Log::error($message); $this->getLogger()
+
+			echo $message;
 		}
 	}
 
@@ -248,7 +261,7 @@ class Builder {
 			$this->repository->touchCurrentSync();
 
 			// Send to Api
-			return $this->send->toApi($this->request, (string) $entity, $data);
+			return $this->send->toApi($data);
 		});
 	}
 

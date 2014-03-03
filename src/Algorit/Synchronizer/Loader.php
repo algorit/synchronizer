@@ -1,8 +1,9 @@
 <?php namespace Algorit\Synchronizer;
 
-use Log, Closure, Exception;
+use Closure;
+use Exception;
+use Illuminate\Support\Collection;
 use Algorit\Synchronizer\Request\Config;
-use Illuminate\Database\Eloquent\Collection;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
@@ -174,7 +175,7 @@ class Loader {
 	}
 
 	/**
-	 * Start the loader usign a Collection as resource.
+	 * Start the loader given a Collection as resource.
 	 *
 	 * @param  callback
 	 * @return void

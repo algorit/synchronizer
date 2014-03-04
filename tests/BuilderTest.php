@@ -5,72 +5,175 @@ use StdClass;
 use Carbon\Carbon;
 use Algorit\Synchronizer\Builder;
 
-class RequestBuilderTest extends SynchronizerTest {
+class BuilderTest extends SynchronizerTest {
 
 	public function setUp()
 	{
 		parent::setUp();
 
+		$this->request  = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$this->resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
+	}
+
+	private function getMockedRepository()
+	{
 		$lastSync = new StdClass;
 		$lastSync->created_at = Carbon::now();
 
 		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
-		$repository->shouldReceive('create')->andReturn($repository);
-		$repository->shouldReceive('getLastSync')->andReturn($lastSync);
-		$repository->shouldReceive('touchCurrentSync')->andReturn(true);
-		$repository->shouldReceive('updateFailedSync')->andReturn(true);
-		$repository->shouldReceive('updateCurrentSync')->andReturn(true);
-		$repository->shouldReceive('setCurrentSync')->andReturn($repository);
 
-		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
-		$receiver->shouldReceive('fromErp')->once()->andReturn(array());
-		$receiver->shouldReceive('fromDatabase')->once()->andReturn(array());
+		$repository->shouldReceive('create')
+				   ->once()
+				   ->andReturn($repository);
 
-		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
-		$sender->shouldReceive('toErp')->once()->andReturn(true);
-		$sender->shouldReceive('toApi')->once()->andReturn(true);
-		$sender->shouldReceive('toDatabase')->once()->andReturn(true);
+		$repository->shouldReceive('getLastSync')
+				   ->once()
+				   ->andReturn($lastSync);
 
-		$this->builder = new Builder($sender, $receiver, $repository);
+		$repository->shouldReceive('touchCurrentSync')
+				   ->once()
+				   ->andReturn(true);
 
-		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
-		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
+		$repository->shouldReceive('updateCurrentSync')
+				   ->once()
+				   ->andReturn(true);
 
-		$this->builder->start($request, $resource);
+		$repository->shouldReceive('setCurrentSync')
+				   ->once()
+				   ->andReturn($repository);
+
+		return $repository;
 	}
 
 	public function testStart()
 	{
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->builder->getRequest());
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\ResourceInterface', $this->builder->getResource());
+		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
+		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+
+		$builder = new Builder($sender, $receiver, $repository);
+		$builder->start($this->request, $this->resource);
+
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $builder->getRequest());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\ResourceInterface', $builder->getResource());
 	}
 
 	public function testFromErpToDatabase()
-	{
-		$try = $this->builder->fromErpToDatabase(Mockery::type('string'));
+	{	
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
-		$this->assertTrue($try);
+		// Mock the fromErp method on Receiver class
+		$receiver->shouldReceive('fromErp')
+				 ->once()
+				 ->andReturn(array());
+
+		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
+
+		// Mock the toDatabase method on Sender class
+		$sender->shouldReceive('toDatabase')
+			   ->once()
+			   ->andReturn(true);
+
+		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->start($this->request, $this->resource);
+
+		$assert = $builder->fromErpToDatabase(Mockery::type('string'));
+
+		$this->assertTrue($assert);
 	}
 
 	public function testFromDatabaseToErp()
 	{
-		$try = $this->builder->fromDatabaseToErp(Mockery::type('string'));
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
-		$this->assertTrue($try);
+		// Mock the fromDatabase method on Receiver class
+		$receiver->shouldReceive('fromDatabase')
+				 ->once()
+				 ->andReturn(array());
+				 
+		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
+
+		// Mock the toErp method on Sender class
+		$sender->shouldReceive('toErp')
+			   ->once()
+			   ->andReturn(true);
+
+		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->start($this->request, $this->resource);
+
+		$assert = $builder->fromDatabaseToErp(Mockery::type('string'));
+
+		$this->assertTrue($assert);
 	}
 
 	public function testFromDatabaseToApi()
 	{
-		$try = $this->builder->fromDatabaseToApi(Mockery::type('string'));
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
-		$this->assertTrue($try);
+		// Mock the fromDatabase method on Receiver class
+		$receiver->shouldReceive('fromDatabase')
+				 ->once()
+				 ->andReturn(array());
+				 
+		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
+
+		// Mock the toApi method on Sender class
+		$sender->shouldReceive('toApi')
+			   ->once()
+			   ->andReturn(true);
+
+		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->start($this->request, $this->resource);
+
+		$assert = $builder->fromDatabaseToApi(Mockery::type('string'));
+
+		$this->assertTrue($assert);
 	}
 
-	public function testToApiToDatabase()
+	public function testFromApiToDatabase()
 	{
-		$try = $this->builder->fromApiToDatabase(array(), Mockery::type('string'));
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
+		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
 
-		$this->assertTrue($try);
+		// Mock the toDatabase method on Sender class
+		$sender->shouldReceive('toDatabase')
+			   ->once()
+			   ->andReturn(true);
+
+		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->start($this->request, $this->resource);
+
+		$assert = $builder->fromApiToDatabase(array(), Mockery::type('string'));
+
+		$this->assertTrue($assert);
 	}
+
+	// public function testFailedSync()
+	// {
+
+	// 	$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
+	// 	$sender = Mockery::mock('Algorit\Synchronizer\Sender');
+
+	// 	$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+
+	// 	$repository->shouldReceive('create')->once()->andReturn(false);
+	// 	$repository->shouldReceive('setCurrentSync')
+	// 			   ->once()
+	// 			   ->andReturn($repository);
+	// 			   $repository->shouldReceive('getLastSync')
+	// 			   ->once()
+	// 			   ->andReturn(false);
+	// 	$repository->shouldReceive('updateFailedSync')
+	// 			   ->once();
+	// 			   // ->andReturn(array('error' => true));
+
+	// 	$builder = new Builder($sender, $receiver, $repository);
+	// 	$builder->start($this->request, $this->resource);
+
+	// 	// Just try to call a method that doesn't exist.
+	// 	$assert = $builder->fromErpToDatabase(Mockery::type('string'));
+
+	// 	$this->assertFalse($assert);
+	// }
 
 }

@@ -191,6 +191,8 @@ class Builder {
 			// $this->logger->error($message);
 
 			echo $message; // fuck.
+
+			return false;
 		}
 	}
 
@@ -280,6 +282,9 @@ class Builder {
 	{
 		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync) use ($data)
 		{
+			// Touch current sync to set a new updated_at date.
+			$this->repository->touchCurrentSync();
+
 			// Send to database
 			return $this->send->toDatabase($this->request, (string) $entity, $data);
 		});

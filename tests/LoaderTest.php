@@ -20,10 +20,6 @@ class LoaderTest extends SynchronizerTest {
 		$config->shouldReceive('setup')->andReturn($config);
 
 		$this->loader = new Loader(new Container, $builder, $config);
-
-		$this->request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
-		$this->request->shouldReceive('setConfig')->andReturn(array());
-		$this->request->shouldReceive('setResource')->andReturn(array());
 	}
 
 	public function testInstance()
@@ -40,7 +36,8 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->loadSystem(new SystemStub(new ResourceStub))->start($resource);
+		$this->loader->loadSystem(new SystemStub(new ResourceStub))
+					 ->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
 	}
@@ -49,9 +46,17 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->loadSystem(new SystemStub(new ResourceStub))->start($resource);
+		$this->loader->loadSystem(new SystemStub(new ResourceStub))
+					 ->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());
+	}
+
+	public function testResourceInstance()
+	{
+		$this->loader->loadSystem(new SystemStub(new ResourceStub));
+
+		$this->assertInstanceOf('Algorit\Synchronizer\Tests\Stubs\Resource', $this->loader->getSystem()->getResource());
 	}
 
 	public function testCollectionAsResource()

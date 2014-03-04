@@ -23,13 +23,13 @@ class RequestBuilderTest extends SynchronizerTest {
 		$repository->shouldReceive('setCurrentSync')->andReturn($repository);
 
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
-		$receiver->shouldReceive('fromErp')->andReturn(array());
-		$receiver->shouldReceive('fromDatabase')->andReturn(array());
+		$receiver->shouldReceive('fromErp')->once()->andReturn(array());
+		$receiver->shouldReceive('fromDatabase')->once()->andReturn(array());
 
 		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
-		$sender->shouldReceive('toErp')->andReturn(true);
-		$sender->shouldReceive('toApi')->andReturn(true);
-		$sender->shouldReceive('toDatabase')->andReturn(true);
+		$sender->shouldReceive('toErp')->once()->andReturn(true);
+		$sender->shouldReceive('toApi')->once()->andReturn(true);
+		$sender->shouldReceive('toDatabase')->once()->andReturn(true);
 
 		$this->builder = new Builder($sender, $receiver, $repository);
 
@@ -47,28 +47,28 @@ class RequestBuilderTest extends SynchronizerTest {
 
 	public function testFromErpToDatabase()
 	{
-		$try = $this->builder->fromErpToDatabase('company');
+		$try = $this->builder->fromErpToDatabase('stub');
 
 		$this->assertTrue($try);
 	}
 
 	public function testFromDatabaseToErp()
 	{
-		$try = $this->builder->fromDatabaseToErp('company');
+		$try = $this->builder->fromDatabaseToErp('stub');
 
 		$this->assertTrue($try);
 	}
 
 	public function testFromDatabaseToApi()
 	{
-		$try = $this->builder->fromDatabaseToApi('company');
+		$try = $this->builder->fromDatabaseToApi('stub');
 
 		$this->assertTrue($try);
 	}
 
 	public function testToApiToDatabase()
 	{
-		$try = $this->builder->fromApiToDatabase(array(), 'company');
+		$try = $this->builder->fromApiToDatabase(array(), 'stub');
 
 		$this->assertTrue($try);
 	}

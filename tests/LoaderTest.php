@@ -40,8 +40,7 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->loadSystem(new SystemStub(new ResourceStub))
-					 ->start($resource);
+		$this->loader->loadSystem(new SystemStub(new ResourceStub))->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
 	}
@@ -50,8 +49,7 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->loadSystem(new SystemStub(new ResourceStub))
-					 ->start($resource);
+		$this->loader->loadSystem(new SystemStub(new ResourceStub))->start($resource);
 
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());
 	}

@@ -47,28 +47,28 @@ class RequestBuilderTest extends SynchronizerTest {
 
 	public function testFromErpToDatabase()
 	{
-		$try = $this->builder->fromErpToDatabase('stub');
+		$try = $this->builder->fromErpToDatabase(Mockery::type('string'));
 
 		$this->assertTrue($try);
 	}
 
 	public function testFromDatabaseToErp()
 	{
-		$try = $this->builder->fromDatabaseToErp('stub');
+		$try = $this->builder->fromDatabaseToErp(Mockery::type('string'));
 
 		$this->assertTrue($try);
 	}
 
 	public function testFromDatabaseToApi()
 	{
-		$try = $this->builder->fromDatabaseToApi('stub');
+		$try = $this->builder->fromDatabaseToApi(Mockery::type('string'));
 
 		$this->assertTrue($try);
 	}
 
 	public function testToApiToDatabase()
 	{
-		$try = $this->builder->fromApiToDatabase(array(), 'stub');
+		$try = $this->builder->fromApiToDatabase(array(), Mockery::type('string'));
 
 		$this->assertTrue($try);
 	}

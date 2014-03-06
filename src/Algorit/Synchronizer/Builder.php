@@ -102,21 +102,21 @@ class Builder {
 	private function createCurrentSync($entity, $type)
 	{	
 		// $create = Config::get('synchronizer::repository.create');
-		$create = false; // Get config class later.
+		// $create = false; // Get config class later.
 
-		if($create instanceof Closure)
-		{
-			$sync = $create($this->request, $this->resource, $entity, $type);
-		}
-		else
-		{
+		// if($create instanceof Closure)
+		// {
+		// 	$sync = $create($this->request, $this->resource, $entity, $type);
+		// }
+		// else
+		// {
 			$sync = array(
 				'entity'  => $entity,
 				'type'    => $type,
 				'class'   => get_class($this->request),
 				'status'  => 'processing',
 			);
-		}
+		// }
 
 		return $this->repository->setCurrentSync($this->repository->create($sync));
 	}

@@ -1,7 +1,7 @@
 Synchronizer
 =============
 
-[![Build Status](https://travis-ci.org/gabrielkoerich/synchronizer.png?branch=master)](https://travis-ci.org/gabrielkoerich/synchronizer)
+[![Build Status](https://travis-ci.org/algorit/synchronizer.png?branch=master)](https://travis-ci.org/algorit/synchronizer)
 
 A Laravel Package to sync APIs and Databases.
 

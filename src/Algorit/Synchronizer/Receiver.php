@@ -21,7 +21,9 @@ class Receiver {
 	 */
 	public function fromDatabase(RequestInterface $request, $entity, $lastSync)
 	{
-		return $request->getRepository()->call($entity)->get($lastSync);
+		return $request->getRepository()
+					   ->call($entity)
+					   ->get($lastSync);
 	}
 
 	/**

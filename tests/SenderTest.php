@@ -86,5 +86,4 @@ class SenderTest extends SynchronizerTest {
 		$this->assertJson($assert);
 	}	
 
-
 }

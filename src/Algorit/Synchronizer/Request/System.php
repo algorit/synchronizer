@@ -9,6 +9,7 @@ use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Methods\Requests as RequestMethod;
+use Algorit\Synchronizer\Request\Methods\Requests;
 
 abstract class System implements SystemInterface {
 
@@ -42,6 +43,8 @@ abstract class System implements SystemInterface {
 	 * @var \Illuminate\Filesystem\Filesystem
 	 */
 	protected $filesystem;
+
+	protected $method;
 
 	/**
 	 * Create a new instance.
@@ -135,7 +138,10 @@ abstract class System implements SystemInterface {
 			return $this->filesystem ?: new Filesystem;
 		});
 
-		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', 'Algorit\Synchronizer\Request\Methods\Requests');
+		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', function()
+		{
+			return $this->method ?: new Requests;
+		});
 
 		return $container->make($this->request);
 	}

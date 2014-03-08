@@ -132,25 +132,12 @@ abstract class System implements SystemInterface {
 		// Bind the correct Filesystem
 		$container->bind('Illuminate\Filesystem\Filesystem', function()
 		{
-			if( ! $this->filesystem)
-			{
-				return new Filesystem;
-			}
-
-			return $this->filesystem;
+			return $this->filesystem ?: new Filesystem;
 		});
 
 		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', 'Algorit\Synchronizer\Request\Methods\Requests');
 
 		return $container->make($this->request);
-
-		// return $container->make($this->request);
-		// How to test?
-		// return new $this->request(
-		// 	new RequestMethod,
-		// 	(new Repository)->setNamespace($this->namespace),
-		// 	(new Parser($this->filesystem))->setNamespace($this->namespace)
-		// );
 	}
 
 }

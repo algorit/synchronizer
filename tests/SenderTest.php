@@ -11,6 +11,29 @@ class SenderTest extends SynchronizerTest {
 		parent::setUp();
 
 		$this->sender = new Sender;
+
+		$this->response = [
+			'error' => false,
+			'data'  => [
+				'foo' => 'bar'
+			]
+		];
+
+		$this->responseNull = [
+			'error' => false,
+			'data'  => null
+		];
+	}
+
+	public function testSendNullData()
+	{
+		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+
+		$erp = $this->sender->toErp($request, array(), $this->responseNull);
+		$database = $this->sender->toDatabase($request, array(), $this->responseNull);
+
+		$this->assertNull($erp['data']);
+		$this->assertNull($database['data']);
 	}
 
 	public function testSendToErp()
@@ -21,32 +44,47 @@ class SenderTest extends SynchronizerTest {
 				->once()
 				->andReturn(true);
 
-		$response = [
-			'error' => false,
-			'data'  => [
-				'foo' => 'bar'
-			]
-		];
-
-		$assert = $this->sender->toErp($request, array(), $response);
+		$assert = $this->sender->toErp($request, array(), $this->response);
 
 		$this->assertTrue($assert);
 	}
 
-	public function testSendToErpWithNoData()
+	public function testSendToDatabase()
 	{
+		$repository = Mockery::mock('Algorit\Synchronizer\Request\Repository');
+
+		$repository->shouldReceive('call')
+				   ->once()
+				   ->andReturn(Mockery::mock(['set' => true]));
+
 		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 
-		$response = [
-			'error' => false,
-			'data'  => null
-		];
+		$request->shouldReceive('getRepository')
+				->twice() // Using twice to call it from tests too.
+				->andReturn($repository);
 
-		$assert = $this->sender->toErp($request, array(), $response);
+		$assert = $this->sender->toDatabase($request, array(), $this->response);
 
-		$this->assertNull($assert['data']);
+		$this->assertTrue($assert);
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Repository', $request->getRepository());
 	}
 
+	public function testSendToApi()
+	{
+		$assert = $this->sender->toApi($this->response);
+
+		$this->assertEquals($assert, $this->response);
+	}
+
+	public function testSendToApiClosure()
+	{
+		$assert = $this->sender->toApi($this->response, function($data)
+		{
+			return json_encode($data);
+		});
+
+		$this->assertJson($assert);
+	}	
 
 
 }

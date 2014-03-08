@@ -36,7 +36,9 @@ class Sender {
 			return $response;
 		}
 
-		return $request->getRepository()->call($entity)->set($data); // Change function name.
+		return $request->getRepository()
+					   ->call($entity)
+					   ->set($data); // Change function name.
 	}
 
 	/**

@@ -17,8 +17,7 @@ class BuilderTest extends SynchronizerTest {
 
 	private function getMockedRepository()
 	{
-		$lastSync = new StdClass;
-		$lastSync->created_at = Carbon::now();
+		$lastSync = (object) ['created_at' => Carbon::now()];
 
 		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
 

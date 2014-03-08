@@ -15,9 +15,12 @@ class LoaderTest extends SynchronizerTest {
 
 		$builder = Mockery::mock('Algorit\Synchronizer\Builder');
 		$builder->shouldReceive('start');
+				// ->once();
 
 		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
-		$config->shouldReceive('setup')->andReturn($config);
+		$config->shouldReceive('setup')
+			   // ->once();
+			   ->andReturn($config);
 
 		$this->loader = new Loader(new Container, $builder, $config);
 	}

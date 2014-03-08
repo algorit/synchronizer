@@ -11,6 +11,8 @@ class Request extends AbstractRequest implements RequestInterface {
 
 	public function receive($entityName, $lastSync){}
 
-	public function send(Array $data, $entityName, $requestDate){}
+	// public function send(Array $data, $entityName, $requestDate){}
+
+	public function send($entityName, Array $data, $lastSync = false){}
 
 }

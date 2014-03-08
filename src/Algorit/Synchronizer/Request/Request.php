@@ -170,7 +170,7 @@ abstract class Request implements RequestInterface {
 	 * @param  mixed  $lastSync
 	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface 
 	 */
-	public abstract function send(Array $data, $entityName, $lastSync);
+	public abstract function send($entityName, Array $data, $lastSync = false);
 
 	/**
 	 * Create a multipart request. (Used for file uploads)
@@ -245,7 +245,7 @@ abstract class Request implements RequestInterface {
 		// Add date to URL on Receive requests.
 		$url .= '?' . $query_string . '=' . str_replace(' ', '_', $lastSync);
 
-		Log::info('Receiving data from ' . $url);
+		// Log::info('Receiving data from ' . $url);
 
 		if( ! isset($options['timeout']))
 		{

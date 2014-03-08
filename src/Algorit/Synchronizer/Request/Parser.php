@@ -1,13 +1,9 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use App, Str, Log;
-use Event, Closure;
+use App;
 use Illuminate\Filesystem\Filesystem;
-use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Traits\EntityTrait;
 use Algorit\Synchronizer\Traits\ConfigTrait;
-use Algorit\Synchronizer\Request\Exceptions\ParserException;
-use Algorit\Synchronizer\Request\Contracts\SystemParserInterface;
 
 class Parser {
 

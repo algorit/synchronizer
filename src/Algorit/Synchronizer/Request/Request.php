@@ -1,15 +1,15 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use Log;
+// use Log;
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Traits\ConfigTrait;
 use Algorit\Synchronizer\Traits\EntityTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
+use Algorit\Synchronizer\Request\Methods\MethodInterface;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
-use Algorit\Synchronizer\Request\Methods\MethodInterface as RequestMethod;
 
 abstract class Request implements RequestInterface {
 
@@ -75,7 +75,7 @@ abstract class Request implements RequestInterface {
 	 * @param  \Services\Sync\Erps\Jjw\Repository $repository
 	 * @return instance
 	 */
-	public function __construct(RequestMethod $method, Repository $repository, Parser $parser)
+	public function __construct(MethodInterface $method, Repository $repository, Parser $parser)
 	{
 		$this->method = $method;
 		$this->parser = $parser;
@@ -165,7 +165,7 @@ abstract class Request implements RequestInterface {
 	 *
 	 * Needs to be implemented by subclasses.
 	 * 
-	 * @param  array $data
+	 * @param  array  $data
 	 * @param  string $entityName
 	 * @param  mixed  $lastSync
 	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface 
@@ -220,7 +220,7 @@ abstract class Request implements RequestInterface {
 		$headers = array_get($data, 'headers');
 		$body	 = array_get($data, 'body');
 
-		Log::info('Sending data to ' . $url);
+		// Log::info('Sending data to ' . $url);
 
 		if( ! isset($options['timeout']))
 		{

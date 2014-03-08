@@ -119,33 +119,38 @@ abstract class System implements SystemInterface {
 	/**
 	 * Load the request Class
 	 *
-	 * @param  void
+	 * @param  \Algorit\Synchronizer\Container  $container
 	 * @return \Algorit\Synchronizer\Request\Contracts\RequestInterface
 	 */
 	public function loadRequest(Container $container)
 	{
-		if( ! $this->filesystem)
-		{
-			$this->setFilesystem(new Filesystem);
-		}
-		
 		if( ! isset($this->request))
 		{
 			$this->setRequest();
 		}
 
-		// Bind the filesystem to container
-		// $container->bind('Illuminate\Filesystem\Filesystem', $this->filesystem);
-		// $container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', 'Algorit\Synchronizer\Request\Methods\Requests');
+		// Bind the correct Filesystem
+		$container->bind('Illuminate\Filesystem\Filesystem', function()
+		{
+			if( ! $this->filesystem)
+			{
+				return new Filesystem;
+			}
+
+			return $this->filesystem;
+		});
+
+		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', 'Algorit\Synchronizer\Request\Methods\Requests');
+
+		return $container->make($this->request);
 
 		// return $container->make($this->request);
-		// return $container->make($this->request);
 		// How to test?
-		return new $this->request(
-			new RequestMethod,
-			(new Repository)->setNamespace($this->namespace),
-			(new Parser($this->filesystem))->setNamespace($this->namespace)
-		);
+		// return new $this->request(
+		// 	new RequestMethod,
+		// 	(new Repository)->setNamespace($this->namespace),
+		// 	(new Parser($this->filesystem))->setNamespace($this->namespace)
+		// );
 	}
 
 }

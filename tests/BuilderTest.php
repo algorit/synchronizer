@@ -2,6 +2,7 @@
 
 use Mockery;
 use StdClass;
+use Exception;
 use Carbon\Carbon;
 use Algorit\Synchronizer\Builder;
 
@@ -147,32 +148,50 @@ class BuilderTest extends SynchronizerTest {
 		$this->assertTrue($assert);
 	}
 
-	// public function testFailedSync()
-	// {
+	public function testFailedSync()
+	{
+		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
-	// 	$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
-	// 	$sender = Mockery::mock('Algorit\Synchronizer\Sender');
+		$receiver->shouldReceive('fromErp')
+				 ->once()
+				 ->andReturn(array());
 
-	// 	$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
 
-	// 	$repository->shouldReceive('create')->once()->andReturn(false);
-	// 	$repository->shouldReceive('setCurrentSync')
-	// 			   ->once()
-	// 			   ->andReturn($repository);
-	// 			   $repository->shouldReceive('getLastSync')
-	// 			   ->once()
-	// 			   ->andReturn(false);
-	// 	$repository->shouldReceive('updateFailedSync')
-	// 			   ->once();
-	// 			   // ->andReturn(array('error' => true));
+		// We will throw an exception on this method 
+		// it will be cought on process method.
+		// $sender->shouldReceive('toDatabase')
+		// 	   ->once()
+		// 	   ->andThrow(new Exception('An error ocurred!'));
 
-	// 	$builder = new Builder($sender, $receiver, $repository);
-	// 	$builder->start($this->request, $this->resource);
+		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
 
-	// 	// Just try to call a method that doesn't exist.
-	// 	$assert = $builder->fromErpToDatabase(Mockery::type('string'));
+		$repository->shouldReceive('create')
+				   ->once()
+				   ->andReturn(false);
 
-	// 	$this->assertFalse($assert);
-	// }
+		$repository->shouldReceive('setCurrentSync')
+				   ->once()
+				   ->andReturn($repository);
+
+		$repository->shouldReceive('getLastSync')
+				   ->once()
+				   ->andReturn(false);
+
+		$repository->shouldReceive('touchCurrentSync')
+				   ->once()
+				   ->andReturn(false);
+
+		$repository->shouldReceive('updateFailedSync')
+				   ->once()
+				   ->andReturn(false);
+
+		$builder = new Builder($sender, $receiver, $repository);
+		$builder->start($this->request, $this->resource);
+
+		$assert = $builder->fromErpToDatabase(false);
+
+		$this->assertFalse($assert);
+	}
 
 }

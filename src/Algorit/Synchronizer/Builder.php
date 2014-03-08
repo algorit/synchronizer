@@ -190,7 +190,7 @@ class Builder {
 			// Log::error($message);
 			// $this->logger->error($message);
 
-			echo $message; // fuck.
+			// echo $message; // fuck.
 
 			return false;
 		}

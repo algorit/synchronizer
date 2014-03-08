@@ -36,14 +36,14 @@ class SynchronizerServiceProvider extends ServiceProvider {
 		{
 			$repository = $app['config']->get('synchronizer::repository.instance');
 
-			if($repository == false)
-			{
+			// if($repository == false)
+			// {
 				$sync = new SyncRepository(new SyncEntity);
-			}
-			else
-			{
-				$sync = $app->make($repository);
-			}
+			// }
+			// else
+			// {
+			// 	$sync = $app->make($repository);
+			// }
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 

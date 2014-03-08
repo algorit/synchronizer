@@ -88,6 +88,17 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	}
 
 	/**
+	 * Touch the current sync timestamps.
+	 *
+	 * @param  void
+	 * @return SyncEntity
+	 */
+	public function touchCurrentSync()
+	{
+		return $this->current->touch();
+	}
+	
+	/**
 	 * Update the current sync using an exception
 	 *
 	 * @param  \Exception  $exception
@@ -106,16 +117,5 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 				// 'trace'	  	=> $e->getTraceAsString() // -> is that too much?
 			))
 		));
-	}
-
-	/**
-	 * Touch the current sync timestamps.
-	 *
-	 * @param  void
-	 * @return SyncEntity
-	 */
-	public function touchCurrentSync()
-	{
-		return $this->current->touch();
 	}
 }

@@ -19,10 +19,10 @@ class ReceiverTest extends SynchronizerTest {
 			]
 		];
 
-		$this->responseNull = [
-			'error' => false,
-			'data'  => null
-		];
+		// $this->responseNull = [
+		// 	'error' => false,
+		// 	'data'  => null
+		// ];
 	}
 
 	public function testReceiveFromErp()
@@ -33,7 +33,7 @@ class ReceiverTest extends SynchronizerTest {
 				->once()
 				->andReturn(true);
 
-		$assert = $this->receiver->fromErp($request, array(), Mockery::type('string'));
+		$assert = $this->receiver->fromErp($request, $this->response, Mockery::type('string'));
 
 		$this->assertTrue($assert);
 	}
@@ -56,5 +56,11 @@ class ReceiverTest extends SynchronizerTest {
 
 		$this->assertTrue($assert);
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Repository', $request->getRepository());
+	}
+
+	public function testSendToApi()
+	{
+		$assert = $this->receiver->fromApi($this->response);
+		$this->assertEquals($assert, $this->response);
 	}
 }

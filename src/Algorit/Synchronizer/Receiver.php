@@ -35,6 +35,7 @@ class Receiver {
 	{
 		// No use for this... Yet. 
 		// Update: Receive orders?
+		return $data;
 	}
 
 }

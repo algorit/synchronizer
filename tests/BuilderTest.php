@@ -158,7 +158,7 @@ class BuilderTest extends SynchronizerTest {
 
 		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
 
-		// We will throw an exception on this method 
+		// We will throw an exception here
 		// it will be cought on process method.
 		// $sender->shouldReceive('toDatabase')
 		// 	   ->once()

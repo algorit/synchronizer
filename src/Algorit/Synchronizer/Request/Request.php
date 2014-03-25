@@ -9,6 +9,7 @@ use Algorit\Synchronizer\Traits\EntityTrait;
 use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
+use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
 
 abstract class Request implements RequestInterface {
@@ -91,6 +92,8 @@ abstract class Request implements RequestInterface {
 	{
 		return $this->repository;
 	}
+
+	public abstract function setResource(ResourceInterface $resource);
 
 	public abstract function authenticate();
 

@@ -66,10 +66,17 @@ class Config {
 	 * @param  \Algorit\Synchronizer\Request\Contracts\SystemInterface $system
 	 * @return \Algorit\Synchronizer\Request\Config
 	 */
-	public function setup(SystemInterface $system)
+	public function setup(SystemInterface $system, $resource)
 	{
-		$this->config  = $this->files->getRequire($system->path . '/Config/config.php');
-		$this->aliases = $this->files->getRequire($system->path . '/Config/aliases.php');
+		$path = $system->path . '/Config';
+
+		if(isset($resource->slug))
+		{
+			$path = $system->path . '/Config/' . $resource->slug;
+		}
+
+		$this->config  = $this->files->getRequire($path . '/config.php');
+		$this->aliases = $this->files->getRequire($path . '/aliases.php');
 
 		if( ! is_array($this->config))
 		{

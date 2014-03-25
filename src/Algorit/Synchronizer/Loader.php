@@ -137,14 +137,8 @@ class Loader {
 	{
 		$this->setSystem($system);
 
-		// Log::info('Loading "' . $system->name . '" request system...');
-		// $this->logger->info('Loading "' . $system->name . '" request system...');
-
 		// Load system
 		$this->request = $this->system->loadRequest($this->container);
-
-		// Set config
-		$this->request->setConfig($this->config->setup($system));
 
 		return $this->select($system->getResource(), $callback);
 	}
@@ -199,6 +193,9 @@ class Loader {
 	 */
 	public function start(ResourceInterface $resource, $callback = false)
 	{
+		// Set config
+		$this->request->setConfig($this->config->setup($this->system, $resource));
+
 		// Set system resource
 		$this->request->setResource($resource);
 

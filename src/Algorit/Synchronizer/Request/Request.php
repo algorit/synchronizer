@@ -93,8 +93,6 @@ abstract class Request implements RequestInterface {
 		return $this->repository;
 	}
 
-	public abstract function setResource(ResourceInterface $resource);
-
 	public abstract function authenticate();
 
 	/**

@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use Str, Exception;
+use Exception;
 
 trait EntityTrait {
 
@@ -31,7 +31,7 @@ trait EntityTrait {
 			throw new Exception('Wrong name format');
 		}
 		
-		return ucfirst(strtolower(Str::singular($name)));
+		return ucfirst(strtolower(str_singular($name)));
 	}
 	
 }

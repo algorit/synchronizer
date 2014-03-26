@@ -4,8 +4,10 @@ use Closure;
 use Exception;
 use Illuminate\Support\Collection;
 use Algorit\Synchronizer\Request\Config;
+use Algorit\Synchronizer\Request\Contracts\LoggerInterface;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
+use Algorit\Synchronizer\Request\Contracts\ContainerInterface;
 
 class Loader {
 
@@ -64,7 +66,7 @@ class Loader {
 	 * @param  $logger
 	 * @return void
 	 */
-	public function setLogger($logger)
+	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
 	}

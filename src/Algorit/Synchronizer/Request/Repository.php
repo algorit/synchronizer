@@ -20,7 +20,7 @@ class Repository {
 	 */
 	public function call($entity)
 	{
-		$class = $this->container->namespace . '\\Repositories\\' . $this->getFromEntityName($entity);
+		$class = $this->container->getNamespace() . '\\Repositories\\' . $this->getFromEntityName($entity);
 
 		return $this->container->make($class);
 	}

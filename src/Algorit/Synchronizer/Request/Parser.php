@@ -27,18 +27,6 @@ class Parser {
 		$this->container = $container;
 	}
 
-	public function setConfig(Config $config)
-	{
-		$this->config = $config;
-
-		return $this;
-	}
-
-	public function getConfig()
-	{
-		return $this->config;
-	}
-
 	/**
 	 * Call a parser instance and set the aliases.
 	 *

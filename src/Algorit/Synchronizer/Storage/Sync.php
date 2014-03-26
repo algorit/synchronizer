@@ -2,7 +2,7 @@
 
 use Algorit\Veloquent\Veloquent;
 
-class SyncEntity extends Veloquent {
+class Sync extends Veloquent {
 
 	/**
 	* The table name.

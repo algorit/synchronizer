@@ -20,7 +20,7 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	 *
 	 * @return void
 	 */
-	public function __construct(SyncEntity $entity)
+	public function __construct(Sync $entity)
 	{
 		$this->entity = $entity;
 	}

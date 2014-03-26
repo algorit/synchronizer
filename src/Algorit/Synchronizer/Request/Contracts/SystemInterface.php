@@ -10,9 +10,9 @@ Interface SystemInterface {
 
 	public function getResource();
 
-	public function setConfig(Config $config);
+	// public function setConfig(Config $config);
 
-	public function getConfig();
+	// public function getConfig();
 
 	public function setRequest($name = 'Request');
 

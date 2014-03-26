@@ -57,17 +57,17 @@ abstract class System implements SystemInterface {
 		$this->setup();
 	}
 
-	public function setConfig(Config $config)
-	{
-		$this->config = $config;
+	// public function setConfig(Config $config)
+	// {
+	// 	$this->config = $config;
 
-		return $this;
-	}
+	// 	return $this;
+	// }
 
-	public function getConfig()
-	{
-		return $this->config;
-	}
+	// public function getConfig()
+	// {
+	// 	return $this->config;
+	// }
 
 	public function setResource(ResourceInterface $resource)
 	{

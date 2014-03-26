@@ -1,8 +1,9 @@
 <?php namespace Algorit\Synchronizer;
 
 use Illuminate\Container\Container as IlluminateContainer;
+use Algorit\Synchronizer\Request\Contracts\ContainerInterface;
 
-class Container extends IlluminateContainer {
+class Container extends IlluminateContainer implements ContainerInterface {
 
 	private $namespace;
 

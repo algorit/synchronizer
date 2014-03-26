@@ -1,6 +1,5 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-// Set configuration place
 use ReflectionClass;
 use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -151,6 +150,13 @@ abstract class System implements SystemInterface {
 			$this->setRequest();
 		}
 
+		$this->bindContainer($container);
+
+		return $container->make($this->request);
+	}
+
+	private function bindContainer(Container $container)
+	{
 		// Set actual namespace in container.
 		$container->setNamespace($this->namespace);
 
@@ -160,6 +166,8 @@ abstract class System implements SystemInterface {
 			return $this->filesystem ?: new Filesystem;
 		});
 
+		// Is it binding the Container to itself? Brain fuck
+		// Think we should use an interface here, as well for the filesystem.
 		$container->bind('Algorit\Synchronizer\Container', function() use ($container)
 		{
 			return $container;
@@ -169,8 +177,6 @@ abstract class System implements SystemInterface {
 		{
 			return $this->method ?: new Requests;
 		});
-
-		return $container->make($this->request);
 	}
 
 }

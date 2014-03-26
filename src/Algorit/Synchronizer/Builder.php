@@ -187,10 +187,8 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			// Log::error($message);
 			// $this->logger->error($message);
-
-			echo $message . PHP_EOL; // fuck.
+			// echo $message . PHP_EOL;
 
 			return false;
 		}

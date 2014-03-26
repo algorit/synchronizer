@@ -1,6 +1,5 @@
 <?php namespace Algorit\Synchronizer;
 
-// use Log;
 use Closure;
 use Exception;
 use Carbon\Carbon;
@@ -9,14 +8,6 @@ use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
-/**
- * Sync builder.
- * 
- * ERP can send data to Database
- * Database can send data to ERP
- * Database can send data to Device
- * Device can send data to Database
- **/
 class Builder {
 
 	/**
@@ -101,22 +92,12 @@ class Builder {
 	 */
 	private function createCurrentSync($entity, $type)
 	{	
-		// $create = Config::get('synchronizer::repository.create');
-		// $create = false; // Get config class later.
-
-		// if($create instanceof Closure)
-		// {
-		// 	$sync = $create($this->request, $this->resource, $entity, $type);
-		// }
-		// else
-		// {
-			$sync = array(
-				'entity'  => $entity,
-				'type'    => $type,
-				'class'   => get_class($this->request),
-				'status'  => 'processing',
-			);
-		// }
+		$sync = array(
+			'entity'  => $entity,
+			'type'    => $type,
+			'class'   => get_class($this->request),
+			'status'  => 'processing',
+		);
 
 		return $this->repository->setCurrentSync($this->repository->create($sync));
 	}

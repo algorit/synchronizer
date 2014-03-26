@@ -3,10 +3,9 @@
 use ReflectionClass;
 use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
+use Algorit\Synchronizer\Request\Methods\Requests;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
-use Algorit\Synchronizer\Request\Methods\Requests as RequestMethod;
-use Algorit\Synchronizer\Request\Methods\Requests;
 
 abstract class System implements SystemInterface {
 

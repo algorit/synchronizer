@@ -4,17 +4,12 @@
 use ReflectionClass;
 use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
-use Algorit\Synchronizer\Traits\ConfigTrait;
-use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Methods\Requests as RequestMethod;
 use Algorit\Synchronizer\Request\Methods\Requests;
 
 abstract class System implements SystemInterface {
-
-	use ConfigTrait;
-	use ResourceTrait;
 
 	/**
 	 * The system name
@@ -62,6 +57,30 @@ abstract class System implements SystemInterface {
 		$this->setup();
 	}
 
+	public function setConfig(Config $config)
+	{
+		$this->config = $config;
+
+		return $this;
+	}
+
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	public function setResource(ResourceInterface $resource)
+	{
+		$this->resource = $resource;
+
+		return $this;
+	}
+
+	public function getResource()
+	{
+		return $this->resource;
+	}
+	
 	/**
 	 * Setup the names.
 	 *
@@ -132,10 +151,18 @@ abstract class System implements SystemInterface {
 			$this->setRequest();
 		}
 
+		// Set actual namespace in container.
+		$container->setNamespace($this->namespace);
+
 		// Bind the correct Filesystem
 		$container->bind('Illuminate\Filesystem\Filesystem', function()
 		{
 			return $this->filesystem ?: new Filesystem;
+		});
+
+		$container->bind('Algorit\Synchronizer\Container', function() use ($container)
+		{
+			return $container;
 		});
 
 		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', function()

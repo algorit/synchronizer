@@ -1,14 +1,11 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use App;
+use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
-use Algorit\Synchronizer\Traits\EntityTrait;
-use Algorit\Synchronizer\Traits\ConfigTrait;
 
 class Parser {
 
 	use EntityTrait;
-	use ConfigTrait;
 	
 	/**
 	 * The filesystem instance
@@ -24,27 +21,22 @@ class Parser {
 	 * @param  \Repositories\   $files
 	 * @return 
 	 */
-	public function __construct(Filesystem $files)
+	public function __construct(Filesystem $files, Container $container)
 	{
 		$this->files = $files;
-		// $this->namespace = $namespace;
+		$this->container = $container;
 	}
 
-	public function setNamespace($namespace)
+	public function setConfig(Config $config)
 	{
-		$this->namespace = $namespace;
+		$this->config = $config;
 
 		return $this;
 	}
 
-	public function setFilesystem(Filesystem $files)
+	public function getConfig()
 	{
-		$this->files = $files;
-	}
-
-	public function getFilesystem()
-	{
-		return $this->files;
+		return $this->config;
 	}
 
 	/**
@@ -56,11 +48,9 @@ class Parser {
 	 */
 	public function call($name, Array $alias)
 	{
-		$class = $this->namespace . '\\Parsers\\' . $this->getFromEntityName($name);
+		$class  = $this->container->getNamespace() . '\\Parsers\\' . $this->getFromEntityName($name);
 
-		Log::notice('Loading parser ' . $class);
-
-		$parser = App::make($class);
+		$parser = $this->container->make($class);
 		$parser->setAliases($alias);
 
 		return $parser;

@@ -1,17 +1,14 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use App, Str, Log;
-use Algorit\Synchronizer\Traits\EntityTrait;
+use Algorit\Synchronizer\Container;
 
 class Repository {
 
 	use EntityTrait;
 	
-	public function setNamespace($namespace)
+	public function __construct(Container $container)
 	{
-		$this->namespace = $namespace;
-
-		return $this;
+		$this->container = $container;
 	}
 
 	/**
@@ -23,11 +20,9 @@ class Repository {
 	 */
 	public function call($entity)
 	{
-		$class = $this->namespace . '\\Repositories\\' . $this->getFromEntityName($entity);
+		$class = $this->container->namespace . '\\Repositories\\' . $this->getFromEntityName($entity);
 
-		Log::notice('Loading repository ' . $class);
-
-		return App::make($class);
+		return $this->container->make($class);
 	}
 
 }

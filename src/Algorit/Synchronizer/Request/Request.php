@@ -4,9 +4,6 @@
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
-use Algorit\Synchronizer\Traits\ConfigTrait;
-use Algorit\Synchronizer\Traits\EntityTrait;
-use Algorit\Synchronizer\Traits\ResourceTrait;
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
@@ -14,9 +11,7 @@ use Algorit\Synchronizer\Request\Exceptions\RequestException;
 
 abstract class Request implements RequestInterface {
 
-	use ConfigTrait;
 	use EntityTrait;
-	use ResourceTrait;
 
 	/**
 	 * The method instance.
@@ -81,6 +76,30 @@ abstract class Request implements RequestInterface {
 		$this->method = $method;
 		$this->parser = $parser;
 		$this->repository = $repository;
+	}
+
+	public function setConfig(Config $config)
+	{
+		$this->config = $config;
+
+		return $this;
+	}
+
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	public function setResource(ResourceInterface $resource)
+	{
+		$this->resource = $resource;
+
+		return $this;
+	}
+
+	public function getResource()
+	{
+		return $this->resource;
 	}
 
 	public function getParser()

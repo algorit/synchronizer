@@ -32,13 +32,13 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{	
-		$this->app['synchronizer'] = $this->app->share(function($app)
+		$this->app['synchronizer'] = $this->app->share(function()
 		{
 			$sync = new SyncRepository(new Sync);
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 
-			return new Loader(new Container, $builder, new Config($app['files']));
+			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
 	}
 

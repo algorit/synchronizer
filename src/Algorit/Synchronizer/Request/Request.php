@@ -146,6 +146,15 @@ abstract class Request implements RequestInterface {
 
 		$this->setEntity($entities[$type][$entityName]);
 	}
+
+	public function getRequestOptions()
+	{
+		return array(
+			$this->type,
+			$this->lastSync,
+			$this->getEntity()
+		);
+	}
 	
 	/**
 	 * Process the data received from a request.
@@ -239,8 +248,6 @@ abstract class Request implements RequestInterface {
 
 		$headers = array_get($data, 'headers');
 		$body	 = array_get($data, 'body');
-
-		// Log::info('Sending data to ' . $url);
 
 		if( ! isset($options['timeout']))
 		{

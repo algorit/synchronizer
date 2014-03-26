@@ -19,12 +19,15 @@ class RequestTest extends SynchronizerTest {
 
 		$this->entities = array(
 	   		'receive' => [
-	   			'products'	 => array(
+	   			'products'  => array(
 					'name' 	   => 'products',
-					'type'	   => 'json',
-					// 'filename' => 'products',
-					'method'   => 'get',
 					'url' 	   => 'v1/product'
+				)
+	   		],
+	   		'send' => [
+				'categories' => array(
+					'name' 	   => 'categories',
+					'url' 	   => 'v1/category'
 				),
 	   		]
 		);
@@ -40,18 +43,39 @@ class RequestTest extends SynchronizerTest {
 
 	public function testSetEntity()
 	{
-		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
+		$request = new RequestStub($this->method, $this->repository, $this->parser);
 
+		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('getEntities')
 			   ->once()
 			   ->andReturn($this->entities);
-
-		$request = new RequestStub($this->method, $this->repository, $this->parser);
 
 		$request->setConfig($config);
 		$request->setRequestOptions('products');
 
 		$this->assertEquals($this->entities['receive']['products'], $request->getEntity());
+	}
+
+	public function testSetRequestOptions()
+	{
+		$request = new RequestStub($this->method, $this->repository, $this->parser);
+
+		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
+		$config->shouldReceive('getEntities')
+			   ->once()
+			   ->andReturn($this->entities);
+
+		$request->setConfig($config);
+
+		$now = Carbon::now();
+
+		$request->setRequestOptions('categories', $now, 'send');
+
+		list($type, $lastSync, $entity) = $request->getRequestOptions();
+
+		$this->assertEquals($type, 'send');
+		$this->assertEquals($entity, $this->entities['send']['categories']);
+		$this->assertEquals($lastSync, $now);
 	}
 
 }

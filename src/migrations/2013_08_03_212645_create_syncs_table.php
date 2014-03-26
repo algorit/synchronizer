@@ -12,13 +12,12 @@ class CreateSyncsTable extends Migration
 	 */
 	public function up()
 	{
-		echo 'Migrating!';
 		Schema::create('syncs', function($table)
 		{
 
 			$table->increments('id');
 
-			$table->integer('morph_id')	 ->unsigned();
+			$table->integer('morph_id')->unsigned();
 			$table->integer('morph_type')->unsigned();
 
 			$table->string('entity')->nullable();
@@ -27,7 +26,7 @@ class CreateSyncsTable extends Migration
 			$table->string('status', 10)->default('fail'); // fail / success
 			$table->text('response')->nullable();
 
-			$table->timestamp('started_at');
+			// $table->timestamp('started_at');
 			$table->timestamps();
 
 			$table->engine = 'InnoDB';

@@ -60,7 +60,7 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	 * @param  \Application\Storage\Entities\Sync   $instance
 	 * @return \Application\Storage\Entities\Sync
 	 */
-	public function setCurrentSync(SyncEntity $instance)
+	public function setCurrentSync(Sync $instance)
 	{
 		return $this->current = $instance;
 	}

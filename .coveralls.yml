@@ -1,3 +1,4 @@
 src_dir: src
 coverage_clover: tests/clover.xml
 json_path: tests/coveralls.json
+repo_token: gXNW1296yPoHjpAYfP8XYmqQ8Z6Ne09Lz

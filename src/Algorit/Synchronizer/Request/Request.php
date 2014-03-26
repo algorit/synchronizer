@@ -85,16 +85,16 @@ abstract class Request implements RequestInterface {
 		return $this;
 	}
 
-	public function getConfig()
-	{
-		return $this->config;
-	}
-
 	public function setResource(ResourceInterface $resource)
 	{
 		$this->resource = $resource;
 
 		return $this;
+	}
+
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	public function getResource()

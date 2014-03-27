@@ -2,9 +2,9 @@
 
 use Closure;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Illuminate\Support\Collection;
 use Algorit\Synchronizer\Request\Config;
-use Algorit\Synchronizer\Request\Contracts\LoggerInterface;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Contracts\ContainerInterface;

@@ -25,6 +25,7 @@ class LoaderTest extends SynchronizerTest {
 		$this->loader = new Loader(new Container, $builder, $config);
 	}
 
+
 	public function testInstance()
 	{
 		$this->assertInstanceOf('Algorit\Synchronizer\Loader', $this->loader);
@@ -33,6 +34,13 @@ class LoaderTest extends SynchronizerTest {
 	public function testBuilderInstance()
 	{
 		$this->assertInstanceOf('Algorit\Synchronizer\Builder', $this->loader->getBuilder());
+	}
+
+	public function testLogger()
+	{
+		$this->loader->setLogger(Mockery::mock('Psr\Log\LoggerInterface'));
+
+		$this->assertInstanceOf('Psr\Log\LoggerInterface', $this->loader->getLogger());
 	}
 
 	public function testSystemInstance()

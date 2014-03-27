@@ -3,10 +3,7 @@
 use Exception;
 use Algorit\Veloquent\Repository\Model;
 
-// use Application\Storage\Entities\Company as CompanyEntity;
-// use Application\Storage\Entities\Representative as RepresentativeEntity;
-
-final class SyncEloquentRepository extends Model implements SyncInterface {
+final class SyncEloquentRepository implements SyncRepositoryInterface {
 	
 	/**
 	 * The current instance.
@@ -26,6 +23,56 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	}
 
 	/**
+	 * Create a new model.
+	 *
+	 * @return Collection
+	 */
+	public function create($data)
+	{
+		return $this->entity->create($data);
+	}
+	
+	/**
+	 * Update the fillable data given an instance.
+	 *
+	 * @return Collection
+	 */
+	public function update($instance, $data)
+	{
+		if($instance == false)
+		{
+			return array(
+	            'response' => false
+	        );
+		}
+
+		$fillable = $this->entity->getFillable();
+
+        $updated = array();
+        $skipped = array();
+
+        foreach($data as $key => $value)
+        {
+            if( ! in_array($key, $fillable))
+            {
+            	$skipped[$key] = $value;
+
+                continue;
+            }
+           
+            $updated[$key]  = $value;
+
+            $instance->$key = $value;
+        }
+        
+        return array(
+            'response' => $instance->save(),
+            'updated'  => $updated,
+            'skipped'  => $skipped
+        );
+	}
+
+	/**
 	 * Get last sync date
 	 *
 	 * @param  mixed   $resource
@@ -35,21 +82,9 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	 */
 	public function getLastSync($resource, $entity, $type)
 	{
-		$needsFilter = array('customers', 'prices', 'orders');
-
 		$last = $this->entity->where('status', 'success')
 							 ->where('entity', $entity)
 							 ->where('type', $type);
-
-		// Todo: Rewrite it.
-		// if(in_array($entity, $needsFilter) and $resource instanceof RepresentativeEntity)
-		// {
-		// 	$last->where('representative_id', $resource->id);
-		// }
-		// elseif(in_array($entity, $needsFilter) and $resource instanceof CompanyEntity)
-		// {
-		// 	$last->where('company_id', $resource->id);
-		// }
 
 		return $last->orderBy('created_at', 'DESC')->first(array('created_at'));
 	}
@@ -60,7 +95,7 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 	 * @param  \Application\Storage\Entities\Sync   $instance
 	 * @return \Application\Storage\Entities\Sync
 	 */
-	public function setCurrentSync(Sync $instance)
+	public function setCurrentSync($instance)
 	{
 		return $this->current = $instance;
 	}
@@ -113,8 +148,7 @@ final class SyncEloquentRepository extends Model implements SyncInterface {
 				'message' 	=> $exception->getMessage(),
 				'code'	  	=> $exception->getCode(),
 				'file'	  	=> $exception->getFile(),
-				'line'	  	=> $exception->getLine(),
-				// 'trace'	  	=> $e->getTraceAsString() // -> is that too much?
+				'line'	  	=> $exception->getLine()
 			))
 		));
 	}

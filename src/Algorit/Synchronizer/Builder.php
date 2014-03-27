@@ -3,7 +3,7 @@
 use Closure;
 use Exception;
 use Carbon\Carbon;
-use Algorit\Synchronizer\Storage\SyncInterface;
+use Algorit\Synchronizer\Storage\SyncRepositoryInterface;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
@@ -53,7 +53,7 @@ class Builder {
 	 * @param \Application\Storage\Contracts\SyncInterface $repository
 	 * @return void
 	 */
-	public function __construct(Sender $send, Receiver $receive, SyncInterface $repository)
+	public function __construct(Sender $send, Receiver $receive, SyncRepositoryInterface $repository)
 	{
 		$this->send    	  = $send;
 		$this->receive 	  = $receive;

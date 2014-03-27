@@ -1,8 +1,8 @@
 <?php namespace Algorit\Synchronizer\Storage;
 
-use Algorit\Veloquent\Veloquent;
+use Illuminate\Database\Eloquent\Model;
 
-class Sync extends Veloquent {
+class Sync extends Model {
 
 	/**
 	* The table name.

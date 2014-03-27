@@ -4,7 +4,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Storage\Sync;
-use Algorit\Synchronizer\Storage\SyncEloquentRepository as SyncRepository;
+use Algorit\Synchronizer\Storage\SyncEloquentRepository;
 
 class SynchronizerServiceProvider extends ServiceProvider {
 
@@ -32,9 +32,9 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{	
-		$this->app['synchronizer'] = $this->app->share(function()
+		$this->app['synchronizer'] = $this->app->share(function($app)
 		{
-			$sync = new SyncRepository(new Sync);
+			$sync = $app->make('Algorit\Synchronizer\Storage\SyncEloquentRepository');
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 

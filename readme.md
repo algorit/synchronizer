@@ -1,7 +1,7 @@
 Synchronizer
 =============
 
-[![Build Status](https://travis-ci.org/algorit/synchronizer.png?branch=master)](https://travis-ci.org/algorit/synchronizer)
+[![Build Status](https://travis-ci.org/algorit/synchronizer.png?branch=master)](https://travis-ci.org/algorit/synchronizer) [![Coverage Status](https://coveralls.io/repos/algorit/synchronizer/badge.png?branch=master)](https://coveralls.io/r/algorit/synchronizer?branch=master)
 
 A Laravel Package to sync APIs and Databases.
 

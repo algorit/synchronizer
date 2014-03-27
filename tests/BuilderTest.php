@@ -20,7 +20,7 @@ class BuilderTest extends SynchronizerTest {
 	{
 		$lastSync = (object) ['created_at' => Carbon::now()];
 
-		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncRepositoryInterface');
 
 		$repository->shouldReceive('create')
 				   ->once()
@@ -49,7 +49,7 @@ class BuilderTest extends SynchronizerTest {
 	{
 		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
-		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncRepositoryInterface');
 
 		$builder = new Builder($sender, $receiver, $repository);
 		$builder->start($this->request, $this->resource);
@@ -164,7 +164,7 @@ class BuilderTest extends SynchronizerTest {
 		// 	   ->once()
 		// 	   ->andThrow(new Exception('An error ocurred!'));
 
-		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncInterface');
+		$repository = Mockery::mock('Algorit\Synchronizer\Storage\SyncRepositoryInterface');
 
 		$repository->shouldReceive('create')
 				   ->once()

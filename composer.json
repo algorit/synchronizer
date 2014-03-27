@@ -10,6 +10,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "illuminate/database": "4.1.*",
+        "illuminate/container": "4.1.*",
         "illuminate/support": "4.1.*",
         "illuminate/console": "4.1.x",
         "illuminate/config": "4.1.x",

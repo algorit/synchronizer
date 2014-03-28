@@ -25,7 +25,6 @@ class LoaderTest extends SynchronizerTest {
 		$this->loader = new Loader(new Container, $builder, $config);
 	}
 
-
 	public function testInstance()
 	{
 		$this->assertInstanceOf('Algorit\Synchronizer\Loader', $this->loader);

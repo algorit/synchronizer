@@ -1,9 +1,10 @@
 <?php namespace Algorit\Synchronizer;
 
+use Monolog\Logger;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Storage\Sync;
+use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Storage\SyncEloquentRepository;
 
 class SynchronizerServiceProvider extends ServiceProvider {
@@ -40,6 +41,8 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
+
+		$this->app['synchronizer']->setLogger(new Logger('Sync'));
 	}
 
 	/**

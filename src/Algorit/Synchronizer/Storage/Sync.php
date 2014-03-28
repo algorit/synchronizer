@@ -16,7 +16,7 @@ class Sync extends Model {
 	*
 	* @var array
 	*/			
-	protected $fillable = ['morph_id', 'entity', 'type', 'class', 'status', 'response'];
+	protected $fillable = ['morph_id', 'url', 'entity', 'type', 'class', 'status', 'response'];
 
 	/**
 	* The validation rules.

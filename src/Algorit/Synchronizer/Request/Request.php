@@ -149,8 +149,10 @@ abstract class Request implements RequestInterface {
 
 	public function getOptions()
 	{
+		$base = array_get($this->config->config, 'base_url');
 		return array(
-			'base_url' => array_get($this->config->config, 'base_url'),
+			'base_url' => $base,
+			'url'    => $this->makeReceiveUrl($base),
 			'entity' => $this->getEntity(),
 			'lastSync' => $this->lastSync,
 			'type' => $this->type,
@@ -278,15 +280,15 @@ abstract class Request implements RequestInterface {
 		return $this->method->{$requestMethod}($url, $this->headers, $options);
 	}
 
-	private function makeReceiveUrl($url)
+	private function makeReceiveUrl($base_url)
 	{
 		$lastSync = $this->lastSync->format($this->config->date['format']);
 		$query_string = $this->config->date['query_string'];
 
 		// Add date to URL on Receive requests.
-		$url .= '?' . $query_string . '=' . str_replace(' ', '_', $lastSync);
+		$base_url .= '?' . $query_string . '=' . str_replace(' ', '_', $lastSync);
 
-		return $url;
+		return $base_url;
 	}
 
 }

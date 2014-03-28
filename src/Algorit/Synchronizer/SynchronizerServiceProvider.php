@@ -1,6 +1,7 @@
 <?php namespace Algorit\Synchronizer;
 
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Algorit\Synchronizer\Storage\Sync;
@@ -42,7 +43,10 @@ class SynchronizerServiceProvider extends ServiceProvider {
 			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
 
-		$this->app['synchronizer']->setLogger(new Logger('Sync'));
+		$logger = new Logger('Sync');
+		$logger->pushHandler(new StreamHandler('php://output', Logger::DEBUG));
+
+		$this->app['synchronizer']->setLogger($logger);
 	}
 
 	/**

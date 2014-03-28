@@ -121,7 +121,7 @@ abstract class Request implements RequestInterface {
 	 * @param  string $lastSync
 	 * @return void
 	 */
-	public function setRequestOptions($entityName, $lastSync = false, $type = 'receive')
+	public function setOptions($entityName, $lastSync = false, $type = 'receive')
 	{
 		$entities = $this->config->getEntities();
 
@@ -141,18 +141,19 @@ abstract class Request implements RequestInterface {
 		}
 
 		// Set them all!
-		$this->type 	= $type;
+		$this->type = $type;
 		$this->lastSync = $lastSync;
 
 		$this->setEntity($entities[$type][$entityName]);
 	}
 
-	public function getRequestOptions()
+	public function getOptions()
 	{
 		return array(
-			$this->type,
-			$this->lastSync,
-			$this->getEntity()
+			'base_url' => array_get($this->config->config, 'base_url'),
+			'entity' => $this->getEntity(),
+			'lastSync' => $this->lastSync,
+			'type' => $this->type,
 		);
 	}
 	
@@ -266,13 +267,8 @@ abstract class Request implements RequestInterface {
 	 */
 	protected function executeReceiveRequest($requestMethod, $url, $options = array())
 	{
-		$lastSync = $this->lastSync->format($this->config->date['format']);
-		$query_string = $this->config->date['query_string'];
-
-		// Add date to URL on Receive requests.
-		$url .= '?' . $query_string . '=' . str_replace(' ', '_', $lastSync);
-
-		// Log::info('Receiving data from ' . $url);
+		// Define de URL
+		$url = $this->makeReceiveUrl($url);
 
 		if( ! isset($options['timeout']))
 		{
@@ -280,6 +276,17 @@ abstract class Request implements RequestInterface {
 		}
 
 		return $this->method->{$requestMethod}($url, $this->headers, $options);
+	}
+
+	private function makeReceiveUrl($url)
+	{
+		$lastSync = $this->lastSync->format($this->config->date['format']);
+		$query_string = $this->config->date['query_string'];
+
+		// Add date to URL on Receive requests.
+		$url .= '?' . $query_string . '=' . str_replace(' ', '_', $lastSync);
+
+		return $url;
 	}
 
 }

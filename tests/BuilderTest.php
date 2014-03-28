@@ -13,6 +13,7 @@ class BuilderTest extends SynchronizerTest {
 		parent::setUp();
 
 		$this->request  = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+
 		$this->resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 	}
 
@@ -60,6 +61,10 @@ class BuilderTest extends SynchronizerTest {
 
 	public function testFromErpToDatabase()
 	{	
+		$this->request->shouldReceive('getOptions')
+			 ->once()
+			 ->andReturn(array());
+			 
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		// Mock the fromErp method on Receiver class
@@ -79,11 +84,15 @@ class BuilderTest extends SynchronizerTest {
 
 		$assert = $builder->fromErpToDatabase(Mockery::type('string'));
 
-		$this->assertTrue($assert);
+		$this->assertArrayHasKey('response', $assert); 
 	}
 
 	public function testFromDatabaseToErp()
 	{
+		$this->request->shouldReceive('getOptions')
+			 ->once()
+			 ->andReturn(array());
+
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		// Mock the fromDatabase method on Receiver class
@@ -103,11 +112,15 @@ class BuilderTest extends SynchronizerTest {
 
 		$assert = $builder->fromDatabaseToErp(Mockery::type('string'));
 
-		$this->assertTrue($assert);
+		$this->assertArrayHasKey('response', $assert);
 	}
 
 	public function testFromDatabaseToApi()
 	{
+		$this->request->shouldReceive('getOptions')
+			 ->once()
+			 ->andReturn(array());
+
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		// Mock the fromDatabase method on Receiver class
@@ -127,11 +140,15 @@ class BuilderTest extends SynchronizerTest {
 
 		$assert = $builder->fromDatabaseToApi(Mockery::type('string'));
 
-		$this->assertTrue($assert);
+		$this->assertArrayHasKey('response', $assert);
 	}
 
 	public function testFromApiToDatabase()
 	{
+		$this->request->shouldReceive('getOptions')
+			 ->once()
+			 ->andReturn(array());
+
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
 
@@ -145,11 +162,15 @@ class BuilderTest extends SynchronizerTest {
 
 		$assert = $builder->fromApiToDatabase(array(), Mockery::type('string'));
 
-		$this->assertTrue($assert);
+		$this->assertArrayHasKey('response', $assert);
 	}
 
 	public function testFailedSync()
 	{
+		// $this->request->shouldReceive('getOptions')
+		// 	 ->once()
+		// 	 ->andReturn(array());
+
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		$receiver->shouldReceive('fromErp')

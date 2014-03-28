@@ -151,7 +151,7 @@ abstract class System implements SystemInterface {
 
 		$this->bindContainer($container);
 
-		return $container->make($this->request);
+		return $this->request = $container->make($this->request);
 	}
 
 	private function bindContainer(Container $container)

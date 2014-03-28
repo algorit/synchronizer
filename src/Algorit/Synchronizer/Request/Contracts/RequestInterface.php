@@ -17,7 +17,7 @@ Interface RequestInterface {
 
 	public function authenticate();
 
-	public function setRequestOptions($entityName, $lastSync = false, $type = 'receive');
+	public function setOptions($entityName, $lastSync = false, $type = 'receive');
 
 	public function executeRequest($auth = true);
 

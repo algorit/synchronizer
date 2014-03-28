@@ -51,12 +51,12 @@ class RequestTest extends SynchronizerTest {
 			   ->andReturn($this->entities);
 
 		$request->setConfig($config);
-		$request->setRequestOptions('products');
+		$request->setOptions('products');
 
 		$this->assertEquals($this->entities['receive']['products'], $request->getEntity());
 	}
 
-	public function testSetRequestOptions()
+	public function testSetOptions()
 	{
 		$request = new RequestStub($this->method, $this->repository, $this->parser);
 
@@ -69,13 +69,13 @@ class RequestTest extends SynchronizerTest {
 
 		$now = Carbon::now();
 
-		$request->setRequestOptions('categories', $now, 'send');
+		$request->setOptions('categories', $now, 'send');
 
-		list($type, $lastSync, $entity) = $request->getRequestOptions();
+		$options = $request->getOptions();
 
-		$this->assertEquals($type, 'send');
-		$this->assertEquals($entity, $this->entities['send']['categories']);
-		$this->assertEquals($lastSync, $now);
+		$this->assertEquals($options['type'], 'send');
+		$this->assertEquals($options['entity'], $this->entities['send']['categories']);
+		$this->assertEquals($options['lastSync'], $now);
 	}
 
 }

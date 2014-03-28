@@ -22,6 +22,7 @@ class CreateSyncsTable extends Migration
 
 			$table->string('entity')->nullable();
 			$table->string('type', 60);
+			$table->string('url')->nullable();
 			$table->string('class');
 			$table->string('status', 10)->default('fail'); // fail / success
 			$table->text('response')->nullable();

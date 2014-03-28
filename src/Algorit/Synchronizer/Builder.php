@@ -57,8 +57,8 @@ class Builder {
 	 */
 	public function __construct(Sender $send, Receiver $receive, SyncRepositoryInterface $repository)
 	{
-		$this->send    	  = $send;
-		$this->receive 	  = $receive;
+		$this->send = $send;
+		$this->receive = $receive;
 		$this->repository = $repository;
 	}
 
@@ -153,6 +153,8 @@ class Builder {
 			// Do it!
 			$do = $try($entity, $lastSync);
 
+			$response = array_get($do, 'response');
+
 			$this->repository->updateCurrentSync(array(
 				'status'   => 'success',
 				'response' => json_encode($do)
@@ -170,10 +172,12 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			// $this->logger->error($message);
 			// echo $message . PHP_EOL;
 
-
+			if($this->logger)
+			{
+				$this->logger->error($message);
+			}
 
 			return false;
 		}
@@ -199,7 +203,12 @@ class Builder {
 			$this->repository->touchCurrentSync();
 
 			// Send to database
-			return $this->send->toDatabase($this->request, (string) $entity, $data);
+			$response = $this->send->toDatabase($this->request, (string) $entity, $data);
+
+			return [
+				'options' => $this->getRequest()->getOptions(),
+				'response' => $response
+			];
 		});
 	}
 
@@ -223,7 +232,12 @@ class Builder {
 			$this->repository->touchCurrentSync();
 
 			// Send to ERP
-			return $this->send->toErp($this->request, (string) $entity, $data);
+			$response = $this->send->toErp($this->request, (string) $entity, $data);
+
+			return [
+				'options' => $this->getRequest()->getOptions(),
+				'response' => $response
+			];
 		});
 	}
 
@@ -247,7 +261,12 @@ class Builder {
 			$this->repository->touchCurrentSync();
 
 			// Send to Api
-			return $this->send->toApi($data);
+			$response =  $this->send->toApi($data);
+
+			return [
+				'options' => $this->getRequest()->getOptions(),
+				'response' => $response
+			];
 		});
 	}
 
@@ -269,7 +288,12 @@ class Builder {
 			$this->repository->touchCurrentSync();
 
 			// Send to database
-			return $this->send->toDatabase($this->request, (string) $entity, $data);
+			$response = $this->send->toDatabase($this->request, (string) $entity, $data);
+
+			return [
+				'options' => $this->getRequest()->getOptions(),
+				'response' => $response
+			];
 		});
 
 	}

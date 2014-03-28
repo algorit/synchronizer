@@ -24,7 +24,7 @@ trait EntityTrait {
 	 * @param  $entityName
 	 * @return string
 	 */
-	protected function getFromEntityName($name)
+	public function getFromEntityName($name)
 	{
 		if( ! is_string($name))
 		{

@@ -28,16 +28,4 @@ Trait LoggerTrait {
 		return $this->logger;
 	}
 
-	/**
-	 * Log a message
-	 *
-	 * @param  string $message
-	 * @param  string $level
-	 * @return logger
-	 */
-	public function log($message, $level = 'info')
-	{
-		return $this->logger->$level($message);
-	}
-
 }

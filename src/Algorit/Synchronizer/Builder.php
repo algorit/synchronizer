@@ -10,6 +10,8 @@ use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
 class Builder {
 
+	use LoggerTrait;
+
 	/**
 	 * The system request instance.
 	 *
@@ -170,6 +172,8 @@ class Builder {
 
 			// $this->logger->error($message);
 			// echo $message . PHP_EOL;
+
+
 
 			return false;
 		}

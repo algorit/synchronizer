@@ -2,7 +2,6 @@
 
 use Closure;
 use Exception;
-use Psr\Log\LoggerInterface;
 use Illuminate\Support\Collection;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
@@ -11,6 +10,8 @@ use Algorit\Synchronizer\Request\Contracts\ContainerInterface;
 
 class Loader {
 
+	use LoggerTrait;
+	
 	/**
 	 * The Company instance.
 	 *
@@ -58,28 +59,6 @@ class Loader {
 		$this->config    = $config;
 		$this->builder   = $builder;
 		$this->container = $container;
-	}
-
-	/**
-	 * Set the logger instance
-	 *
-	 * @param  $logger
-	 * @return void
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
-	}
-
-	/**
-	 * Get the logger instance
-	 *
-	 * @param  void
-	 * @return logger
-	 */
-	public function getLogger()
-	{
-		return $this->logger;
 	}
 
 	/**

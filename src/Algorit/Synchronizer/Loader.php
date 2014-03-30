@@ -66,7 +66,7 @@ class Loader {
 	 * Set the System instance
 	 *
 	 * @param  \Algorit\Synchronizer\Request\Contracts\SystemInterface $system
-	 * @return  System
+	 * @return \Algorit\Synchronizer\Loader
 	 */
 	public function setSystem(SystemInterface $system)
 	{
@@ -79,7 +79,7 @@ class Loader {
 	 * Get the System instance
 	 *
 	 * @param  void
-	 * @return System
+	 * @return \Algorit\Synchronizer\System
 	 */
 	public function getSystem()
 	{
@@ -90,7 +90,7 @@ class Loader {
 	 * Get the Builder instance
 	 *
 	 * @param  void
-	 * @return Builder
+	 * @return \Algorit\Synchronizer\Builder
 	 */
 	public function getBuilder()
 	{
@@ -101,7 +101,7 @@ class Loader {
 	 * Get the System instance
 	 *
 	 * @param  void
-	 * @return System
+	 * @return  \Algorit\Synchronizer\Request\Request
 	 */
 	public function getRequest()
 	{
@@ -113,7 +113,7 @@ class Loader {
 	 *
 	 * @param  \Algorit\Synchronizer\Request\Contracts\SystemInterface $system
 	 * @param  mixed  $callback
-	 * @return instance
+	 * @return \Algorit\Synchronizer\Loader
 	 */
 	public function loadSystem(SystemInterface $system, $callback = false)
 	{
@@ -128,8 +128,9 @@ class Loader {
 	/**
 	 * Test if the variable is a collection or a resource.
 	 *
-	 * @param  object
-	 * @return mixed
+	 * @param  mixed $resource
+	 * @param  mixed $callback
+	 * @return \Algorit\Synchronizer\Loader
 	 */
 	private function select($resource, $callback)
 	{
@@ -154,8 +155,9 @@ class Loader {
 	/**
 	 * Start the loader given a Collection as resource.
 	 *
-	 * @param  callback
-	 * @return void
+	 * @param  \Illuminate\Support\Collection $collection
+	 * @param  mixed $callback
+	 * @return \Algorit\Synchronizer\Loader
 	 */
 	public function startCollection(Collection $collection, $callback = false)
 	{
@@ -170,8 +172,9 @@ class Loader {
 	/**
 	 * Set the resource and start the builder.
 	 *
-	 * @param  callback
-	 * @return void
+	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
+	 * @param  mixed $callback
+	 * @return \Algorit\Synchronizer\Loader
 	 */
 	public function start(ResourceInterface $resource, $callback = false)
 	{

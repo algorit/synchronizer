@@ -95,6 +95,11 @@ class Config {
 		return $this;
 	}
 
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
 	public function getAlias($name)
 	{
 		return $this->aliases[$name];

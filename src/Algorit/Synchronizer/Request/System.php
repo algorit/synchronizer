@@ -55,18 +55,6 @@ abstract class System implements SystemInterface {
 		$this->setup();
 	}
 
-	// public function setConfig(Config $config)
-	// {
-	// 	$this->config = $config;
-
-	// 	return $this;
-	// }
-
-	// public function getConfig()
-	// {
-	// 	return $this->config;
-	// }
-
 	public function setResource(ResourceInterface $resource)
 	{
 		$this->resource = $resource;
@@ -149,12 +137,11 @@ abstract class System implements SystemInterface {
 			$this->setRequest();
 		}
 
-		$this->bindContainer($container);
-
-		return $this->request = $container->make($this->request);
+		return $this->request = $this->bindedContainer($container)
+									 ->make($this->request);
 	}
 
-	private function bindContainer(Container $container)
+	private function bindedContainer(Container $container)
 	{
 		// Set actual namespace in container.
 		$container->setNamespace($this->namespace);
@@ -176,6 +163,8 @@ abstract class System implements SystemInterface {
 		{
 			return $this->method ?: new Requests;
 		});
+
+		return $container;
 	}
 
 }

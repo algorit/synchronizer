@@ -13,8 +13,7 @@ class RequestTest extends SynchronizerTest {
 	{
 		parent::setUp();
 
-		$this->repository = Mockery::mock('Algorit\Synchronizer\Request\Repository');
-		$this->parser = Mockery::mock('Algorit\Synchronizer\Request\Parser');
+		$this->transport = Mockery::mock('Algorit\Synchronizer\Request\Transport');
 		$this->method = Mockery::mock('Algorit\Synchronizer\Request\Methods\Requests');
 
 		$this->entities = array(
@@ -35,15 +34,14 @@ class RequestTest extends SynchronizerTest {
 
 	public function testInstances()
 	{
-		$request = new RequestStub($this->method, $this->repository, $this->parser);
+		$request = new RequestStub($this->method, $this->transport);
 
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Parser', $request->getParser());
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Repository', $request->getRepository());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Transport', $request->getTransport());
 	}
 
 	public function testSetEntity()
 	{
-		$request = new RequestStub($this->method, $this->repository, $this->parser);
+		$request = new RequestStub($this->method, $this->transport);
 
 		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('getEntities')
@@ -58,7 +56,7 @@ class RequestTest extends SynchronizerTest {
 
 	public function testSetOptions()
 	{
-		$request = new RequestStub($this->method, $this->repository, $this->parser);
+		$request = new RequestStub($this->method, $this->transport);
 
 		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('getEntities')

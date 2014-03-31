@@ -3,7 +3,7 @@
 use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
 
-class Parser {
+class Transport {
 
 	use EntityTrait;
 	
@@ -34,14 +34,27 @@ class Parser {
 	 * @param  \Closure 				  $callback
 	 * @return instance
 	 */
-	public function call($name, Array $alias)
+	public function callParser($name, Array $alias)
 	{
-		$class  = $this->container->getNamespace() . '\\Parsers\\' . $this->getFromEntityName($name);
+		$class = $this->container->getNamespace() . '\\Parsers\\' . $this->getFromEntityName($name);
 
-		$parser = $this->container->make($class);
-		$parser->setAliases($alias);
-
-		return $parser;
+		return $this->container->make($class)->setAliases($alias);
 	}
+	
+	/**
+	 * Call a repository instance.
+	 *
+	 * @param  \Repositories\Interfaces\  $repositoryInterface
+	 * @param  \Closure 				  $callback
+	 * @return instance
+	 */
+	public function callRepository($entity)
+	{
+		$class = $this->container->getNamespace() . '\\Repositories\\' . $this->getFromEntityName($entity);
+
+		return $this->container->make($class);
+	}
+
+
 
 }

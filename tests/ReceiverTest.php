@@ -38,27 +38,27 @@ class ReceiverTest extends SynchronizerTest {
 		$this->assertTrue($assert);
 	}
 
-	public function testSendToDatabase()
+	public function testReceiveFromDatabase()
 	{
-		$repository = Mockery::mock('Algorit\Synchronizer\Request\Repository');
+		$repository = Mockery::mock('Algorit\Synchronizer\Request\Transport');
 
-		$repository->shouldReceive('call')
+		$repository->shouldReceive('callRepository')
 				   ->once()
 				   ->andReturn(Mockery::mock(['get' => true]));
 
 		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 
-		$request->shouldReceive('getRepository')
+		$request->shouldReceive('getTransport')
 				->twice() // Using twice to call it from tests too.
 				->andReturn($repository);
 
 		$assert = $this->receiver->fromDatabase($request, Mockery::type('string'), Mockery::type('string'));
 
 		$this->assertTrue($assert);
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Repository', $request->getRepository());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Transport', $request->getTransport());
 	}
 
-	public function testSendToApi()
+	public function testReceiveFromApi()
 	{
 		$assert = $this->receiver->fromApi($this->response);
 		$this->assertEquals($assert, $this->response);

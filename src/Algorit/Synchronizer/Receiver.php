@@ -1,8 +1,16 @@
 <?php namespace Algorit\Synchronizer;
 
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
+use Algorit\Synchronizer\Request\Repository;
 
 class Receiver {
+
+	protected $repository;
+
+	public function setRepository(Repository $repository)
+	{
+		$this->repository = $repository;
+	}
 
 	/**
 	 * Receive data from ERP
@@ -21,9 +29,12 @@ class Receiver {
 	 */
 	public function fromDatabase(RequestInterface $request, $entity, $lastSync)
 	{
-		return $request->getRepository()
-					   ->call($entity)
+		return $request->getTransport()
+					   ->callRepository($entity)
 					   ->get($lastSync);
+
+		// return $this->repository->call($entity)
+								// ->get($lastSync);
 	}
 
 	/**
@@ -33,8 +44,6 @@ class Receiver {
 	 */
 	public function fromApi($data)
 	{
-		// No use for this... Yet. 
-		// Update: Receive orders?
 		return $data;
 	}
 

@@ -21,18 +21,11 @@ abstract class Request implements RequestInterface {
 	protected $method;
 
 	/**
-	 * The parser instance.
+	 * The transport instance.
 	 *
-	 * @var \Algorit\Synchronizer\Request\Parser
+	 * @var \Algorit\Synchronizer\Request\Transport
 	 */
-	protected $parser;
-
-	/**
-	 * The repository instance.
-	 *
-	 * @var \Algorit\Synchronizer\Request\Repository
-	 */
-	protected $repository;
+	protected $transport;
 
 	/**
 	 * The http cookie.
@@ -65,17 +58,14 @@ abstract class Request implements RequestInterface {
 	/**
 	 * Create a new instance.
 	 *
-	 * @param  \Synchronizer\Contracts\RequestMethodInterface  $method
-	 * @param  \Services\Sync\Unzip   			  $zip
-	 * @param  \Illuminate\Filesystem\Filesystem  $files
-	 * @param  \Services\Sync\Erps\Jjw\Repository $repository
+	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestMethodInterface  $method
+	 * @param  \Algorit\Synchronizer\Request\Transport  $transport
 	 * @return instance
 	 */
-	public function __construct(MethodInterface $method, Repository $repository, Parser $parser)
+	public function __construct(MethodInterface $method, Transport $transport)
 	{
 		$this->method = $method;
-		$this->parser = $parser;
-		$this->repository = $repository;
+		$this->transport = $transport;
 	}
 
 	public function setConfig(Config $config)
@@ -102,23 +92,29 @@ abstract class Request implements RequestInterface {
 		return $this->resource;
 	}
 
-	public function getParser()
+	public function getTransport()
 	{
-		return $this->parser;
+		return $this->transport;
 	}
 
-	public function getRepository()
-	{
-		return $this->repository;
-	}
+	// public function getParser()
+	// {
+	// 	return $this->parser;
+	// }
+
+	// public function getRepository()
+	// {
+	// 	return $this->repository;
+	// }
 
 	public abstract function authenticate();
 
 	/**
 	 * Set the request options. 
 	 *
-	 * @param  string $entityName
-	 * @param  string $lastSync
+	 * @param  string  $entityName
+	 * @param  string  $lastSync
+	 * @param  string  $type
 	 * @return void
 	 */
 	public function setOptions($entityName, $lastSync = false, $type = 'receive')
@@ -147,12 +143,19 @@ abstract class Request implements RequestInterface {
 		$this->setEntity($entities[$type][$entityName]);
 	}
 
+	/**
+	 * Get the options
+	 *
+	 * @param  void
+	 * @return array
+	 */
 	public function getOptions()
 	{
 		$base = array_get($this->config->config, 'base_url');
+
 		return array(
 			'base_url' => $base,
-			'url'    => $this->makeReceiveUrl($base),
+			'url'    => $this->getRequestUrl(),
 			'entity' => $this->getEntity(),
 			'lastSync' => $this->lastSync,
 			'type' => $this->type,
@@ -162,7 +165,7 @@ abstract class Request implements RequestInterface {
 	/**
 	 * Process the data received from a request.
 	 *
-	 * @param   \Synchronizer\Contracts\RequestMethodInterface  $request
+	 * @param   \Algorit\Synchronizer\Contracts\RequestMethodInterface  $request
 	 * @param   \Closure  $callback
 	 * @return  mixed
 	 */
@@ -242,7 +245,7 @@ abstract class Request implements RequestInterface {
 	 * @param  string  $url
 	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
-	protected function executeSendRequest($requestMethod, $url, $data, $options = array())
+	protected function executeSendRequest($requestMethod, $data, $options = array())
 	{
 		if( ! isset($data['headers']) or ! isset($data['body']))
 		{
@@ -257,7 +260,7 @@ abstract class Request implements RequestInterface {
 			$options = array_merge($options, array('timeout' => 200000));
 		}
 
-		return $this->method->{$requestMethod}($url, $headers, $body, $options);
+		return $this->method->{$requestMethod}($this->getRequestUrl(), $headers, $body, $options);
 	}
 
 	/**
@@ -267,21 +270,26 @@ abstract class Request implements RequestInterface {
 	 * @param  string  $url
 	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
-	protected function executeReceiveRequest($requestMethod, $url, $options = array())
+	protected function executeReceiveRequest($requestMethod, $options = array())
 	{
-		// Define de URL
-		$url = $this->makeReceiveUrl($url);
-
 		if( ! isset($options['timeout']))
 		{
 			$options = array_merge($options, array('timeout' => 200000));
 		}
 
-		return $this->method->{$requestMethod}($url, $this->headers, $options);
+		return $this->method->{$requestMethod}($this->getRequestUrl(), $this->headers, $options);
 	}
 
-	private function makeReceiveUrl($base_url)
+	/**
+	 * Get the request URL with the last sync date
+	 *
+	 * @param  void,
+	 * @return string
+	 */
+	private function getRequestUrl()
 	{
+		$base_url = array_get($this->config->config, 'base_url') . '/' . array_get($this->entity, 'url');
+
 		$lastSync = $this->lastSync->format($this->config->date['format']);
 		$query_string = $this->config->date['query_string'];
 

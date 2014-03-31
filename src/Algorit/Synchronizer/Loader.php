@@ -101,7 +101,7 @@ class Loader {
 	 * Get the System instance
 	 *
 	 * @param  void
-	 * @return  \Algorit\Synchronizer\Request\Request
+	 * @return \Algorit\Synchronizer\Request\Request
 	 */
 	public function getRequest()
 	{

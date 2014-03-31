@@ -101,10 +101,10 @@ abstract class System implements SystemInterface {
 	 * @param  \Illuminate\Filesystem\Filesystem $filesystem
 	 * @return void
 	 */
-	public function setFilesystem(Filesystem $filesystem)
-	{
-		$this->filesystem = $filesystem;
-	}
+	// public function setFilesystem(Filesystem $filesystem)
+	// {
+	// 	$this->filesystem = $filesystem;
+	// }
 
 	/**
 	 * Set the request Class.
@@ -147,10 +147,10 @@ abstract class System implements SystemInterface {
 		$container->setNamespace($this->namespace);
 
 		// Bind the correct Filesystem
-		$container->bind('Illuminate\Filesystem\Filesystem', function()
-		{
-			return $this->filesystem ?: new Filesystem;
-		});
+		// $container->bind('Illuminate\Filesystem\Filesystem', function()
+		// {
+		// 	return $this->filesystem ?: new Filesystem;
+		// });
 
 		// Is it binding the Container to itself? Brain fuck
 		// Think we should use an interface here, as well for the filesystem.

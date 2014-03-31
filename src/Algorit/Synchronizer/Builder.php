@@ -75,11 +75,23 @@ class Builder {
 		$this->resource = $resource;
 	}
 
+	/**
+	 * Get the request
+	 *
+	 * @param  void
+	 * @return \Algorit\Synchronizer\Request\Contracts\RequestInterface
+	 */
 	public function getRequest()
 	{
 		return $this->request;
 	}
 
+	/**
+	 * Get the resource
+	 *
+	 * @param  void
+	 * @return \Algorit\Synchronizer\Request\Contracts\ResourceInterface
+	 */
 	public function getResource()
 	{
 		return $this->resource;
@@ -110,7 +122,7 @@ class Builder {
 	 * @param  string|bool  $lastSync
 	 * @param  string  		$entity
 	 * @param  string  		$function
-	 * @return \Carbon\Carbon 
+	 * @return mixed
 	 */
 	private function getLastSync($lastSync, $entity, $function, $format = 'Y-m-d H:i:s')
 	{
@@ -138,9 +150,11 @@ class Builder {
 	/**
 	 * Process a closure inside a try statement
 	 *
-	 * @param  Closure 	$try
-	 * @param  bool 	$details
-	 * @return void
+	 * @param  string 			$entity
+	 * @param  \Carbon\Carbon 	$lastSync
+	 * @param  Closure 			$try
+	 * @param  boolean 			$details
+	 * @return mixed
 	 */
 	private function process($entity, $lastSync, $function, Closure $try, $details = false)
 	{
@@ -189,9 +203,9 @@ class Builder {
 	 *
 	 * Receive all system data.
 	 *
-	 * @param string 	  $entity
-	 * @param string|bool $lastSync
-	 * @return \Synchronizer\Sender
+	 * @param string 	$entity
+	 * @param mixed 	$lastSync
+	 * @return \Algorit\Synchronizer\Sender
 	 */
 	public function fromErpToDatabase($entity, $lastSync = null)
 	{
@@ -218,9 +232,9 @@ class Builder {
 	 *
 	 * Usually send orders that was received from device.
 	 *
-	 * @param string 	  $entity
-	 * @param string|bool $lastSync
-	 * @return \Synchronizer\Sender
+	 * @param string 	$entity
+	 * @param mixed 	$lastSync
+	 * @return \Algorit\Synchronizer\Sender
 	 */
 	public function fromDatabaseToErp($entity, $lastSync = null)
 	{	
@@ -247,9 +261,9 @@ class Builder {
 	 *
 	 * Send all Device data.
 	 *
-	 * @param string 	  $entity
-	 * @param string|bool $lastSync
-	 * @return \Synchronizer\Sender
+	 * @param string 	$entity
+	 * @param mixed 	$lastSync
+	 * @return \Algorit\Synchronizer\Sender
 	 */
 	public function fromDatabaseToApi($entity, $lastSync = null)
 	{
@@ -276,10 +290,10 @@ class Builder {
 	 *
 	 * Usually receive orders from the device.
 	 *
-	 * @param array 	  $data
-	 * @param string 	  $entity
-	 * @param string|bool $lastSync
-	 * @return \Synchronizer\Sender
+	 * @param array 	$data
+	 * @param string 	$entity
+	 * @param mixed 	$lastSync
+	 * @return \Algorit\Synchronizer\Sender
 	 */
 	public function fromApiToDatabase(Array $data, $entity, $lastSync = null)
 	{

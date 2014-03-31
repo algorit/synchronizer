@@ -51,7 +51,7 @@ class RequestTest extends SynchronizerTest {
 		$request->setConfig($config);
 		$request->setOptions('products');
 
-		$this->assertEquals($this->entities['receive']['products'], $request->getEntity());
+		$this->assertEquals($this->entities['receive']['products'], $request->getOptions()->entity);
 	}
 
 	public function testSetOptions()
@@ -71,9 +71,10 @@ class RequestTest extends SynchronizerTest {
 
 		$options = $request->getOptions();
 
-		$this->assertEquals($options['type'], 'send');
-		$this->assertEquals($options['entity'], $this->entities['send']['categories']);
-		$this->assertEquals($options['lastSync'], $now);
+
+		$this->assertEquals($options->type, 'send');
+		$this->assertEquals($options->entity, $this->entities['send']['categories']);
+		$this->assertEquals($options->lastSync, $now);
 	}
 
 	public function testProcessRequestData()

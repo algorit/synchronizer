@@ -5,8 +5,6 @@ use Illuminate\Filesystem\Filesystem;
 
 class Transport {
 
-	use EntityTrait;
-	
 	/**
 	 * The filesystem instance
 	 *
@@ -32,6 +30,22 @@ class Transport {
 	{
 		$this->files = $files;
 		$this->container = $container;
+	}
+
+	/**
+	 * Get the base name given an entity plural name.
+	 *
+	 * @param  string  $name
+	 * @return string
+	 */
+	public function getFromEntityName($name)
+	{
+		if( ! is_string($name))
+		{
+			throw new Exception('Wrong name format');
+		}
+		
+		return ucfirst(strtolower(str_singular($name)));
 	}
 
 	/**

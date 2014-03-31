@@ -18,9 +18,14 @@ class Sender implements TransporterInterface {
 		$this->method = $method;
 	}
 
-	public function execute()
+	public function getRequestUrl()
 	{
 		
+	}
+
+	public function execute()
+	{
+
 	}
 
 }

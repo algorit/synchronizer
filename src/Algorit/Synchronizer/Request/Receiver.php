@@ -18,6 +18,11 @@ class Receiver implements TransporterInterface {
 		$this->method = $method;
 	}
 
+	public function getRequestUrl()
+	{
+		
+	}
+
 	public function execute()
 	{
 		

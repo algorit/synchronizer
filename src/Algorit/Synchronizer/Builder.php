@@ -50,9 +50,9 @@ class Builder {
 	/**
 	 * Class constructor.
 	 *
-	 * @param \Synchronizer\Sender 	 $send
-	 * @param \Synchronizer\Receiver $receive
-	 * @param \Application\Storage\Contracts\SyncInterface $repository
+	 * @param \Algorit\Synchronizer\Sender 	 $send
+	 * @param \Algorit\Synchronizer\Receiver $receive
+	 * @param \Algorit\Synchronizer\Storage\SyncRepositoryInterface $repository
 	 * @return void
 	 */
 	public function __construct(Sender $send, Receiver $receive, SyncRepositoryInterface $repository)

@@ -116,7 +116,9 @@ class Loader {
 	 * @return \Algorit\Synchronizer\Loader
 	 */
 	public function loadSystem(SystemInterface $system, $callback = false)
-	{
+	{	
+		$this->logger->notice('Loading ' . $system->name);
+
 		$this->setSystem($system);
 
 		// Load system

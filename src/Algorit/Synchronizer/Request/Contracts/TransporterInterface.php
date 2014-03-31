@@ -2,6 +2,8 @@
 
 interface TransporterInterface {
 
+	public function getRequestUrl();
+
 	public function execute();
 
 }

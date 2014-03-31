@@ -6,13 +6,6 @@ use Illuminate\Filesystem\Filesystem;
 class Transport {
 
 	/**
-	 * The filesystem instance
-	 *
-	 * @var \Illuminate\Filesystem\Filesystem
-	 */
-	protected $files;
-
-	/**
 	 * The container instance
 	 *
 	 * @var \Algorit\Synchronizer\Container
@@ -23,12 +16,11 @@ class Transport {
 	 * Create a new instance.
 	 *
 	 * @param  \Algorit\Synchronizer\Container   $container
-	 * @param  \Illuminate\Filesystem\Filesystem $files
 	 * @return 
 	 */
-	public function __construct(Container $container, Filesystem $files)
+	public function __construct(Container $container, Receiver $receiver, Sender $sender)
 	{
-		$this->files = $files;
+		// $this->files = $files;
 		$this->container = $container;
 	}
 

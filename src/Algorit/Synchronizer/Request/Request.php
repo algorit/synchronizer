@@ -111,15 +111,6 @@ abstract class Request implements RequestInterface {
 	}
 
 	/**
-	 * Create a request to authenticate.
-	 *
-	 * Needs to be implemented by subclasses.
-	 *
-	 * @return mixed
-	 */
-	public abstract function authenticate();
-
-	/**
 	 * Set the request options. 
 	 *
 	 * @param  string  $entityName
@@ -153,6 +144,15 @@ abstract class Request implements RequestInterface {
 			'entity'   => $entities[$type][$entityName]
 		];
 	}
+
+	/**
+	 * Create a request to authenticate.
+	 *
+	 * Needs to be implemented by subclasses.
+	 *
+	 * @return mixed
+	 */
+	public abstract function authenticate();
 
 	/**
 	 * Get the request options

@@ -81,36 +81,6 @@ abstract class Request implements RequestInterface {
 	}
 
 	/**
-	 * Get the Config instance.
-	 *
-	 * @return \Algorit\Synchronizer\Request\Config
-	 */
-	public function getConfig()
-	{
-		return $this->config;
-	}
-
-	/**
-	 * Get the Resource instance.
-	 *
-	 * @return \Algorit\Synchronizer\Request\Contracts\ResourceInterface
-	 */
-	public function getResource()
-	{
-		return $this->resource;
-	}
-
-	/**
-	 * Get the Transport instance.
-	 *
-	 * @return \Algorit\Synchronizer\Request\Transport
-	 */
-	public function getTransport()
-	{
-		return $this->transport;
-	}
-
-	/**
 	 * Set the request options. 
 	 *
 	 * @param  string  $entityName
@@ -146,13 +116,34 @@ abstract class Request implements RequestInterface {
 	}
 
 	/**
-	 * Create a request to authenticate.
+	 * Get the Config instance.
 	 *
-	 * Needs to be implemented by subclasses.
-	 *
-	 * @return mixed
+	 * @return \Algorit\Synchronizer\Request\Config
 	 */
-	public abstract function authenticate();
+	public function getConfig()
+	{
+		return $this->config;
+	}
+
+	/**
+	 * Get the Resource instance.
+	 *
+	 * @return \Algorit\Synchronizer\Request\Contracts\ResourceInterface
+	 */
+	public function getResource()
+	{
+		return $this->resource;
+	}
+
+	/**
+	 * Get the Transport instance.
+	 *
+	 * @return \Algorit\Synchronizer\Request\Transport
+	 */
+	public function getTransport()
+	{
+		return $this->transport;
+	}
 
 	/**
 	 * Get the request options
@@ -190,6 +181,15 @@ abstract class Request implements RequestInterface {
 
 		return $url;
 	}
+	
+	/**
+	 * Create a request to authenticate.
+	 *
+	 * Needs to be implemented by subclasses.
+	 *
+	 * @return mixed
+	 */
+	public abstract function authenticate();
 	
 	/**
 	 * Process the data received from a request.

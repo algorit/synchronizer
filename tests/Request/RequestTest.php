@@ -76,4 +76,18 @@ class RequestTest extends SynchronizerTest {
 		$this->assertEquals($options['lastSync'], $now);
 	}
 
+	public function testProcessRequestData()
+	{
+		$request = new RequestStub($this->method, $this->transport);
+
+		$body = json_encode(array('bla' => true));
+
+		$process = $request->processRequestData((object) ['body' => $body], function($data)
+		{
+			return $data;
+		});
+
+		$this->assertEquals(json_decode($body, true), $process);
+	}
+
 }

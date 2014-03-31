@@ -169,7 +169,7 @@ abstract class Request implements RequestInterface {
 	 * @param   \Closure  $callback
 	 * @return  mixed
 	 */
-	protected function processRequestData($request, Closure $callback)
+	public function processRequestData($request, Closure $callback)
 	{
 		return $callback(json_decode($request->body, true));
 	}

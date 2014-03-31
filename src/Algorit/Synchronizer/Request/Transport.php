@@ -15,13 +15,20 @@ class Transport {
 	protected $files;
 
 	/**
+	 * The container instance
+	 *
+	 * @var \Algorit\Synchronizer\Container
+	 */
+	protected $container;
+
+	/**
 	 * Create a new instance.
 	 *
-	 * @param  \Repositories\   $repository
-	 * @param  \Repositories\   $files
+	 * @param  \Algorit\Synchronizer\Container   $container
+	 * @param  \Illuminate\Filesystem\Filesystem $files
 	 * @return 
 	 */
-	public function __construct(Filesystem $files, Container $container)
+	public function __construct(Container $container, Filesystem $files)
 	{
 		$this->files = $files;
 		$this->container = $container;
@@ -54,7 +61,5 @@ class Transport {
 
 		return $this->container->make($class);
 	}
-
-
 
 }

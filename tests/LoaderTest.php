@@ -15,6 +15,7 @@ class LoaderTest extends SynchronizerTest {
 
 		$builder = Mockery::mock('Algorit\Synchronizer\Builder');
 		$builder->shouldReceive('start');
+		$builder->shouldReceive('setLogger');
 				// ->once();
 
 		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
@@ -35,11 +36,18 @@ class LoaderTest extends SynchronizerTest {
 		$this->assertInstanceOf('Algorit\Synchronizer\Builder', $this->loader->getBuilder());
 	}
 
-	public function testLogger()
+	public function testSetGetLogger()
 	{
 		$this->loader->setLogger(Mockery::mock('Psr\Log\LoggerInterface'));
 
 		$this->assertInstanceOf('Psr\Log\LoggerInterface', $this->loader->getLogger());
+	}
+
+	public function testSetSystem()
+	{
+		$this->loader->setSystem(new SystemStub(new ResourceStub));
+
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\SystemInterface', $this->loader->getSystem());
 	}
 
 	public function testSystemInstance()
@@ -55,6 +63,8 @@ class LoaderTest extends SynchronizerTest {
 	public function testRequestInstance()
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
+
+		$this->loader->setLogger(Mockery::mock('Psr\Log\LoggerInterface'));
 
 		$this->loader->loadSystem(new SystemStub(new ResourceStub))
 					 ->start($resource);
@@ -74,6 +84,18 @@ class LoaderTest extends SynchronizerTest {
 		$this->loader->loadSystem(new SystemStub(new Collection));
 
 		$this->assertInstanceOf('Illuminate\Support\Collection', $this->loader->getSystem()->getResource());
+	}
+
+	public function testStartCallback()
+	{
+		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
+
+		$make = $this->loader->loadSystem(new SystemStub(new ResourceStub))->start($resource, function()
+	 	{
+	 		return 'Callback!';
+	 	});
+
+		$this->assertEquals($make, 'Callback!');
 	}
 
 	/**

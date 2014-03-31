@@ -171,7 +171,7 @@ class Builder {
 
 			$this->repository->updateCurrentSync(array(
 				'status'   => 'success',
-				'url' 	   => array_get($do, 'options.url'), 
+				'url' 	   => array_get($do, 'options')->url, 
 				'response' => json_encode($do)
 			));
 

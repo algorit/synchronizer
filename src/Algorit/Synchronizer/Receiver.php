@@ -32,9 +32,6 @@ class Receiver {
 		return $request->getTransport()
 					   ->callRepository($entity)
 					   ->get($lastSync);
-
-		// return $this->repository->call($entity)
-								// ->get($lastSync);
 	}
 
 	/**

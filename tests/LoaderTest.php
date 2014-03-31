@@ -24,6 +24,12 @@ class LoaderTest extends SynchronizerTest {
 			   ->andReturn($config);
 
 		$this->loader = new Loader(new Container, $builder, $config);
+
+		$logger = Mockery::mock('Illuminate\Log\Writer');
+		$logger->shouldReceive('notice')
+			   ->andReturn(true);
+
+		$this->loader->setLogger($logger);
 	}
 
 	public function testInstance()
@@ -64,7 +70,11 @@ class LoaderTest extends SynchronizerTest {
 	{
 		$resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 
-		$this->loader->setLogger(Mockery::mock('Psr\Log\LoggerInterface'));
+		$logger = Mockery::mock('Illuminate\Log\Writer');
+		$logger->shouldReceive('notice')
+			   ->andReturn(true);
+
+		$this->loader->setLogger($logger);
 
 		$this->loader->loadSystem(new SystemStub(new ResourceStub))
 					 ->start($resource);

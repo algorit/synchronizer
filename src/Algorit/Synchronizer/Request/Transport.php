@@ -37,9 +37,9 @@ class Transport {
 	/**
 	 * Call a parser instance and set the aliases.
 	 *
-	 * @param  \Repositories\Interfaces\  $name
-	 * @param  \Closure 				  $callback
-	 * @return instance
+	 * @param  string $name
+	 * @param  array  $alias
+	 * @return \Algorit\Synchronizer\Request\Contracts\ParserInterface
 	 */
 	public function callParser($name, Array $alias)
 	{
@@ -51,13 +51,12 @@ class Transport {
 	/**
 	 * Call a repository instance.
 	 *
-	 * @param  \Repositories\Interfaces\  $repositoryInterface
-	 * @param  \Closure 				  $callback
-	 * @return instance
+	 * @param  string $name
+	 * @return \Algorit\Synchronizer\Request\Contracts\RepositoryInterface
 	 */
-	public function callRepository($entity)
+	public function callRepository($name)
 	{
-		$class = $this->container->getNamespace() . '\\Repositories\\' . $this->getFromEntityName($entity);
+		$class = $this->container->getNamespace() . '\\Repositories\\' . $this->getFromEntityName($name);
 
 		return $this->container->make($class);
 	}

@@ -175,6 +175,11 @@ class Builder {
 				'response' => json_encode($do)
 			));
 
+			if($this->logger)
+			{
+				$this->logger->addInfo('bla!');
+			}
+
 			return $do;
 		}
 		catch(Exception $e)
@@ -187,11 +192,9 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			// echo $message . PHP_EOL;
-
 			if($this->logger)
 			{
-				$this->logger->error($message);
+				$this->logger->addError($message);
 			}
 
 			return false;

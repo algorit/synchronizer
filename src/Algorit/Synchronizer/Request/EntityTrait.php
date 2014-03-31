@@ -21,7 +21,7 @@ trait EntityTrait {
 	/**
 	 * Get the base name given an entity plural name.
 	 *
-	 * @param  $entityName
+	 * @param  string  $name
 	 * @return string
 	 */
 	public function getFromEntityName($name)

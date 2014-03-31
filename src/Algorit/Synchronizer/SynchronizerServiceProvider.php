@@ -44,7 +44,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 		});
 
 		$logger = new Logger('Sync');
-		// $logger->pushHandler(new StreamHandler('php://output', Logger::DEBUG));
+		$logger->pushHandler(new StreamHandler('php://output', Logger::DEBUG));
 
 		$this->app['synchronizer']->setLogger($logger);
 	}

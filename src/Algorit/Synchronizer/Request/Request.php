@@ -1,6 +1,5 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-// use Log;
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
@@ -10,8 +9,6 @@ use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
 
 abstract class Request implements RequestInterface {
-
-	use EntityTrait;
 
 	/**
 	 * The method instance.
@@ -42,18 +39,11 @@ abstract class Request implements RequestInterface {
 	protected $headers;
 
 	/**
-	 * The current last sync date.
+	 * The request options.
 	 *
 	 * @var array
 	 */
-	protected $lastSync;
-
-	/**
-	 * The current sync type.
-	 *
-	 * @var array
-	 */
-	protected $type;
+	protected $options;
 
 	/**
 	 * Create a new instance.
@@ -68,45 +58,65 @@ abstract class Request implements RequestInterface {
 		$this->transport = $transport;
 	}
 
+	/**
+	 * Set the Config instance.
+	 *
+	 * @param \Algorit\Synchronizer\Request\Config
+	 * @return void
+	 */
 	public function setConfig(Config $config)
 	{
 		$this->config = $config;
-
-		return $this;
 	}
 
+	/**
+	 * Set the Resource instance.
+	 *
+	 * @param \Algorit\Synchronizer\Request\Contracts\ResourceInterface
+	 * @return void
+	 */
 	public function setResource(ResourceInterface $resource)
 	{
 		$this->resource = $resource;
-
-		return $this;
 	}
 
+	/**
+	 * Get the Config instance.
+	 *
+	 * @return \Algorit\Synchronizer\Request\Config
+	 */
 	public function getConfig()
 	{
 		return $this->config;
 	}
 
+	/**
+	 * Get the Resource instance.
+	 *
+	 * @return \Algorit\Synchronizer\Request\Contracts\ResourceInterface
+	 */
 	public function getResource()
 	{
 		return $this->resource;
 	}
 
+	/**
+	 * Get the Transport instance.
+	 *
+	 * @return \Algorit\Synchronizer\Request\Transport
+	 */
 	public function getTransport()
 	{
 		return $this->transport;
 	}
 
-	// public function getParser()
-	// {
-	// 	return $this->parser;
-	// }
-
-	// public function getRepository()
-	// {
-	// 	return $this->repository;
-	// }
-
+	/**
+	 * Create a request to authenticate.
+	 *
+	 * Needs to be implemented by subclasses.
+	 *
+	 * @return mixed
+	 */
 	public abstract function authenticate();
 
 	/**
@@ -136,36 +146,55 @@ abstract class Request implements RequestInterface {
 			$lastSync = Carbon::createFromFormat($this->config->date['format'], $this->config->date['default']);
 		}
 
-		// Set them all!
-		$this->type = $type;
-		$this->lastSync = $lastSync;
-
-		$this->setEntity($entities[$type][$entityName]);
+		$this->options = (object) [
+			'base_url' => array_get($this->config->config, 'base_url'),
+			'type' 	   => $type,
+			'lastSync' => $lastSync,
+			'entity'   => $entities[$type][$entityName]
+		];
 	}
 
 	/**
-	 * Get the options
+	 * Get the request options
 	 *
 	 * @param  void
 	 * @return array
 	 */
 	public function getOptions()
 	{
-		$base = array_get($this->config->config, 'base_url');
+		$this->options->url = $this->getRequestUrl();
 
-		return array(
-			'base_url' => $base,
-			'url'    => $this->getRequestUrl(),
-			'entity' => $this->getEntity(),
-			'lastSync' => $this->lastSync,
-			'type' => $this->type,
-		);
+		return $this->options;
+	}
+
+	/**
+	 * Get the request URL with the last sync date
+	 *
+	 * @param  void,
+	 * @return string
+	 */
+	private function getRequestUrl()
+	{	
+		// Set URL
+		$url = array_get($this->config->config, 'base_url') . '/' . array_get($this->options->entity, 'url');
+
+		// Get lastSync date
+		$lastSync = $this->options->lastSync->format($this->config->date['format']);
+		
+		// Todo: Use Sender or Receiver 
+		if($this->options->type == 'receive')
+		{
+			// Add date to URL on Receive requests.
+			$url .= '?' . $this->config->date['query_string'] . '=' . str_replace(' ', '_', $lastSync);
+		}
+
+		return $url;
 	}
 	
 	/**
 	 * Process the data received from a request.
 	 *
-	 * @param   \Algorit\Synchronizer\Contracts\RequestMethodInterface  $request
+	 * @param   \Algorit\Synchronizer\Request\Methods\MethodInterface  $request
 	 * @param   \Closure  $callback
 	 * @return  mixed
 	 */
@@ -208,9 +237,12 @@ abstract class Request implements RequestInterface {
 	public abstract function send($entityName, Array $data, $lastSync = false);
 
 	/**
-	 * Create a multipart request. (Used for file uploads)
+	 * Create a multipart request. (For file uploads)
 	 *
-	 * @return $body
+	 * @param string $inputName
+	 * @param string $file
+	 * @param string $fileName
+	 * @return array
 	 */
 	protected function createMultipartRequest($inputName, $file, $fileName)
 	{
@@ -278,25 +310,6 @@ abstract class Request implements RequestInterface {
 		}
 
 		return $this->method->{$requestMethod}($this->getRequestUrl(), $this->headers, $options);
-	}
-
-	/**
-	 * Get the request URL with the last sync date
-	 *
-	 * @param  void,
-	 * @return string
-	 */
-	private function getRequestUrl()
-	{
-		$base_url = array_get($this->config->config, 'base_url') . '/' . array_get($this->entity, 'url');
-
-		$lastSync = $this->lastSync->format($this->config->date['format']);
-		$query_string = $this->config->date['query_string'];
-
-		// Add date to URL on Receive requests.
-		$base_url .= '?' . $query_string . '=' . str_replace(' ', '_', $lastSync);
-
-		return $base_url;
 	}
 
 }

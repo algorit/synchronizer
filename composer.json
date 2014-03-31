@@ -16,11 +16,11 @@
         "illuminate/console": "4.1.x",
         "illuminate/config": "4.1.x",
         "illuminate/filesystem": "4.1.x",
+        "illuminate/log": "4.1.x",
         "nesbot/carbon": "1.*",
         "rmccue/requests": ">=1.0",
         "nategood/httpful": "*",
         "stil/curl-easy": "*",
-        "monolog/monolog": "1.*",
         "symfony/monolog-bridge": "dev-master"
     },
     "require-dev": {

@@ -3,7 +3,12 @@
 return array(
 
 	'bindings' => [
-    	'request' => 'Algorit\Synchronizer\Request\Methods\Requests'
+    	'method'  => 'Algorit\Synchronizer\Request\Methods\Requests',
+    ],
+
+    'log' => [
+    	'console' => true,
+    	'path'	  => storage_path() . '/logs/' . 'log-' . php_sapi_name() . '.txt';
     ]
 
 );

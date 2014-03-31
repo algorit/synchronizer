@@ -17,6 +17,14 @@ class BuilderTest extends SynchronizerTest {
 		$this->request->shouldReceive('getOptions')
 			 ->andReturn((object) array('url' => 'test'));
 
+		$this->logger = Mockery::mock('Illuminate\Log\Writer');
+		
+		$this->logger->shouldReceive('info')
+					 ->andReturn(true);
+
+		$this->logger->shouldReceive('error')
+					 ->andReturn(true);
+
 		$this->resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 	}
 
@@ -79,6 +87,7 @@ class BuilderTest extends SynchronizerTest {
 			   ->andReturn(true);
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->setLogger($this->logger);
 		$builder->start($this->request, $this->resource);
 
 		$assert = $builder->fromErpToDatabase(Mockery::type('string'));
@@ -103,6 +112,7 @@ class BuilderTest extends SynchronizerTest {
 			   ->andReturn(true);
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->setLogger($this->logger);
 		$builder->start($this->request, $this->resource);
 
 		$assert = $builder->fromDatabaseToErp(Mockery::type('string'));
@@ -127,6 +137,7 @@ class BuilderTest extends SynchronizerTest {
 			   ->andReturn(true);
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->setLogger($this->logger);
 		$builder->start($this->request, $this->resource);
 
 		$assert = $builder->fromDatabaseToApi(Mockery::type('string'));
@@ -145,6 +156,7 @@ class BuilderTest extends SynchronizerTest {
 			   ->andReturn(true);
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
+		$builder->setLogger($this->logger);
 		$builder->start($this->request, $this->resource);
 
 		$assert = $builder->fromApiToDatabase(array(), Mockery::type('string'));
@@ -191,6 +203,7 @@ class BuilderTest extends SynchronizerTest {
 				   ->andReturn(false);
 
 		$builder = new Builder($sender, $receiver, $repository);
+		$builder->setLogger($this->logger);
 		$builder->start($this->request, $this->resource);
 
 		$assert = $builder->fromErpToDatabase(false);

@@ -185,10 +185,7 @@ class Loader {
 		$this->request->setResource($resource);
 
 		// Set logger
-		if($this->logger instanceof LoggerInterface)
-		{
-			$this->builder->setLogger($this->logger);
-		}
+		$this->builder->setLogger($this->logger);
 
 		// Start the Builder
 		$this->builder->start($this->request, $resource);

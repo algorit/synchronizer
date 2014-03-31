@@ -158,7 +158,7 @@ class Builder {
 	 */
 	private function process($entity, $lastSync, $function, Closure $try, $details = false)
 	{
-		$this->write('Processing ' . $entity . ' request', 'notice');
+		$this->logger->info('Processing ' . $entity . ' request');
 
 		try
 		{	
@@ -187,7 +187,7 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			$this->write('Processing ' . $entity . ' request', 'error');
+			$this->logger->error('Processing ' . $entity . ' request');
 
 			return false;
 		}

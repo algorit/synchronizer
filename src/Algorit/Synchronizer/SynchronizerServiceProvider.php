@@ -1,15 +1,15 @@
 <?php namespace Algorit\Synchronizer;
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use Psr\Log\LoggerInterface;
+
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
-use Algorit\Synchronizer\Storage\Sync;
+
+use Monolog\Handler\StreamHandler;
+// use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
+// use Symfony\Component\Console\Output\ConsoleOutput;
+// use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Algorit\Synchronizer\Request\Config;
-use Algorit\Synchronizer\Storage\SyncEloquentRepository;
 
 class SynchronizerServiceProvider extends ServiceProvider {
 
@@ -46,19 +46,29 @@ class SynchronizerServiceProvider extends ServiceProvider {
 			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
 
-		$this->registerMonolog();
+		$this->registerLogger();
 	}
 
-	public function registerMonolog()
+	public function registerLogger()
 	{
-		$handler = new ConsoleHandler(new ConsoleOutput);
-		$handler->setFormatter(new ConsoleFormatter);
+		$handler = new StreamHandler('php://output');
 
-		$logger = new Logger('Synchronizer');
-		$logger->pushHandler($handler);
+		$logger = $this->app['log'];
+
+		$monolog = $logger->getMonolog();
+		$monolog->pushHandler($handler);
 
 		$this->app['synchronizer']->setLogger($logger);
 	}
+
+	// public function console($logger)
+	// {	
+	// 	$monolog = $logger->getMonolog();
+
+	// 	$handler = new ConsoleHandler(new ConsoleOutput);
+	// 	$handler->setFormatter(new ConsoleFormatter);
+	// 	$monolog->pushHandler($handler);
+	// }
 
 	/**
 	 * Get the services provided by the provider.

@@ -4,6 +4,9 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Bridge\Monolog\Handler\ConsoleHandler;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Algorit\Synchronizer\Storage\Sync;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Storage\SyncEloquentRepository;
@@ -43,8 +46,16 @@ class SynchronizerServiceProvider extends ServiceProvider {
 			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
 
-		$logger = new Logger('Sync');
-		$logger->pushHandler(new StreamHandler('php://output', Logger::DEBUG));
+		$this->registerMonolog();
+	}
+
+	public function registerMonolog()
+	{
+		$handler = new ConsoleHandler(new ConsoleOutput);
+		$handler->setFormatter(new ConsoleFormatter);
+
+		$logger = new Logger('Synchronizer');
+		$logger->pushHandler($handler);
 
 		$this->app['synchronizer']->setLogger($logger);
 	}

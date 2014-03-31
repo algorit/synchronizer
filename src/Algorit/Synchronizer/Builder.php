@@ -158,6 +158,8 @@ class Builder {
 	 */
 	private function process($entity, $lastSync, $function, Closure $try, $details = false)
 	{
+		$this->write('Processing ' . $entity . ' request', 'notice');
+
 		try
 		{	
 			$this->createCurrentSync($entity, $function);
@@ -167,18 +169,11 @@ class Builder {
 			// Do it!
 			$do = $try($entity, $lastSync);
 
-			$response = array_get($do, 'response');
-
 			$this->repository->updateCurrentSync(array(
 				'status'   => 'success',
 				'url' 	   => array_get($do, 'options')->url, 
 				'response' => json_encode($do)
 			));
-
-			if($this->logger)
-			{
-				$this->logger->addInfo('bla!');
-			}
 
 			return $do;
 		}
@@ -192,10 +187,7 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			if($this->logger)
-			{
-				$this->logger->addError($message);
-			}
+			$this->write('Processing ' . $entity . ' request', 'error');
 
 			return false;
 		}

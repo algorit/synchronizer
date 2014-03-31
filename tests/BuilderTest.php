@@ -13,6 +13,9 @@ class BuilderTest extends SynchronizerTest {
 		parent::setUp();
 
 		$this->request  = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		
+		$this->request->shouldReceive('getOptions')
+			 ->andReturn((object) array('url' => 'test'));
 
 		$this->resource = Mockery::mock('Algorit\Synchronizer\Request\Contracts\ResourceInterface');
 	}
@@ -61,10 +64,6 @@ class BuilderTest extends SynchronizerTest {
 
 	public function testFromErpToDatabase()
 	{	
-		$this->request->shouldReceive('getOptions')
-			 ->once()
-			 ->andReturn(array());
-			 
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		// Mock the fromErp method on Receiver class
@@ -89,10 +88,6 @@ class BuilderTest extends SynchronizerTest {
 
 	public function testFromDatabaseToErp()
 	{
-		$this->request->shouldReceive('getOptions')
-			 ->once()
-			 ->andReturn(array());
-
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		// Mock the fromDatabase method on Receiver class
@@ -117,10 +112,6 @@ class BuilderTest extends SynchronizerTest {
 
 	public function testFromDatabaseToApi()
 	{
-		$this->request->shouldReceive('getOptions')
-			 ->once()
-			 ->andReturn(array());
-
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		// Mock the fromDatabase method on Receiver class
@@ -145,10 +136,6 @@ class BuilderTest extends SynchronizerTest {
 
 	public function testFromApiToDatabase()
 	{
-		$this->request->shouldReceive('getOptions')
-			 ->once()
-			 ->andReturn(array());
-
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 		$sender = Mockery::mock('Algorit\Synchronizer\Sender');
 
@@ -167,10 +154,6 @@ class BuilderTest extends SynchronizerTest {
 
 	public function testFailedSync()
 	{
-		// $this->request->shouldReceive('getOptions')
-		// 	 ->once()
-		// 	 ->andReturn(array());
-
 		$receiver = Mockery::mock('Algorit\Synchronizer\Receiver');
 
 		$receiver->shouldReceive('fromErp')

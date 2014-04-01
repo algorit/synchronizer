@@ -2,7 +2,7 @@
 
 class Curl implements MethodInterface {
 
-	private static $instance;
+	protected static $instance;
 
 	protected static function me()
 	{

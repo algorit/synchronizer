@@ -5,13 +5,6 @@ use Algorit\Synchronizer\Request\Repository;
 
 class Receiver {
 
-	protected $repository;
-
-	public function setRepository(Repository $repository)
-	{
-		$this->repository = $repository;
-	}
-
 	/**
 	 * Receive data from ERP
 	 *

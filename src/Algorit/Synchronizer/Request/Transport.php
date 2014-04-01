@@ -16,9 +16,9 @@ class Transport {
 	 * Create a new instance.
 	 *
 	 * @param  \Algorit\Synchronizer\Container   $container
-	 * @return 
+	 * @return
 	 */
-	public function __construct(Container $container, Receiver $receiver, Sender $sender)
+	public function __construct(Container $container)
 	{
 		// $this->files = $files;
 		$this->container = $container;
@@ -36,7 +36,7 @@ class Transport {
 		{
 			throw new Exception('Wrong name format');
 		}
-		
+
 		return ucfirst(strtolower(str_singular($name)));
 	}
 
@@ -51,9 +51,10 @@ class Transport {
 	{
 		$class = $this->container->getNamespace() . '\\Parsers\\' . $this->getFromEntityName($name);
 
-		return $this->container->make($class)->setAliases($alias);
+		return $this->container->make($class)
+							   ->setAliases($alias);
 	}
-	
+
 	/**
 	 * Call a repository instance.
 	 *

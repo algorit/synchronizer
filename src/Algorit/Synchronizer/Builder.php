@@ -180,7 +180,7 @@ class Builder {
 	 * @param  array  $response
 	 * @return array
 	 */
-	public function updateBuild(Array $response)
+	private function updateBuild(Array $response)
 	{
 		$this->repository->updateCurrentSync(array(
 			'status' 	 => 'success',
@@ -198,7 +198,7 @@ class Builder {
 	 * @param  \Exception $e
 	 * @return boolean
 	 */
-	public function updateFailedBuild(Exception $e)
+	private function updateFailedBuild(Exception $e)
 	{
 		$this->repository->updateFailedSync($e);
 
@@ -210,6 +210,38 @@ class Builder {
 		$this->logger->error($message);
 
 		return false;
+	}
+
+	/**
+	 * Build from database
+	 *
+	 * @param  string  $entity
+	 * @param  mixed   $lastSync
+	 * @return array
+	 */
+	private function buildFromDatabase($entity, $lastSync)
+	{
+		// Receive from Database
+		$data = $this->receive->fromDatabase($this->request, $entity, $lastSync);
+
+		// Touch current sync to set a new updated_at date.
+		$this->repository->touchCurrentSync();
+
+		return $data;
+	}
+
+	/**
+	 * Add options to response
+	 *
+	 * @param  array $response
+	 * @return array
+	 */
+	private function addRequestOptions(Array $response)
+	{
+		return [
+			'options'  => $this->getRequest()->getOptions(),
+			'response' => $response
+		];
 	}
 
 	/**
@@ -226,18 +258,15 @@ class Builder {
 		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
 			// Receive from ERP
-			$data = $this->receive->fromErp($this->request, (string) $entity, $lastSync);
+			$data = $this->receive->fromErp($this->request, $entity, $lastSync);
 
 			// Touch current sync to set a new updated_at date.
 			$this->repository->touchCurrentSync();
 
 			// Send to database
-			$response = $this->send->toDatabase($this->request, (string) $entity, $data);
+			$response = $this->send->toDatabase($this->request, $entity, $data);
 
-			return [
-				'options' => $this->getRequest()->getOptions(),
-				'response' => $response
-			];
+			return $this->addRequestOptions($response);
 		});
 	}
 
@@ -246,27 +275,21 @@ class Builder {
 	 *
 	 * Usually send orders that was received from device.
 	 *
-	 * @param string 	$entity
-	 * @param mixed 	$lastSync
-	 * @return \Algorit\Synchronizer\Sender
+	 * @param  string 	$entity
+	 * @param  mixed 	$lastSync
+	 * @return array
 	 */
 	public function fromDatabaseToErp($entity, $lastSync = null)
 	{
 		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
-			// Receive from Database
-			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
-
-			// Touch current sync to set a new updated_at date.
-			$this->repository->touchCurrentSync();
+			// Receive and touch
+			$data = $this->buildFromDatabase($entity, $lastSync);
 
 			// Send to ERP
-			$response = $this->send->toErp($this->request, (string) $entity, $data);
+			$response = $this->send->toErp($this->request, $entity, $data);
 
-			return [
-				'options' => $this->getRequest()->getOptions(),
-				'response' => $response
-			];
+			return $this->addRequestOptions($response);
 		});
 	}
 
@@ -275,27 +298,21 @@ class Builder {
 	 *
 	 * Send all Device data.
 	 *
-	 * @param string 	$entity
-	 * @param mixed 	$lastSync
-	 * @return \Algorit\Synchronizer\Sender
+	 * @param  string 	$entity
+	 * @param  mixed 	$lastSync
+	 * @return array
 	 */
 	public function fromDatabaseToApi($entity, $lastSync = null)
 	{
 		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
-			// Receive from Database
-			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
-
-			// Touch current sync to set a new updated_at date.
-			$this->repository->touchCurrentSync();
+			// Receive and touch
+			$data = $this->buildFromDatabase($entity, $lastSync);
 
 			// Send to Api
-			$response =  $this->send->toApi($data);
+			$response = $this->send->toApi($data);
 
-			return [
-				'options' => $this->getRequest()->getOptions(),
-				'response' => $response
-			];
+			return $this->addRequestOptions($response);
 		});
 	}
 
@@ -304,10 +321,10 @@ class Builder {
 	 *
 	 * Usually receive orders from the device.
 	 *
-	 * @param array 	$data
-	 * @param string 	$entity
-	 * @param mixed 	$lastSync
-	 * @return \Algorit\Synchronizer\Sender
+	 * @param  array 	$data
+	 * @param  string 	$entity
+	 * @param  mixed 	$lastSync
+	 * @return array
 	 */
 	public function fromApiToDatabase(Array $data, $entity, $lastSync = null)
 	{
@@ -317,12 +334,9 @@ class Builder {
 			$this->repository->touchCurrentSync();
 
 			// Send to database
-			$response = $this->send->toDatabase($this->request, (string) $entity, $data);
+			$response = $this->send->toDatabase($this->request, $entity, $data);
 
-			return [
-				'options' => $this->getRequest()->getOptions(),
-				'response' => $response
-			];
+			return $this->addRequestOptions($response);
 		});
 
 	}

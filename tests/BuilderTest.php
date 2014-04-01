@@ -89,7 +89,7 @@ class BuilderTest extends SynchronizerTest {
 		// Mock the toDatabase method on Sender class
 		$sender->shouldReceive('toDatabase')
 			   ->once()
-			   ->andReturn(true);
+			   ->andReturn(array());
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
 		$builder->setLogger($this->logger);
@@ -114,7 +114,7 @@ class BuilderTest extends SynchronizerTest {
 		// Mock the toErp method on Sender class
 		$sender->shouldReceive('toErp')
 			   ->once()
-			   ->andReturn(true);
+			   ->andReturn(array());
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
 		$builder->setLogger($this->logger);
@@ -139,7 +139,7 @@ class BuilderTest extends SynchronizerTest {
 		// Mock the toApi method on Sender class
 		$sender->shouldReceive('toApi')
 			   ->once()
-			   ->andReturn(true);
+			   ->andReturn(array());
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
 		$builder->setLogger($this->logger);
@@ -158,7 +158,7 @@ class BuilderTest extends SynchronizerTest {
 		// Mock the toDatabase method on Sender class
 		$sender->shouldReceive('toDatabase')
 			   ->once()
-			   ->andReturn(true);
+			   ->andReturn(array());
 
 		$builder = new Builder($sender, $receiver, $this->getMockedRepository());
 		$builder->setLogger($this->logger);

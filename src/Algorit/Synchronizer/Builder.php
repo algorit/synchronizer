@@ -98,14 +98,14 @@ class Builder {
 	}
 
 	/**
-	 * Create a current sync repository instance. 
+	 * Create a current sync repository instance.
 	 *
 	 * @param  string  $entity
 	 * @param  string  $type
 	 * @return \Carbon\Carbon $lastSync
 	 */
 	private function createCurrentSync($entity, $type)
-	{	
+	{
 		$sync = array(
 			'entity'  => $entity,
 			'type'    => $type,
@@ -156,12 +156,12 @@ class Builder {
 	 * @param  boolean 			$details
 	 * @return mixed
 	 */
-	private function process($entity, $lastSync, $function, Closure $try, $details = false)
+	private function process($entity, $lastSync, $function, Closure $try)
 	{
 		$this->logger->info('Processing ' . $entity . ' request');
 
 		try
-		{	
+		{
 			$this->createCurrentSync($entity, $function);
 
 			$lastSync = $this->getLastSync($lastSync, $entity, $function);
@@ -170,10 +170,10 @@ class Builder {
 			$do = $try($entity, $lastSync);
 
 			$this->repository->updateCurrentSync(array(
-				'status' 	 => 'success',
+				'status' 	=> 'success',
 				'started_at' => array_get($do, 'options')->lastSync->toDateTimeString(),
-				'url' 		 => array_get($do, 'options')->url,
-				'response'	 => json_encode($do)
+				'url' 	   => array_get($do, 'options')->url,
+				'response'   => json_encode($do)
 			));
 
 			return $do;
@@ -183,9 +183,9 @@ class Builder {
 			// Update sync
 			$this->repository->updateFailedSync($e);
 
-			$message = get_class($e) 	  . ': ' 
-					   . $e->getMessage() . ' in ' 
-					   . $e->getFile() 	  . ' on line '
+			$message = get_class($e) 	 . ': '
+					   . $e->getMessage() . ' in '
+					   . $e->getFile()    . ' on line '
 					   . $e->getLine();
 
 			$this->logger->error($message);
@@ -199,9 +199,9 @@ class Builder {
 	 *
 	 * Receive all system data.
 	 *
-	 * @param string 	$entity
-	 * @param mixed 	$lastSync
-	 * @return \Algorit\Synchronizer\Sender
+	 * @param  string  $entity
+	 * @param  mixed   $lastSync
+	 * @return array
 	 */
 	public function fromErpToDatabase($entity, $lastSync = null)
 	{
@@ -209,7 +209,7 @@ class Builder {
 		{
 			// Receive from ERP
 			$data = $this->receive->fromErp($this->request, (string) $entity, $lastSync);
-				
+
 			// Touch current sync to set a new updated_at date.
 			$this->repository->touchCurrentSync();
 
@@ -233,12 +233,12 @@ class Builder {
 	 * @return \Algorit\Synchronizer\Sender
 	 */
 	public function fromDatabaseToErp($entity, $lastSync = null)
-	{	
+	{
 		return $this->process($entity, $lastSync, __FUNCTION__, function($entity, $lastSync)
 		{
 			// Receive from Database
 			$data = $this->receive->fromDatabase($this->request, (string) $entity, $lastSync);
-			
+
 			// Touch current sync to set a new updated_at date.
 			$this->repository->touchCurrentSync();
 

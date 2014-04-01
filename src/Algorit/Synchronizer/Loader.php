@@ -49,6 +49,13 @@ class Loader {
 	protected $container;
 
 	/**
+	* The Config instance.
+	*
+	* @var \Algorit\Synchronizer\Config
+	*/
+	public $config;
+
+	/**
 	 * Create a new Loader.
 	 *
 	 * @param  Builder $builder
@@ -116,7 +123,7 @@ class Loader {
 	 * @return \Algorit\Synchronizer\Loader
 	 */
 	public function loadSystem(SystemInterface $system, $callback = false)
-	{	
+	{
 		$this->logger->notice('Loading ' . $system->name);
 
 		$this->setSystem($system);

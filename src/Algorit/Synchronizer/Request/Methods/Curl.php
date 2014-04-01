@@ -4,7 +4,7 @@ class Curl implements MethodInterface {
 
 	private static $instance;
 
-	private static function me()
+	protected static function me()
 	{
 		if(static::$instance == false)
 		{
@@ -43,5 +43,5 @@ class Curl implements MethodInterface {
 	{
 		return static::me()->patch($url, $headers, $options);
 	}
-	
+
 }

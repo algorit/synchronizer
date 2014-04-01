@@ -8,7 +8,7 @@ return array(
 
     'log' => [
     	'console' => true,
-    	'path'	  => storage_path() . '/logs/' . 'log-' . php_sapi_name() . '.txt';
+    	'path'	  => storage_path() . '/logs/' . 'log-' . php_sapi_name() . '.txt'
     ]
 
 );

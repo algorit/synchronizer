@@ -1,9 +1,9 @@
 <?php namespace Algorit\Synchronizer\Request;
 
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
-use Algorit\Synchronizer\Request\Contracts\TransporterInterface;
+use Algorit\Synchronizer\Request\Contracts\DispatcherInterface;
 
-class Receiver implements TransporterInterface {
+class Receiver implements DispatcherInterface {
 
 	protected $methods = array('put', 'get', 'post', 'delete', 'patch');
 
@@ -18,12 +18,17 @@ class Receiver implements TransporterInterface {
 		$this->request = $request;
 	}
 
+	public function getName()
+	{
+
+	}
+
 	public function getRequestUrl()
 	{
 		
 	}
 
-	public function execute()
+	public function execute($requestMethod, $data = array(), $options = array())
 	{
 		
 	}

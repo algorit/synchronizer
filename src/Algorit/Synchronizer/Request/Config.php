@@ -1,6 +1,5 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use Str;
 use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
@@ -60,6 +59,14 @@ class Config {
 		$this->files = $files;
 	}
 
+	protected function load($path)
+	{
+		$this->config  = $this->files->getRequire($path . '/config.php');
+		$this->aliases = $this->files->getRequire($path . '/aliases.php');
+
+		return $this;
+	}
+
 	/**
 	 * Setup the configuration.
 	 *
@@ -75,8 +82,7 @@ class Config {
 			$path = $system->path . '/Config/' . $resource->slug;
 		}
 
-		$this->config  = $this->files->getRequire($path . '/config.php');
-		$this->aliases = $this->files->getRequire($path . '/aliases.php');
+		$this->load($path);
 
 		if( ! is_array($this->config))
 		{

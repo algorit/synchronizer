@@ -27,7 +27,7 @@ class CreateSyncsTable extends Migration
 			$table->string('status', 10)->default('fail'); // fail / success
 			$table->text('response')->nullable();
 
-			// $table->timestamp('started_at');
+			$table->timestamp('started_at');
 			$table->timestamps();
 
 			$table->engine = 'InnoDB';

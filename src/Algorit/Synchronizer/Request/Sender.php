@@ -10,12 +10,12 @@ class Sender implements TransporterInterface {
 	/**
 	 * Create a new instance.
 	 *
-	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestMethodInterface  $method
+	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestMethodInterface  $request
 	 * @return instance
 	 */
-	public function __construct(MethodInterface $method)
+	public function __construct(MethodInterface $request)
 	{
-		$this->method = $method;
+		$this->request = $request;
 	}
 
 	public function getRequestUrl()

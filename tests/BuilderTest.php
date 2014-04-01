@@ -13,9 +13,14 @@ class BuilderTest extends SynchronizerTest {
 		parent::setUp();
 
 		$this->request  = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+
+		$options = (object) [
+			'url' 	   => 'test',
+			'lastSync' => Mockery::mock(array('toDateTimeString' => true))
+		];
 		
 		$this->request->shouldReceive('getOptions')
-			 ->andReturn((object) array('url' => 'test'));
+			 		  ->andReturn($options);
 
 		$this->logger = Mockery::mock('Illuminate\Log\Writer');
 		

@@ -170,9 +170,10 @@ class Builder {
 			$do = $try($entity, $lastSync);
 
 			$this->repository->updateCurrentSync(array(
-				'status'   => 'success',
-				'url' 	   => array_get($do, 'options')->url, 
-				'response' => json_encode($do)
+				'status' 	 => 'success',
+				'started_at' => array_get($do, 'options')->lastSync->toDateTimeString(),
+				'url' 		 => array_get($do, 'options')->url,
+				'response'	 => json_encode($do)
 			));
 
 			return $do;
@@ -187,7 +188,7 @@ class Builder {
 					   . $e->getFile() 	  . ' on line '
 					   . $e->getLine();
 
-			$this->logger->error('Processing ' . $entity . ' request');
+			$this->logger->error($message);
 
 			return false;
 		}

@@ -150,10 +150,9 @@ class Builder {
 	/**
 	 * Process a closure inside a try statement
 	 *
-	 * @param  string 			$entity
-	 * @param  \Carbon\Carbon 	$lastSync
-	 * @param  Closure 			$try
-	 * @param  boolean 			$details
+	 * @param  string 	$entity
+	 * @param  mixed 	$lastSync
+	 * @param  Closure 	$try
 	 * @return mixed
 	 */
 	private function process($entity, $lastSync, $function, Closure $try)
@@ -166,32 +165,51 @@ class Builder {
 
 			$lastSync = $this->getLastSync($lastSync, $entity, $function);
 
-			// Do it!
-			$do = $try($entity, $lastSync);
-
-			$this->repository->updateCurrentSync(array(
-				'status' 	=> 'success',
-				'started_at' => array_get($do, 'options')->lastSync->toDateTimeString(),
-				'url' 	   => array_get($do, 'options')->url,
-				'response'   => json_encode($do)
-			));
-
-			return $do;
+			return $this->updateBuild($try($entity, $lastSync));
 		}
 		catch(Exception $e)
 		{
-			// Update sync
-			$this->repository->updateFailedSync($e);
-
-			$message = get_class($e) 	 . ': '
-					   . $e->getMessage() . ' in '
-					   . $e->getFile()    . ' on line '
-					   . $e->getLine();
-
-			$this->logger->error($message);
-
-			return false;
+			return $this->updateFailedBuild($e);
 		}
+
+	}
+
+	/**
+	 * Update a build
+	 *
+	 * @param  array  $response
+	 * @return array
+	 */
+	public function updateBuild(Array $response)
+	{
+		$this->repository->updateCurrentSync(array(
+			'status' 	 => 'success',
+			'started_at' => array_get($response, 'options')->lastSync->toDateTimeString(),
+			'url' 	     => array_get($response, 'options')->url,
+			'response'   => json_encode($response)
+		));
+
+		return $response;
+	}
+
+	/**
+	 * Update a failed build
+	 *
+	 * @param  \Exception $e
+	 * @return boolean
+	 */
+	public function updateFailedBuild(Exception $e)
+	{
+		$this->repository->updateFailedSync($e);
+
+		$message = get_class($e) 	 . ': '
+				   . $e->getMessage() . ' in '
+				   . $e->getFile()    . ' on line '
+				   . $e->getLine();
+
+		$this->logger->error($message);
+
+		return false;
 	}
 
 	/**

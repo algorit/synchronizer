@@ -18,11 +18,25 @@ abstract class Request implements RequestInterface {
 	protected $method;
 
 	/**
-	 * The transport instance.
+	 * The Transport instance.
 	 *
 	 * @var \Algorit\Synchronizer\Request\Transport
 	 */
 	protected $transport;
+
+	/**
+	* The Config instance.
+	*
+	* @var \Algorit\Synchronizer\Config
+	*/
+	protected $config;
+
+	/**
+	* The Resource instance.
+	*
+	* @var \Algorit\Synchronizer\Request\Contracts\ResourceInterface
+	*/
+	protected $resource;
 
 	/**
 	 * The http cookie.
@@ -81,7 +95,7 @@ abstract class Request implements RequestInterface {
 	}
 
 	/**
-	 * Set the request options. 
+	 * Set the request options.
 	 *
 	 * @param  string  $entityName
 	 * @param  string  $lastSync
@@ -165,14 +179,14 @@ abstract class Request implements RequestInterface {
 	 * @return string
 	 */
 	private function getRequestUrl()
-	{	
+	{
 		// Set URL
 		$url = array_get($this->config->config, 'base_url') . '/' . array_get($this->options->entity, 'url');
 
 		// Get lastSync date
 		$lastSync = $this->options->lastSync->format($this->config->date['format']);
-		
-		// Todo: Use Sender or Receiver 
+
+		// Todo: Use Sender or Receiver
 		if($this->options->type == 'receive')
 		{
 			// Add date to URL on Receive requests.
@@ -181,7 +195,7 @@ abstract class Request implements RequestInterface {
 
 		return $url;
 	}
-	
+
 	/**
 	 * Create a request to authenticate.
 	 *
@@ -190,11 +204,11 @@ abstract class Request implements RequestInterface {
 	 * @return mixed
 	 */
 	public abstract function authenticate();
-	
+
 	/**
 	 * Process the data received from a request.
 	 *
-	 * @param   \Algorit\Synchronizer\Request\Methods\MethodInterface  $request
+	 * @param   mixed $request
 	 * @param   \Closure  $callback
 	 * @return  mixed
 	 */
@@ -207,7 +221,7 @@ abstract class Request implements RequestInterface {
 	 * Execute a request.
 	 *
 	 * Needs to be implemented by subclasses.
-	 * 
+	 *
 	 * @param  boolean $auth
 	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
@@ -217,10 +231,10 @@ abstract class Request implements RequestInterface {
 	 * Create a request to receive data.
 	 *
 	 * Needs to be implemented by subclasses.
-	 * 
+	 *
 	 * @param  string $entityName
 	 * @param  mixed  $lastSync
-	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface 
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
 	public abstract function receive($entityName, $lastSync);
 
@@ -228,11 +242,11 @@ abstract class Request implements RequestInterface {
 	 * Create a request to send data.
 	 *
 	 * Needs to be implemented by subclasses.
-	 * 
+	 *
 	 * @param  array  $data
 	 * @param  string $entityName
 	 * @param  mixed  $lastSync
-	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface 
+	 * @return \Algorit\Synchronizer\Request\Methods\MethodInterface
 	 */
 	public abstract function send($entityName, Array $data, $lastSync = false);
 
@@ -249,7 +263,8 @@ abstract class Request implements RequestInterface {
 		$separator = '----' . md5($fileName);
 		$eol = "\r\n";
 
-		$content = $this->files->get($file);
+		// Use filesystem? Call parsers?
+		// $content = $this->files->get($file);
 
 		$headers = array(
 			'Cookie' 		=> $this->headers['Cookie'],
@@ -257,10 +272,10 @@ abstract class Request implements RequestInterface {
 			'Connection' 	=> 'keep-alive'
 		);
 
-		$body = '--' . $separator . $eol . 
+		$body = '--' . $separator . $eol .
 				'Content-Disposition: form-data; name="' . $inputName . '"; filename="' . $fileName . '.zip"' . $eol .
                 'Content-Type: application/octet-stream' . $eol .
-                $eol . $content . 
+                $eol . $content .
                 $eol . $eol  .
                 '--' . $separator;
 

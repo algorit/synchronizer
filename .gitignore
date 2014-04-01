@@ -1,7 +1,4 @@
-/src/Algorit/Synchronizer/Commands
-/src/Algorit/Synchronizer/Request/Systems
 /vendor
-/node_modules
 composer.phar
 composer.lock
 .DS_Store

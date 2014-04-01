@@ -12,9 +12,7 @@ class Sender {
 	 */
 	public function toErp(RequestInterface $request, $entity, Array $response)
 	{
-		$data = array_get($response, 'data');
-
-		if( ! is_array($data) OR count($data) == 0)
+		if( ! $data = $this->parse($response))
 		{
 			return $response;
 		}
@@ -29,9 +27,7 @@ class Sender {
 	 */
 	public function toDatabase(RequestInterface $request, $entity, Array $response)
 	{
-		$data = array_get($response, 'data');
-
-		if( ! is_array($data) OR count($data) == 0)
+		if( ! $data = $this->parse($response))
 		{
 			return $response;
 		}
@@ -52,6 +48,24 @@ class Sender {
 		if($parse instanceof Closure)
 		{
 			return $parse($data);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Parse response array
+	 *
+	 * @param  array $response
+	 * @return array
+	 */	
+	private function parse(Array $response)
+	{
+		$data = array_get($response, 'data');
+
+		if( ! is_array($data) OR count($data) == 0)
+		{
+			return false;
 		}
 
 		return $data;

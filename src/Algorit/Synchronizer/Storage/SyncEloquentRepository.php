@@ -1,10 +1,16 @@
 <?php namespace Algorit\Synchronizer\Storage;
 
 use Exception;
-use Algorit\Veloquent\Repository\Model;
 
 final class SyncEloquentRepository implements SyncRepositoryInterface {
-	
+
+	/**
+	 * The entity instance.
+	 *
+	 * @var \Algorit\Synchronizer\Storage\Sync
+	 */	
+	protected $entity;
+
 	/**
 	 * The current instance.
 	 *
@@ -78,7 +84,7 @@ final class SyncEloquentRepository implements SyncRepositoryInterface {
 	 * @param  mixed   $resource
 	 * @param  string  $entity
 	 * @param  string  $type
-	 * @return \Application\Storage\Entities\Sync
+	 * @return \Algorit\Synchronizer\Storage\Sync
 	 */
 	public function getLastSync($resource, $entity, $type)
 	{
@@ -92,8 +98,8 @@ final class SyncEloquentRepository implements SyncRepositoryInterface {
 	/**
 	 * Set the current sync instance
 	 *
-	 * @param  \Application\Storage\Entities\Sync   $instance
-	 * @return \Application\Storage\Entities\Sync
+	 * @param  \Algorit\Synchronizer\Storage\Sync  $instance
+	 * @return \Algorit\Synchronizer\Storage\Sync
 	 */
 	public function setCurrentSync($instance)
 	{
@@ -104,7 +110,7 @@ final class SyncEloquentRepository implements SyncRepositoryInterface {
 	 * Get the current sync
 	 *
 	 * @param  void
-	 * @return \Application\Storage\Entities\Sync
+	 * @return \Algorit\Synchronizer\Storage\Sync
 	 */
 	public function getCurrentSync()
 	{
@@ -115,7 +121,7 @@ final class SyncEloquentRepository implements SyncRepositoryInterface {
 	 * Update the current sync
 	 *
 	 * @param  array  $data
-	 * @return SyncEntity
+	 * @return \Algorit\Synchronizer\Storage\Sync
 	 */
 	public function updateCurrentSync(Array $data)
 	{
@@ -126,7 +132,7 @@ final class SyncEloquentRepository implements SyncRepositoryInterface {
 	 * Touch the current sync timestamps.
 	 *
 	 * @param  void
-	 * @return SyncEntity
+	 * @return \Algorit\Synchronizer\Storage\Sync
 	 */
 	public function touchCurrentSync()
 	{
@@ -137,7 +143,7 @@ final class SyncEloquentRepository implements SyncRepositoryInterface {
 	 * Update the current sync using an exception
 	 *
 	 * @param  \Exception  $exception
-	 * @return SyncEntity
+	 * @return \Algorit\Synchronizer\Storage\Sync
 	 */
 	public function updateFailedSync(Exception $exception)
 	{	

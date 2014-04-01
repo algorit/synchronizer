@@ -49,9 +49,7 @@ class Transport {
 	 */
 	public function callParser($name, Array $alias)
 	{
-		$class = $this->container->getNamespace() . '\\Parsers\\' . $this->getFromEntityName($name);
-
-		return $this->container->make($class)
+		return $this->container->make($this->getClass('Parsers', $name))
 							   ->setAliases($alias);
 	}
 
@@ -63,9 +61,19 @@ class Transport {
 	 */
 	public function callRepository($name)
 	{
-		$class = $this->container->getNamespace() . '\\Repositories\\' . $this->getFromEntityName($name);
+		return $this->container->make($this->getClass('Repositories', $name));
+	}
 
-		return $this->container->make($class);
+	/**
+	* Get the class name
+	*
+	* @param  string  $type
+	* @param  string  $name
+	* @return string
+	*/
+	public function getClass($type, $name)
+	{
+		return $this->container->getNamespace() . '\\' . $type . '\\' . $this->getFromEntityName($name);
 	}
 
 }

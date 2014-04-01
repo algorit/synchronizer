@@ -1,7 +1,6 @@
 <?php namespace Algorit\Synchronizer;
 
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
-use Algorit\Synchronizer\Request\Repository;
 
 class Receiver {
 

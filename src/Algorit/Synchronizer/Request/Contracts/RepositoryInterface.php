@@ -3,6 +3,14 @@
 Interface RepositoryInterface {
 
 	/**
+	 * Import data into Repository.
+	 *
+	 * @param  void
+	 * @return string
+	 */
+	public function import(Array $data);
+
+	/**
 	 * Get data from Repository.
 	 *
 	 * @param  void

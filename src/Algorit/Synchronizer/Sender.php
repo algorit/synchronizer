@@ -34,7 +34,7 @@ class Sender {
 
 		return $request->getTransport()
 					   ->callRepository($entity)
-					   ->set($data); // Change function name.
+					   ->import($data); // Change function name.
 	}
 
 	/**

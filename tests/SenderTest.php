@@ -55,7 +55,7 @@ class SenderTest extends SynchronizerTest {
 
 		$repository->shouldReceive('callRepository')
 				   ->once()
-				   ->andReturn(Mockery::mock(['set' => true]));
+				   ->andReturn(Mockery::mock(['import' => true]));
 
 		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 

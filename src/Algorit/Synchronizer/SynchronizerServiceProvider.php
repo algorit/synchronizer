@@ -28,15 +28,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('algorit/synchronizer');
-	}
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{	
 		$this->app['synchronizer'] = $this->app->share(function($app)
 		{
 			$sync = $app->make('Algorit\Synchronizer\Storage\SyncEloquentRepository');
@@ -49,11 +41,25 @@ class SynchronizerServiceProvider extends ServiceProvider {
 		$this->registerLogger();
 	}
 
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register()
+	{	
+	}
+
 	public function registerLogger()
 	{
-		$handler = new StreamHandler('php://output');
-
 		$logger = $this->app['log'];
+			
+		if( ! $logger)
+		{
+			return false;
+		}
+
+		$handler = new StreamHandler('php://output');
 
 		$monolog = $logger->getMonolog();
 		$monolog->pushHandler($handler);
@@ -77,7 +83,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('synchronizer');
 	}
 
 }

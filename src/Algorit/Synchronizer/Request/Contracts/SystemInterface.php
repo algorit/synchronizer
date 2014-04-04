@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer\Request\Contracts;
 
-// use Algorit\Synchronizer\Container;
+use Algorit\Synchronizer\Container;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
@@ -10,12 +10,8 @@ Interface SystemInterface {
 
 	public function getResource();
 
-	// public function setConfig(Config $config);
-
-	// public function getConfig();
-
 	public function setRequest($name = 'Request');
 
-	// public function loadRequest(Container $container);
+	public function loadRequest(Container $container);
 
 }

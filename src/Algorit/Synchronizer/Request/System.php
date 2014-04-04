@@ -31,12 +31,10 @@ abstract class System implements SystemInterface {
 	public $path;
 
 	/**
-	 * The filesystem
+	 * The request method
 	 *
-	 * @var \Illuminate\Filesystem\Filesystem
+	 * @var object
 	 */
-	protected $filesystem;
-
 	protected $method;
 
 	/**
@@ -96,17 +94,6 @@ abstract class System implements SystemInterface {
 	}
 
 	/**
-	 * Set the filesystem
-	 *
-	 * @param  \Illuminate\Filesystem\Filesystem $filesystem
-	 * @return void
-	 */
-	// public function setFilesystem(Filesystem $filesystem)
-	// {
-	// 	$this->filesystem = $filesystem;
-	// }
-
-	/**
 	 * Set the request Class.
 	 *
 	 * @param  string $name
@@ -141,27 +128,27 @@ abstract class System implements SystemInterface {
 									 ->make($this->request);
 	}
 
+	/**
+	 * Get the container with all its bindings
+	 *
+	 * @param  \Algorit\Synchronizer\Container  $container
+	 * @return \Algorit\Synchronizer\Container  $container
+	 */
 	private function bindedContainer(Container $container)
 	{
 		// Set actual namespace in container.
 		$container->setNamespace($this->namespace);
 
-		// Bind the correct Filesystem
-		// $container->bind('Illuminate\Filesystem\Filesystem', function()
-		// {
-		// 	return $this->filesystem ?: new Filesystem;
-		// });
-
-		// Is it binding the Container to itself? Brain fuck
-		// Think we should use an interface here, as well for the filesystem.
-		$container->bind('Algorit\Synchronizer\Container', function() use ($container)
-		{
-			return $container;
-		});
-
 		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', function()
 		{
 			return $this->method ?: new Requests;
+		});
+
+		// Is it binding the Container to itself? Brain fuck
+		// Think we should use an interface here
+		$container->bind('Algorit\Synchronizer\Container', function() use ($container)
+		{
+			return $container;
 		});
 
 		return $container;

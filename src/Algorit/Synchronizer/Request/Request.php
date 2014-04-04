@@ -18,11 +18,11 @@ abstract class Request implements RequestInterface {
 	protected $method;
 
 	/**
-	 * The Transport instance.
+	 * The Caller instance.
 	 *
-	 * @var \Algorit\Synchronizer\Request\Transport
+	 * @var \Algorit\Synchronizer\Request\Caller
 	 */
-	protected $transport;
+	protected $caller;
 
 	/**
 	* The Config instance.
@@ -63,13 +63,13 @@ abstract class Request implements RequestInterface {
 	 * Create a new instance.
 	 *
 	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestMethodInterface  $method
-	 * @param  \Algorit\Synchronizer\Request\Transport  $transport
+	 * @param  \Algorit\Synchronizer\Request\Caller  $caller
 	 * @return instance
 	 */
-	public function __construct(MethodInterface $method, Transport $transport)
+	public function __construct(MethodInterface $method, Caller $caller)
 	{
 		$this->method = $method;
-		$this->transport = $transport;
+		$this->caller = $caller;
 	}
 
 	/**
@@ -150,13 +150,13 @@ abstract class Request implements RequestInterface {
 	}
 
 	/**
-	 * Get the Transport instance.
+	 * Get the Caller instance.
 	 *
-	 * @return \Algorit\Synchronizer\Request\Transport
+	 * @return \Algorit\Synchronizer\Request\Caller
 	 */
-	public function getTransport()
+	public function getCaller()
 	{
-		return $this->transport;
+		return $this->caller;
 	}
 
 	/**

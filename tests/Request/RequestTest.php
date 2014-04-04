@@ -13,7 +13,7 @@ class RequestTest extends SynchronizerTest {
 	{
 		parent::setUp();
 
-		$this->transport = Mockery::mock('Algorit\Synchronizer\Request\Transport');
+		$this->caller = Mockery::mock('Algorit\Synchronizer\Request\Caller');
 		$this->method = Mockery::mock('Algorit\Synchronizer\Request\Methods\Requests');
 
 		$this->entities = array(
@@ -34,14 +34,14 @@ class RequestTest extends SynchronizerTest {
 
 	public function testInstances()
 	{
-		$request = new RequestStub($this->method, $this->transport);
+		$request = new RequestStub($this->method, $this->caller);
 
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Transport', $request->getTransport());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Caller', $request->getCaller());
 	}
 
 	public function testSetEntity()
 	{
-		$request = new RequestStub($this->method, $this->transport);
+		$request = new RequestStub($this->method, $this->caller);
 
 		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('getEntities')
@@ -56,7 +56,7 @@ class RequestTest extends SynchronizerTest {
 
 	public function testSetOptions()
 	{
-		$request = new RequestStub($this->method, $this->transport);
+		$request = new RequestStub($this->method, $this->caller);
 
 		$config = Mockery::mock('Algorit\Synchronizer\Request\Config');
 		$config->shouldReceive('getEntities')
@@ -79,7 +79,7 @@ class RequestTest extends SynchronizerTest {
 
 	public function testProcessRequestData()
 	{
-		$request = new RequestStub($this->method, $this->transport);
+		$request = new RequestStub($this->method, $this->caller);
 
 		$body = json_encode(array('bla' => true));
 

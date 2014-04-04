@@ -3,15 +3,15 @@
 Interface RepositoryInterface {
 
 	/**
-	 * Import data into Repository.
+	 * Create or update data.
 	 *
-	 * @param  void
+	 * @param  array $data
 	 * @return string
 	 */
-	public function import(Array $data);
+	public function sync(Array $data);
 
 	/**
-	 * Get data from Repository.
+	 * Get data from the Repository.
 	 *
 	 * @param  void
 	 * @return string
@@ -19,20 +19,12 @@ Interface RepositoryInterface {
 	public function get();
 
 	/**
-	 * Delete data from Repository.
+	 * Delete data from the Repository.
 	 *
 	 * @param  void
 	 * @return string
 	 */
-	public function delete($all);
-
-	/**
-	 * Update data in Repository.
-	 *
-	 * @param  void
-	 * @return string
-	 */
-	public function update();
+	public function delete(Array $all);
 	
 }
 

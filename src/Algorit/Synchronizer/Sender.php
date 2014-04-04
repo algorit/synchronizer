@@ -32,9 +32,9 @@ class Sender {
 			return $response;
 		}
 
-		return $request->getTransport()
-					   ->callRepository($entity)
-					   ->import($data); // Change function name.
+		return $request->getCaller()
+					   ->repository($entity)
+					   ->sync($data);
 	}
 
 	/**

@@ -3,7 +3,7 @@
 use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
 
-class Transport {
+class Caller {
 
 	/**
 	 * The container instance
@@ -47,7 +47,7 @@ class Transport {
 	 * @param  array  $alias
 	 * @return \Algorit\Synchronizer\Request\Contracts\ParserInterface
 	 */
-	public function callParser($name, Array $alias)
+	public function parser($name, Array $alias)
 	{
 		return $this->container->make($this->getClass('Parsers', $name))
 							   ->setAliases($alias);
@@ -59,7 +59,7 @@ class Transport {
 	 * @param  string $name
 	 * @return \Algorit\Synchronizer\Request\Contracts\RepositoryInterface
 	 */
-	public function callRepository($name)
+	public function repository($name)
 	{
 		return $this->container->make($this->getClass('Repositories', $name));
 	}

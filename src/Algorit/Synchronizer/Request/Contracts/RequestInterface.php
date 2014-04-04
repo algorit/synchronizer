@@ -9,7 +9,7 @@ Interface RequestInterface {
 
 	public function getConfig();
 
-	public function getTransport();
+	public function getCaller();
 
 	public function setResource(ResourceInterface $resource);
 

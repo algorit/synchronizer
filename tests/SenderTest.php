@@ -51,22 +51,22 @@ class SenderTest extends SynchronizerTest {
 
 	public function testSendToDatabase()
 	{
-		$repository = Mockery::mock('Algorit\Synchronizer\Request\Transport');
+		$repository = Mockery::mock('Algorit\Synchronizer\Request\Caller');
 
-		$repository->shouldReceive('callRepository')
+		$repository->shouldReceive('repository')
 				   ->once()
-				   ->andReturn(Mockery::mock(['import' => true]));
+				   ->andReturn(Mockery::mock(['sync' => true]));
 
 		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
 
-		$request->shouldReceive('getTransport')
+		$request->shouldReceive('getCaller')
 				->twice() // Using twice to call it from tests too.
 				->andReturn($repository);
 
 		$assert = $this->sender->toDatabase($request, array(), $this->response);
 
 		$this->assertTrue($assert);
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Transport', $request->getTransport());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\Caller', $request->getCaller());
 	}
 
 	public function testSendToApi()

@@ -38,19 +38,10 @@ class SynchronizerServiceProvider extends ServiceProvider {
 			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
 
-		$this->registerLogger();
+		$this->bootLogger();
 	}
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{	
-	}
-
-	public function registerLogger()
+	public function bootLogger()
 	{
 		$logger = $this->app['log'];
 			
@@ -66,6 +57,13 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 		$this->app['synchronizer']->setLogger($logger);
 	}
+
+	/**
+	 * Register the service provider.
+	 *
+	 * @return void
+	 */
+	public function register(){}
 
 	// public function console($logger)
 	// {	

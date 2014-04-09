@@ -18,7 +18,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = false;
+	protected $defer = true;
 
 	/**
 	 * Bootstrap the application events.
@@ -29,7 +29,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	{
 		$this->package('algorit/synchronizer');
 
-		$this->app['synchronizer'] = $this->app->share(function($app)
+		$this->app['algorit.synchronizer'] = $this->app->share(function($app)
 		{
 			$sync = $app->make('Algorit\Synchronizer\Storage\SyncEloquentRepository');
 
@@ -55,7 +55,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 		$monolog = $logger->getMonolog();
 		$monolog->pushHandler($handler);
 
-		$this->app['synchronizer']->setLogger($logger);
+		$this->app['algorit.synchronizer']->setLogger($logger);
 	}
 
 	/**

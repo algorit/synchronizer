@@ -9,6 +9,6 @@ class Synchronizer extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'synchronizer'; }
+    protected static function getFacadeAccessor() { return 'algorit.synchronizer'; }
 
 }

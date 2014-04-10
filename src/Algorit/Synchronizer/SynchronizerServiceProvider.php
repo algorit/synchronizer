@@ -11,6 +11,9 @@ use Monolog\Handler\StreamHandler;
 // use Symfony\Bridge\Monolog\Formatter\ConsoleFormatter;
 use Algorit\Synchronizer\Request\Config;
 
+use Algorit\Synchronizer\Storage\Sync;
+use Algorit\Synchronizer\Storage\SyncEloquentRepository;
+
 class SynchronizerServiceProvider extends ServiceProvider {
 
 	/**
@@ -18,7 +21,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 *
 	 * @var bool
 	 */
-	protected $defer = true;
+	protected $defer = false;
 
 	/**
 	 * Bootstrap the application events.
@@ -31,7 +34,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 		$this->app['algorit.synchronizer'] = $this->app->share(function($app)
 		{
-			$sync = $app->make('Algorit\Synchronizer\Storage\SyncEloquentRepository');
+			$sync = new SyncEloquentRepository(new Sync);
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 

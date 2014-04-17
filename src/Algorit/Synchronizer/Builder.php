@@ -161,6 +161,7 @@ class Builder {
 
 		try
 		{
+
 			$this->createCurrentSync($entity, $function);
 
 			$lastSync = $this->getLastSync($lastSync, $entity, $function);

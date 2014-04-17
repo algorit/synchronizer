@@ -84,7 +84,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('synchronizer');
+		return array('algorit.synchronizer');
 	}
 
 }

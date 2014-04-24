@@ -1,16 +1,20 @@
-<?php namespace Algorit\Synchronizer\Request;
+<?php namespace Algorit\Synchronizer\Request\Dispatchers;
 
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
-use Algorit\Synchronizer\Request\Contracts\DispatcherInterface;
 
-class Receiver implements DispatcherInterface {
+class Receiver extends Dispatcher {
 
+	/**
+	 * The request methods.
+	 *
+	 * @var array
+	 */
 	protected $methods = array('put', 'get', 'post', 'delete', 'patch');
-
+	
 	/**
 	 * Create a new instance.
 	 *
-	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestMethodInterface  $request
+	 * @param  \Algorit\Synchronizer\Request\Methods\MethodInterface  $request
 	 * @return instance
 	 */
 	public function __construct(MethodInterface $request)

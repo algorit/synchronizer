@@ -6,6 +6,7 @@ use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
 use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
+use Algorit\Synchronizer\Request\Contracts\DispatcherInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
 
 abstract class Request implements RequestInterface {
@@ -37,6 +38,13 @@ abstract class Request implements RequestInterface {
 	* @var \Algorit\Synchronizer\Request\Contracts\ResourceInterface
 	*/
 	protected $resource;
+
+	/**
+	* The Dispatcher instance.
+	*
+	* @var \Algorit\Synchronizer\Request\Contracts\DispatcherInterface
+	*/
+	protected $dispatcher;
 
 	/**
 	 * The http cookie.
@@ -92,6 +100,17 @@ abstract class Request implements RequestInterface {
 	public function setResource(ResourceInterface $resource)
 	{
 		$this->resource = $resource;
+	}
+
+	/**
+	 * Set the Dispatcher instance.
+	 *
+	 * @param \Algorit\Synchronizer\Request\Contracts\DispatcherInterface
+	 * @return void
+	 */
+	public function setDispatcher(DispatcherInterface $dispatcher)
+	{
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**

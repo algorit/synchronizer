@@ -38,5 +38,6 @@ Interface ParserInterface {
 	 * @return instance
 	 */
 	public function returned(ResourceInterface $resource, Array $data);
+	
 }
 

@@ -1,8 +1,5 @@
 <?php namespace Algorit\Synchronizer\Request\Dispatchers;
 
-use Algorit\Synchronizer\Request\Methods\MethodInterface;
-use Algorit\Synchronizer\Request\Contracts\DispatcherInterface;
-
 abstract class Dispatcher implements DispatcherInterface {
 
 	/**
@@ -33,10 +30,17 @@ abstract class Dispatcher implements DispatcherInterface {
 	 */
 	protected $methods;
 
+	/**
+	 * The request.
+	 *
+	 * @var \Algorit\Synchronizer\Request\Methods\MethodInterface
+	 */
+	protected $request;
+
 	public abstract function getName();
 
 	public abstract function getRequestUrl();
 
-	public abstract function execute($requestMethod, $data = array(), $options = array());
+	public abstract function dispatch($requestMethod, $data = array(), $options = array());
 
 }

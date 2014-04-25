@@ -32,7 +32,7 @@ class Receiver extends Dispatcher {
 		
 	}
 
-	public function execute($requestMethod, $data = array(), $options = array())
+	public function dispatch($requestMethod, $data = array(), $options = array())
 	{
 		
 	}

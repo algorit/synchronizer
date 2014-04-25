@@ -3,9 +3,9 @@
 use Closure;
 use Exception;
 use Carbon\Carbon;
+use Algorit\Synchronizer\Request\RequestInterface;
 use Algorit\Synchronizer\Storage\SyncRepositoryInterface;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
-use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 
 class Builder {

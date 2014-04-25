@@ -1,7 +1,7 @@
 Synchronizer
 =============
 
-[![Build Status](https://travis-ci.org/algorit/synchronizer.png?branch=master)](https://travis-ci.org/algorit/synchronizer) [![Coverage Status](https://coveralls.io/repos/algorit/synchronizer/badge.png?branch=master)](https://coveralls.io/r/algorit/synchronizer?branch=master) [![Dependency Status](https://www.versioneye.com/user/projects/53350fb07bae4bb0ec000664/badge.png)](https://www.versioneye.com/user/projects/53350fb07bae4bb0ec000664) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/algorit/synchronizer/badges/quality-score.png?s=3a8acea963f7b17c949b221edf88ffca05065abe)](https://scrutinizer-ci.com/g/algorit/synchronizer/)
+[![Build Status](https://travis-ci.org/algorit/synchronizer.png?branch=master)](https://travis-ci.org/algorit/synchronizer) [![Coverage Status](https://coveralls.io/repos/algorit/synchronizer/badge.png?branch=master)](https://coveralls.io/r/algorit/synchronizer?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/algorit/synchronizer/badges/quality-score.png?s=3a8acea963f7b17c949b221edf88ffca05065abe)](https://scrutinizer-ci.com/g/algorit/synchronizer/)
 
 A Laravel Package to sync APIs and Databases.
 

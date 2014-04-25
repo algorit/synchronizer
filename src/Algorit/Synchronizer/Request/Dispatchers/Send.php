@@ -2,7 +2,7 @@
 
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
 
-class Receiver extends Dispatcher {
+class Send extends Dispatcher {
 
 	/**
 	 * The request methods.
@@ -10,7 +10,7 @@ class Receiver extends Dispatcher {
 	 * @var array
 	 */
 	protected $methods = array('put', 'get', 'post', 'delete', 'patch');
-	
+
 	/**
 	 * Create a new instance.
 	 *
@@ -24,7 +24,7 @@ class Receiver extends Dispatcher {
 
 	public function getName()
 	{
-
+		
 	}
 
 	public function getRequestUrl()
@@ -32,9 +32,9 @@ class Receiver extends Dispatcher {
 		
 	}
 
-	public function dispatch($requestMethod, $data = array(), $options = array())
+	public function dispatch($method, $data = array(), $options = array())
 	{
-		
+
 	}
 
 }

@@ -146,10 +146,10 @@ abstract class System implements SystemInterface {
 
 		// Is it binding the Container to itself? Brain fuck
 		// Think we should use an interface here
-		$container->bind('Algorit\Synchronizer\Container', function() use ($container)
-		{
-			return $container;
-		});
+		// $container->bind('Algorit\Synchronizer\Container', function() use ($container)
+		// {
+		// 	return $container;
+		// });
 
 		return $container;
 	}

@@ -41,6 +41,6 @@ abstract class Dispatcher implements DispatcherInterface {
 
 	public abstract function getRequestUrl();
 
-	public abstract function dispatch($requestMethod, $data = array(), $options = array());
+	public abstract function dispatch($method, $data = array(), $options = array());
 
 }

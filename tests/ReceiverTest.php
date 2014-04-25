@@ -27,7 +27,7 @@ class ReceiverTest extends SynchronizerTest {
 
 	public function testReceiveFromErp()
 	{
-		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$request = Mockery::mock('Algorit\Synchronizer\Request\RequestInterface');
 
 		$request->shouldReceive('receive')
 				->once()
@@ -46,7 +46,7 @@ class ReceiverTest extends SynchronizerTest {
 				   ->once()
 				   ->andReturn(Mockery::mock(['get' => true]));
 
-		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$request = Mockery::mock('Algorit\Synchronizer\Request\RequestInterface');
 
 		$request->shouldReceive('getCaller')
 				->twice() // Using twice to call it from tests too.

@@ -27,7 +27,7 @@ class SenderTest extends SynchronizerTest {
 
 	public function testSendNullData()
 	{
-		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$request = Mockery::mock('Algorit\Synchronizer\Request\RequestInterface');
 
 		$erp = $this->sender->toErp($request, array(), $this->responseNull);
 		$database = $this->sender->toDatabase($request, array(), $this->responseNull);
@@ -38,7 +38,7 @@ class SenderTest extends SynchronizerTest {
 
 	public function testSendToErp()
 	{
-		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$request = Mockery::mock('Algorit\Synchronizer\Request\RequestInterface');
 
 		$request->shouldReceive('send')
 				->once()
@@ -57,7 +57,7 @@ class SenderTest extends SynchronizerTest {
 				   ->once()
 				   ->andReturn(Mockery::mock(['sync' => true]));
 
-		$request = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$request = Mockery::mock('Algorit\Synchronizer\Request\RequestInterface');
 
 		$request->shouldReceive('getCaller')
 				->twice() // Using twice to call it from tests too.

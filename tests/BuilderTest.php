@@ -12,7 +12,7 @@ class BuilderTest extends SynchronizerTest {
 	{
 		parent::setUp();
 
-		$this->request  = Mockery::mock('Algorit\Synchronizer\Request\Contracts\RequestInterface');
+		$this->request  = Mockery::mock('Algorit\Synchronizer\Request\RequestInterface');
 
 		$options = (object) [
 			'url' 	   => 'test',
@@ -71,7 +71,7 @@ class BuilderTest extends SynchronizerTest {
 		$builder = new Builder($sender, $receiver, $repository);
 		$builder->start($this->request, $this->resource);
 
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $builder->getRequest());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\RequestInterface', $builder->getRequest());
 		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\ResourceInterface', $builder->getResource());
 	}
 

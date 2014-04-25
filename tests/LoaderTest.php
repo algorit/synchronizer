@@ -79,7 +79,7 @@ class LoaderTest extends SynchronizerTest {
 		$this->loader->loadSystem(new SystemStub(new ResourceStub))
 					 ->start($resource);
 
-		$this->assertInstanceOf('Algorit\Synchronizer\Request\Contracts\RequestInterface', $this->loader->getRequest());
+		$this->assertInstanceOf('Algorit\Synchronizer\Request\RequestInterface', $this->loader->getRequest());
 	}
 
 	public function testResourceInstance()

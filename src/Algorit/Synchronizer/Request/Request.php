@@ -4,7 +4,6 @@ use Closure;
 use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Methods\MethodInterface;
-use Algorit\Synchronizer\Request\Contracts\RequestInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 use Algorit\Synchronizer\Request\Contracts\DispatcherInterface;
 use Algorit\Synchronizer\Request\Exceptions\RequestException;
@@ -70,7 +69,7 @@ abstract class Request implements RequestInterface {
 	/**
 	 * Create a new instance.
 	 *
-	 * @param  \Algorit\Synchronizer\Request\Contracts\RequestMethodInterface  $method
+	 * @param  \Algorit\Synchronizer\Request\Methods\MethodInterface  $method
 	 * @param  \Algorit\Synchronizer\Request\Caller  $caller
 	 * @return instance
 	 */

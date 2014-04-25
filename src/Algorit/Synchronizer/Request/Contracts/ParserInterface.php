@@ -16,7 +16,7 @@ Interface ParserInterface {
 	 * Parse received data.
 	 *
 	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
-	 * @param  Array  $data
+	 * @param  array  $data
 	 * @return instance
 	 */
 	public function receive(ResourceInterface $resource, Array $data);
@@ -25,7 +25,7 @@ Interface ParserInterface {
 	 * Parse sent data.
 	 *
 	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
-	 * @param  Array  $data
+	 * @param  array  $data
 	 * @return instance
 	 */
 	public function send(ResourceInterface $resource, Array $data);
@@ -34,7 +34,7 @@ Interface ParserInterface {
 	 * Parse sent returned data.
 	 *
 	 * @param  \Algorit\Synchronizer\Request\Contracts\ResourceInterface $resource
-	 * @param  Array  $data
+	 * @param  array  $data
 	 * @return instance
 	 */
 	public function returned(ResourceInterface $resource, Array $data);

@@ -2,6 +2,10 @@
 
 use Algorit\Synchronizer\Container;
 use Illuminate\Filesystem\Filesystem;
+use Algorit\Synchronizer\Request\Contracts\ParserInterface;
+use Algorit\Synchronizer\Request\Exceptions\ParserException;
+use Algorit\Synchronizer\Request\Contracts\RepositoryInterface;
+use Algorit\Synchronizer\Request\Exceptions\RepositoryException;
 
 class Caller {
 
@@ -49,8 +53,14 @@ class Caller {
 	 */
 	public function parser($name, Array $alias)
 	{
-		return $this->container->make($this->getClass('Parsers', $name))
-							   ->setAliases($alias);
+		$parser = $this->container->make($this->getClass('Parsers', $name));
+
+		if( ! $parser instanceof ParserInterface)
+		{
+			throw new ParserException('Parser must implement \Algorit\Synchronizer\Request\Contracts\ParserInterface');
+		}
+		
+		return $parser->setAliases($alias);
 	}
 
 	/**
@@ -61,7 +71,14 @@ class Caller {
 	 */
 	public function repository($name)
 	{
-		return $this->container->make($this->getClass('Repositories', $name));
+		$repository = $this->container->make($this->getClass('Repositories', $name));
+
+		if( ! $parser instanceof RepositoryInterface)
+		{
+			throw new RepositoryException('Repository must implement \Algorit\Synchronizer\Request\Contracts\RepositoryInterface');
+		}
+
+		return $repository;
 	}
 
 	/**

@@ -3,12 +3,20 @@
 Interface RepositoryInterface {
 
 	/**
-	 * Create or update data.
+	 * Start a sync.
 	 *
 	 * @param  array $data
 	 * @return string
 	 */
 	public function sync(Array $data);
+
+	/**
+	 * Update or insert data.
+	 *
+	 * @param  array $data
+	 * @return array
+	 */
+	public function upsert(Array $data);
 
 	/**
 	 * Get data from the Repository.
@@ -24,7 +32,7 @@ Interface RepositoryInterface {
 	 * @param  void
 	 * @return string
 	 */
-	public function delete(Array $all);
+	public function remove(Array $all);
 	
 }
 

@@ -73,7 +73,7 @@ class Caller {
 	{
 		$repository = $this->container->make($this->getClass('Repositories', $name));
 
-		if( ! $parser instanceof RepositoryInterface)
+		if( ! $repository instanceof RepositoryInterface)
 		{
 			throw new RepositoryException('Repository must implement \Algorit\Synchronizer\Request\Contracts\RepositoryInterface');
 		}

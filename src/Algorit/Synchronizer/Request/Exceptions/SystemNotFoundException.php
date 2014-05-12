@@ -2,6 +2,4 @@
 
 use Exception;
 
-class SystemNotFoundException extends Exception {
-	
-}
+class SystemNotFoundException extends Exception {}

@@ -38,6 +38,8 @@ class SynchronizerServiceProvider extends ServiceProvider {
 			return new Loader(new Container, $builder, new Config(new Filesystem));
 		});
 
+		require 'helpers.php';
+
 		$this->bootLogger();
 	}
 

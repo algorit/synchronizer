@@ -2,7 +2,14 @@
 
 if( ! function_exists('array_alias_key'))
 {
-	function array_alias_key(array $input, array $alias)
+	/**
+	 * Replace the array keys with aliases
+	 *
+	 * @param  array  $input
+	 * @param  array  $alias
+	 * @return array
+	 */
+	function array_alias_key(Array $input, Array $alias)
 	{
 		$combined = array();
 

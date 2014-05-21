@@ -1,7 +1,5 @@
 <?php namespace Algorit\Synchronizer;
 
-use Psr\Log\LoggerInterface;
-
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,7 +45,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 	{
 		$logger = $this->app['log'];
 			
-		if( ! $logger)
+		if($logger == false)
 		{
 			return false;
 		}

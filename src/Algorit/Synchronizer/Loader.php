@@ -4,6 +4,7 @@ use Closure;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Container\Container;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;

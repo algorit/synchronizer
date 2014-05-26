@@ -33,7 +33,7 @@ class SynchronizerServiceProvider extends ServiceProvider {
 
 			$builder = new Builder(new Sender, new Receiver, $sync);
 
-			return new Loader(new Container, $builder, new Config(new Filesystem));
+			return new Loader($app, $builder, new Config(new Filesystem));
 		});
 
 		require 'helpers.php';

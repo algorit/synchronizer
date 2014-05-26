@@ -137,7 +137,7 @@ abstract class System implements SystemInterface {
 	private function bindedContainer(Container $container)
 	{
 		// Set actual namespace in container.
-		$container->setNamespace($this->namespace);
+		$container->namespace = $this->namespace;
 
 		$container->bind('Algorit\Synchronizer\Request\Methods\MethodInterface', function()
 		{

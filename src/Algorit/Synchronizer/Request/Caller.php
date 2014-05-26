@@ -90,7 +90,7 @@ class Caller {
 	*/
 	public function getClass($type, $name)
 	{
-		return $this->container->getNamespace() . '\\' . $type . '\\' . $this->getFromEntityName($name);
+		return $this->container->namespace . '\\' . $type . '\\' . $this->getFromEntityName($name);
 	}
 
 }

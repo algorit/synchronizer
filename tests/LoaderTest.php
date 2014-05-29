@@ -3,7 +3,7 @@
 use Mockery;
 use Algorit\Synchronizer\Loader;
 use Illuminate\Support\Collection;
-use Algorit\Synchronizer\Container;
+use Illuminate\Container\Container;
 use Algorit\Synchronizer\Tests\Stubs\System as SystemStub;
 use Algorit\Synchronizer\Tests\Stubs\Resource as ResourceStub;
 

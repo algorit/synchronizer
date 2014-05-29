@@ -144,7 +144,7 @@ class Builder {
 			return false;
 		}
 
-		return Carbon::createFromFormat($format, $lastSync->created_at);
+		return Carbon::createFromFormat($format, $lastSync->created_at->format($format));
 	}
 
 	/**

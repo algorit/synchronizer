@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer\Request;
 
-use Algorit\Synchronizer\Container;
+use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Contracts\ParserInterface;
 use Algorit\Synchronizer\Request\Exceptions\ParserException;

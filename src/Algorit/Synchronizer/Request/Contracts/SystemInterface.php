@@ -1,6 +1,6 @@
 <?php namespace Algorit\Synchronizer\Request\Contracts;
 
-use Algorit\Synchronizer\Container;
+use Illuminate\Container\Container;
 use Algorit\Synchronizer\Request\Config;
 use Algorit\Synchronizer\Request\Contracts\ResourceInterface;
 

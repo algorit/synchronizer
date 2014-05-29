@@ -1,7 +1,7 @@
 <?php namespace Algorit\Synchronizer\Request;
 
 use ReflectionClass;
-use Algorit\Synchronizer\Container;
+use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Algorit\Synchronizer\Request\Methods\Requests;
 use Algorit\Synchronizer\Request\Contracts\SystemInterface;
